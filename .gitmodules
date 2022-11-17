@@ -19,3 +19,6 @@
 [submodule "exchange/nft"]
 	path = exchange/nft
 	url = git@github.com:vayamos-exchange/webapp-nft
+[submodule "exchange/pay"]
+	path = exchange/pay
+	url = https://github.com/vayamos-exchange/webapp-pay

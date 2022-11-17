@@ -21,4 +21,4 @@
 	url = git@github.com:vayamos-exchange/webapp-nft
 [submodule "exchange/pay"]
 	path = exchange/pay
-	url = https://github.com/vayamos-exchange/webapp-pay
+	url = git@github.com:vayamos-exchange/webapp-pay

@@ -562,7 +562,7 @@ function showEarnDetails(month, year, refid) {
                     data: serieData
                 });
                 
-                colors.push(deriveColor(dictRewardTypeColor[rtype], (lvl - 1) * -20));
+                colors.push(deriveColor(dictRewardTypeColor[rtype], (lvl - 1) * -40));
                 
                 if(serieCount > serieMaxCount)
                     serieMaxCount = serieCount;

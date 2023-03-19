@@ -351,7 +351,10 @@ function renderCharts(div, refid) {
         },
         theme: {
 	        mode: 'dark'
-	    }
+	    },
+        title: {
+            text: 'Earnings'
+        }
     };
     
     var acqOptions = {
@@ -386,6 +389,9 @@ function renderCharts(div, refid) {
         tooltip: {
             shared: true,
             intersect: false
+        },
+        title: {
+            text: 'Acquisition'
         }
     };
 	

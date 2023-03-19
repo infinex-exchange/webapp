@@ -4,6 +4,7 @@
         <?php include('../templates/head.php'); ?>
         <?php include('../imports/apexcharts.html'); ?>
         <script src="/js/validate.js?<?php echo filemtime(__DIR__.'/../js/validate.js'); ?>"></script>
+        <script src="/js/hsl.js?<?php echo filemtime(__DIR__.'/../js/hsl.js'); ?>"></script>
         <title>Affiliate program | Infinex</title>
         <style type="text/css">
             @media (min-width: 992px) {

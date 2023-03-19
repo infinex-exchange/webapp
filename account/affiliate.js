@@ -512,7 +512,7 @@ function showEarnDetails(month, year, refid) {
 	        mode: 'dark'
 	    },
         tooltip: {
-            shared: true,
+            shared: false,
             intersect: false
         }
     };

@@ -20,9 +20,6 @@
 	               <div class="row" id="mt-p2p-data">
 	               </div>
                 </div>
-	            
-	            <div id="mt-dex-container">
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="modal-close btn btn-secondary" data-bs-dismiss="modal">Close</button>

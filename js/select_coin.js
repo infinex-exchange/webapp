@@ -32,7 +32,7 @@ $(document).ready(function() {
     });
 });
 
-function initSelectCoin(endpoint = '/wallet/assets') {
+function initSelectCoin(endpoint = '/wallet/assets', autoSelect = false) {
     window.selectCoinAS = new AjaxScroll(
         $('#select-coin-data'),
         $('#select-coin-data-preloader'),
@@ -79,6 +79,9 @@ function initSelectCoin(endpoint = '/wallet/assets') {
                         $('#select-coin').data('experimental', $(this).attr('data-experimental'));
                         $('#select-coin').trigger('change');
                     });
+                    
+                    if(autoSelect && Object.keys(data.assets).length == 1)
+                        $('.select-coin-item').trigger('click');
                         
                     thisAS.done();
                             

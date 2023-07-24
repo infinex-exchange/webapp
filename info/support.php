@@ -239,6 +239,7 @@
                             3. If you are withdrawing a non-native asset that cannot be used to pay the blockchain fee directly
                             (e.g. USDT withdrawal via the ERC-20 network requires some ETH additionally), the withdrawal will
                             not be made until the liquidity and trading volume of native asset (e.g. ETH/USDT) is sufficient.
+                            You can provide some liquidity on blockchain native asset pairs to help solve this issue.
                         </div>
                     </div>
                 </div>

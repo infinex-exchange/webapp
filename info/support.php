@@ -208,6 +208,19 @@
                     </div>
                 </div>
 
+                <div id="support-withdrawal-canceled" class="support-step col-12 p-2 d-none">
+                    <div class="alert alert-warning d-flex align-items-center my-2" role="alert">
+                        <div class="px-2">
+                            <i class="fa-solid fa-hourglass-half fa-2x"></i>
+                        </div>
+                        <div class="px-2">
+                            <h5 class="pb-2">We can't accept your request right now</h5>
+                            You have canceled this withdrawal, therefore it has not been executed.<br>
+                            The funds have been returned to your Infinex account.
+                        </div>
+                    </div>
+                </div>
+
                 <div id="support-withdrawal-pending" class="support-step col-12 p-2 d-none">
                     <div class="alert alert-warning d-flex align-items-center my-2" role="alert">
                         <div class="px-2">

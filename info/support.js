@@ -133,9 +133,6 @@ $(document).on('authChecked', function() {
             var i = 0;
 
             $.each(data.transactions, function(k, v) {
-                if(v.status == 'CANCELED')
-                    return;
-
                 if(i > 19)
                     return;
 
@@ -159,7 +156,7 @@ function renderWithdrawal(data) {
     
     return `
         <div class="col-12 col-md-6 col-lg-4 sw-trans-item hoverable px-1 py-2" data-xid="${data.xid}" data-time="${unixTime}"
-         data-assetid="${data.asset}" onClick="selectWithdrawal(this)">
+         data-assetid="${data.asset}" data-status="${data.status}" onClick="selectWithdrawal(this)">
         <div class="row m-0">
 
             <div style="width: 60px" class="my-auto p-2">
@@ -182,6 +179,16 @@ function renderWithdrawal(data) {
 function selectWithdrawal(item) {
     if(window.swXid !== null)
         return;
+
+    var status = $(item).data('status');
+    if(status == 'CANCELED') {
+        gotoStep('support-withdrawal-canceled');
+        return;
+    }
+    if(status == 'PENDING' || status == 'PROCESSING') {
+        gotoStep('support-withdrawal-pending');
+        return;
+    }
     
     var then = new Date($(item).data('time'));
     var now = new Date();

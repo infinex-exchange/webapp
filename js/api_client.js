@@ -4,7 +4,7 @@ function rawApi(method, url, data, apiKey) {
         headers['Authorization'] = 'Bearer ' + apiKey;
         
     return $.ajax({
-        url: config.apiUrl + url,
+        url: config.apiUrl + '/v2' + url,
         type: 'POST',
         headers: headers,
         data: JSON.stringify(data),
@@ -13,7 +13,7 @@ function rawApi(method, url, data, apiKey) {
     });
 }
 
-function api(method, url, data, redirectOnError = false) {
+function api(method, url, data = {}, redirectOnError = false) {
     return new Promise(
         function(resolve, reject) {
             rawApi(

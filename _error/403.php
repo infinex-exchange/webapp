@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include('../templates/head.php'); ?>
+        <?php include(__DIR__.'/../inc/head.php'); ?>
         <title>Error | Infinex</title>
     </head>
     <body class="vh-100 body-background">   

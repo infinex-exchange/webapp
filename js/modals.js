@@ -4,7 +4,7 @@ function msgBox(message) {
     $('#modal').modal('show');
 }
 
-function msgBoxRedirect(message, to = '/') {
+function msgBox(message, redirect = null) {
     $('#modal-text').html(message);
     $('.modal-close').click(function() {
         window.location.replace(to);

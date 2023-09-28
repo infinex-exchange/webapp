@@ -31,6 +31,7 @@
 <script src="/cfg/config.js?<?php echo filemtime(__DIR__.'/../config.js'); ?>"></script>
 
 <!-- Global JS -->
+<script src="/js/api_client.js?<?php echo filemtime(__DIR__.'/../js/api_client.js'); ?>"></script>
 <script src="/js/rendering.js?<?php echo filemtime(__DIR__.'/../js/rendering.js'); ?>"></script>
 <script src="/js/theme.js?<?php echo filemtime(__DIR__.'/../js/theme.js'); ?>"></script>
 <script src="/js/session.js?<?php echo filemtime(__DIR__.'/../js/session.js'); ?>"></script>

@@ -1,26 +1,15 @@
-function internalLogOut() {
-    $.ajax({
-        url: config.apiUrl + '/account/logout',
-        type: 'POST',
-        data: JSON.stringify({
-            api_key: window.apiKey
-        }),
-        contentType: "application/json",
-        dataType: "json"
-    })
-    .retry(config.retry);
-    
-    window.apiKey = null;
-    window.loggedIn = false;
-    sessionStorage.removeItem('userName');
-    sessionStorage.removeItem('apiKey');
-    localStorage.removeItem('_userName');
-    localStorage.removeItem('_apiKey');
-}
-
 function logOut() {
-    internalLogOut();
-    window.location.replace('/account/login');
+    api(
+        'DELETE',
+        '/account/sessions/current'
+    ).finally(
+        sessionStorage.removeItem('userName');
+        sessionStorage.removeItem('apiKey');
+        localStorage.removeItem('_userName');
+        localStorage.removeItem('_apiKey');
+        
+        window.location.replace('/account/login');
+    );
 }
 
 function gotoLogin() {
@@ -44,7 +33,7 @@ $(document).ready(function() {
         rawApi(
             'GET',
             '/account/sessions/current',
-            null,
+            {},
             tmpApiKey
         ).done(
             function(data) {
@@ -90,7 +79,7 @@ $(document).onFirst('authChecked', function() {
         $('.user-only').show();
         
         if($('#root').hasClass('guest-only'))
-            msgBoxRedirect('You have no authorization to view this site');
+            msgBox('You have no authorization to view this site', '/');
     } else {
         $('.guest-only').show();
         $('.user-only').hide();

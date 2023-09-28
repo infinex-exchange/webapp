@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en"
     <head>
         <?php include(__DIR__.'/inc/head.php'); ?>
         <?php include('imports/bignumber.html'); ?>

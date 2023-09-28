@@ -24,3 +24,7 @@ function start2fa(provider) {
     $('#2fa-submit').prop('disabled', true);  
     $('#2fa-modal').modal('show');
 }
+
+function validate2FA(code) {
+    return code.match(/^[0-9]{4,20}$/);
+}

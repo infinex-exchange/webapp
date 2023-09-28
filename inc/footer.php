@@ -1,6 +1,3 @@
-<!-- TrustBox script -->
-<script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
-<!-- End TrustBox script -->
 <footer class="shadow-sm">
     <div class="container-fluid container-1500">
         <div class="row py-2">
@@ -25,12 +22,7 @@
                     <i class="fa-brands fa-discord"></i>
                 </a>
                 <div class="d-inline-block align-middle pb-2">
-                    <!-- TrustBox widget - Micro Review Count -->
-                    <div class="trustpilot-widget" data-locale="en-US" data-template-id="5419b6a8b0d04a076446a9ad" data-businessunit-id="634a881e5841d7650939e91a" data-style-height="40px" data-style-width="150px" data-theme="dark" data-min-review-count="0" data-style-alignment="center">
-                      <a href="https://www.trustpilot.com/review/vayamos.cc" target="_blank" rel="noopener">Trustpilot</a>
-                    </div>
-                    <!-- End TrustBox widget -->
-                </div>
+                    <?php include(__DIR__.'/../cfg/trustbox.html'); ?>
             </div>
         </div>
     </div>    

@@ -207,6 +207,42 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="support-withdrawal-canceled" class="support-step col-12 p-2 d-none">
+                    <div class="alert alert-warning d-flex align-items-center my-2" role="alert">
+                        <div class="px-2">
+                            <i class="fa-solid fa-hourglass-half fa-2x"></i>
+                        </div>
+                        <div class="px-2">
+                            <h5 class="pb-2">We can't accept your request right now</h5>
+                            You have canceled this withdrawal, therefore it has not been executed.<br>
+                            The funds have been returned to your Infinex account.
+                        </div>
+                    </div>
+                </div>
+
+                <div id="support-withdrawal-pending" class="support-step col-12 p-2 d-none">
+                    <div class="alert alert-warning d-flex align-items-center my-2" role="alert">
+                        <div class="px-2">
+                            <i class="fa-solid fa-hourglass-half fa-2x"></i>
+                        </div>
+                        <div class="px-2">
+                            <h5 class="pb-2">We can't accept your request right now</h5>
+                            This withdrawal is still pending. No funds have been permanently debited from your Infinex account.<br>
+                            You can cancel this withdrawal at any time.<br>
+                            <br>
+                            1. Keep in mind that withdrawals of some coins may not be available for technical reasons.
+                            You can always withdraw your funds using a different asset.<br>
+                            2. If the selected coin is available on multiple networks, try using a different network.
+                            Some networks are much more likely to be selected for withdrawals than others, and as a result,
+                            the exchange wallet may not have enough balance to complete all withdrawals.<br>
+                            3. If you are withdrawing a non-native asset that cannot be used to pay the blockchain fee directly
+                            (e.g. USDT withdrawal via the ERC-20 network requires some ETH additionally), the withdrawal will
+                            not be made until the liquidity and trading volume of native asset (e.g. ETH/USDT) is sufficient.
+                            You can provide some liquidity on blockchain native asset pairs to help solve this issue.
+                        </div>
+                    </div>
+                </div>
                 
                 <div id="support-other" class="support-step col-12 p-2 d-none">
                     <div class="row">

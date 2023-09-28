@@ -5,8 +5,7 @@
         <title>Error | Infinex</title>
     </head>
     <body class="vh-100 body-background">   
-        <!-- Navbar -->
-        <?php include('../templates/navbar.php'); ?>
+        <?php include(__DIR__.'/../inc/body.php'); ?>
         
         <!-- Root container -->
         <div id="root" class="container-fluid container-1500 pt-2">
@@ -25,6 +24,9 @@
         </div>
         </div>
         
-        <?php include('../templates/vanilla_mobile_nav.php'); ?>
+        <?php
+        include(__DIR__.'/../inc/footer.php');
+        include(__DIR__.'/../inc/vanilla_mobile_nav.php');
+        ?>
     </body>
 </html>

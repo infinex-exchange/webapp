@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include('../templates/head.php'); ?>
+        <?php include(__DIR__.'/../inc/head.php'); ?>
         <title>Error | Infinex</title>
     </head>
     <body class="vh-100 body-background">   
-        <!-- Navbar -->
-        <?php include('../templates/navbar.php'); ?>
+        <?php include(__DIR__.'/../inc/body.php'); ?>
         
         <!-- Root container -->
         <div id="root" class="container-fluid container-1500 pt-2">
@@ -15,8 +14,8 @@
         <!-- Main column -->
         <div class="col-12 col-lg-8 m-auto p-3 ui-card-light rounded">
             
-            <h1>Error 404</h1>
-            <h3>Sorry, the page cannot be found.</h3>
+            <h1>Error 500</h1>
+            <h3>Internal server error.</h3>
         
         <!-- / Main column -->
         </div>
@@ -25,6 +24,9 @@
         </div>
         </div>
         
-        <?php include('../templates/vanilla_mobile_nav.php'); ?>
+        <?php
+        include(__DIR__.'/../inc/footer.php');
+        include(__DIR__.'/../inc/vanilla_mobile_nav.php');
+        ?>
     </body>
 </html>

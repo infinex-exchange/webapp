@@ -1,3 +1,4 @@
+// TODO: legacy code
 function gotoMarket(pair) {
     window.location.replace('/spot/' + pair.replace('/', '_'));
 }

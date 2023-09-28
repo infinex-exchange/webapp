@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"
     <head>
-        <?php include(__DIR__.'/inc/head.php'); ?>
-        <?php include('imports/bignumber.html'); ?>
+        <?php
+        include(__DIR__.'/inc/head.php');
+        include(__DIR__.'/vendor/bignumber.html');
+        ?>
         <title>Infinex - cryptocurrency trading platform</title>
     </head>
     <body class="body-background">
-    
-        <!-- Preloader -->
-        <?php include('templates/preloader.html'); ?>
-        
-        <!-- Navbar -->
-        <?php include('templates/navbar.php'); ?>
+        <?php include(__DIR__.'/inc/body.php'); ?>
         
         <!-- Root container -->
         <div id="root" class="container-fluid container-1500 h-rest pt-2 p-0">
@@ -144,12 +141,12 @@
         <!-- / Root container -->
         </div>
         
-        <?php include('templates/modals.php'); ?>
         <script src="/index.js?<?php echo filemtime(__DIR__.'/index.js'); ?>"></script>
         
-        <!-- Footer -->
-        <?php include('templates/footer.html'); ?>
-        <?php include('templates/vanilla_mobile_nav.php'); ?>
+        <?php
+        include(__DIR__.'/inc/footer.html');
+        include(__DIR__.'/inc/vanilla_mobile_nav.php');
+        ?>
     
     </body>
 </html>

@@ -1,23 +1,19 @@
-function msgBox(message) {
-    $('#modal-text').html(message);
-    $('.modal-close').unbind('click');
-    $('#modal').modal('show');
+function msgBox(title, message, redirect = null) {
+    let modal = $('#modal');
+    
+    modal.find('.modal-title').html(title);
+    modal.find('.modal-body').html(message);
+    
+    modal.find('.modal-close').unbind('click');
+    if(redirect)
+        modal.find('.modal-close').click(function() {
+            window.location.replace(redirect);
+        });
+        
+    modal.modal('show');
 }
 
-function msgBox(message, redirect = null) {
-    $('#modal-text').html(message);
-    $('.modal-close').click(function() {
-        window.location.replace(to);
-    });    
-    $('#modal').modal('show');
-}
-
-
-function msgBoxNoConn(redirect = false) {
-    if(redirect) msgBoxRedirect('No connection');
-    else msgBox('No connection');
-}
-
+// TODO Legacy code
 $(document).on('renderingComplete', function() {
     $.ajax({
         url: config.apiUrl + '/info/banner',
@@ -34,9 +30,10 @@ $(document).on('renderingComplete', function() {
             if(bannerId === null || bannerId != data.bannerid) {
                 localStorage.setItem("bannerId", data.bannerid);
                 
-                var modal = $('#modal-banner');
+                var modal = $('#modal');
                 modal.find('.modal-title').html(data.title);
                 modal.find('.modal-body').html(data.body);
+                modal.find('.modal-close').unbind('click');
                 modal.modal('show');
             }
         }

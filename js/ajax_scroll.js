@@ -1,3 +1,4 @@
+// TODO: legacy code, for delete
 class AjaxScroll {
     constructor(container, preloader, data, callback, runNow = true, scrollBody = false, scrollElem = container) {
         this.container = container;

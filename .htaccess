@@ -4,7 +4,17 @@ RewriteEngine on
 RewriteOptions AllowNoSlash
 DirectorySlash Off
 
+
 RewriteRule ^.*\.git.* - [R=404]
+
+ErrorDocument 403 http://%{HTTP_HOST}/error/403
+ErrorDocument 404 http://%{HTTP_HOST}/error/404
+ErrorDocument 500 http://%{HTTP_HOST}/error/404
+
+RewriteRule ^error/403/?$ /error/403.php [L]
+RewriteRule ^error/404/?$ /error/404.php [L]
+RewriteRule ^error/500/?$ /error/500.php [L]
+
 
 RewriteRule ^account/register/?$ /account/register.php [L]
 RewriteRule ^account/verify/?$ /account/verify.php [L]
@@ -24,24 +34,6 @@ RewriteRule ^wallet/transfer/?$ /wallet/transfer.php [L]
 RewriteRule ^wallet/transactions/?$ /wallet/transactions.php [L]
 RewriteRule ^wallet/addressbook/?$ /wallet/addressbook.php [L]
 
-RewriteRule ^spot/?$ /exchange/spot/index.php [L]
-RewriteRule ^spot/css/([^/]+)$ /exchange/spot/css/$1 [L]
-RewriteRule ^spot/js/([^/]+)$ /exchange/spot/js/$1 [L]
-RewriteRule ^spot/([^/]+)/?$ /exchange/spot/index.php [L]
-
-RewriteRule ^bridge(/.*)?$ /exchange/bridge/$1 [L]
-
-RewriteRule ^mining(/.*)?$ /exchange/mining/$1 [L]
-
-RewriteRule ^p2p(/.*)?$ /exchange/p2p/$1 [L]
-
-RewriteRule ^nft/studio(/.*)?$ /exchange/nft/studio/$1 [L]
-RewriteRule ^nft(/.*)?$ /exchange/nft/$1 [L]
-
-RewriteRule ^gamble(/.*)?$ /exchange/gamble/$1 [L]
-
-RewriteRule ^ico/([^/]+)$ /asset-icons/$1 [L]
-
 RewriteRule ^info/announcements/?$ /info/announcements.php [L]
 RewriteRule ^info/fees/?$ /info/fees.php [L]
 RewriteRule ^info/trading-rules/?$ /info/trading_rules.php [L]
@@ -51,10 +43,11 @@ RewriteRule ^info/voting/?$ /info/voting.php [L]
 RewriteRule ^info/rules/?$ /info/rules.php [L]
 RewriteRule ^info/support/?$ /info/support.php [L]
 
-RewriteRule ^error/403/?$ /error/403.php [L]
-RewriteRule ^error/404/?$ /error/404.php [L]
-RewriteRule ^error/500/?$ /error/500.php [L]
 
-ErrorDocument 403 http://%{HTTP_HOST}/error/403
-ErrorDocument 404 http://%{HTTP_HOST}/error/404
-ErrorDocument 500 http://%{HTTP_HOST}/error/404
+RewriteRule ^spot(/.*)?$ /modules/spot/$1 [L]
+RewriteRule ^bridge(/.*)?$ /modules/bridge/$1 [L]
+RewriteRule ^mining(/.*)?$ /modules/mining/$1 [L]
+RewriteRule ^p2p(/.*)?$ /modules/p2p/$1 [L]
+RewriteRule ^nft/studio(/.*)?$ /modules/nft/studio/$1 [L]
+RewriteRule ^nft(/.*)?$ /modules/nft/$1 [L]
+RewriteRule ^gamble(/.*)?$ /modules/gamble/$1 [L]

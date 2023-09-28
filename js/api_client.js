@@ -1,0 +1,34 @@
+function rawApi(method, url, data, apiKey) {
+    let headers = {};
+    if(apiKey)
+        headers['Authorization'] = 'Bearer ' + apiKey;
+        
+    return $.ajax({
+        url: config.apiUrl + url,
+        type: 'POST',
+        headers: headers,
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        dataType: "json"
+    });
+}
+
+function api(method, url, data, redirectOnError = false) {
+    return new Promise(
+        function(resolve, reject) {
+            rawApi(
+                method,
+                url,
+                data,
+                loggedIn ? apiKey : null
+            ).done(
+                resolve
+            ).fail(
+                function(jqXHR, textStatus, errorThrown) {
+                    msgBox(jqXHR.responseJSON.error.msg, redirectOnError ? '/' : null);
+                    reject(jqXHR.responseJSON.error.code);
+                }
+            );
+        }
+    );
+}

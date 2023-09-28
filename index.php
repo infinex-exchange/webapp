@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <?php include('templates/head.php'); ?>
+        <?php include(__DIR__.'/inc/head.php'); ?>
         <?php include('imports/bignumber.html'); ?>
         <title>Infinex - cryptocurrency trading platform</title>
     </head>

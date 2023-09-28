@@ -28,48 +28,58 @@ function gotoLogin() {
 }
 
 $(document).ready(function() {
-    // Auto login localStorage to sessionStorage
-    if(sessionStorage.getItem("apiKey") === null) {
-        if(localStorage.getItem("_apiKey") === null) {
-            // Not logged in
-            window.loggedIn = false;
+    let tmpApiKey = sessionStorage.getItem("apiKey");
+    if(tmpApiKey === null) {
+        // No apiKey in session storage, but may be in local storage if remember=true
+        
+        tmpApiKey = localStorage.getItem("_apiKey");
+        if(tmpApiKey === null) {
+            // No apiKey in local storage, not logged in
+            var loggedIn = false;
             $(document).trigger('authChecked');
             return;
         }
-        sessionStorage.setItem('apiKey', localStorage.getItem('_apiKey'));
-        sessionStorage.setItem('userName', localStorage.getItem('_userName'));
+        
+        // Api key in local storage, need to check is still valid
+        rawApi(
+            'GET',
+            '/account/sessions/current',
+            null,
+            tmpApiKey
+        ).done(
+            function(data) {
+                // Session is valid, move api key to session storage and setup globals
+                var apiKey = tmpApiKey;
+                var userName = localStorage.getItem('_userName');
+                var loggedIn = true;
+                
+                sessionStorage.setItem('apiKey', apiKey);
+                sessionStorage.setItem('userName', userName);
+                
+                $(document).trigger('authChecked');
+            }
+        ).fail(
+            function(jqXHR, textStatus, errorThrown) {
+                // Session is invalid, destroy local storage vars
+                
+                var loggedIn = false;
+                
+                localStorage.removeItem('_apiKey');
+                localStorage.removeItem('_userName');
+                
+                $(document).trigger('authChecked');
+            }
+        );
+        
+        return;
     };
     
-    // Check is session alive, unset lS and sS when not
-    $.ajax({
-        url: config.apiUrl + '/account/session/check',
-        type: 'POST',
-        data: JSON.stringify({
-            api_key: sessionStorage.getItem("apiKey")
-        }),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(data.success) {
-            if(data.valid) {
-                window.apiKey = sessionStorage.getItem("apiKey");
-                window.userName = sessionStorage.getItem("userName");
-                window.loggedIn = true;
-            }
-            else {
-                internalLogOut();
-            }
-            
-            $(document).trigger('authChecked');
-        } else {
-            msgBoxRedirect(data.error);
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn(true);
-    });
+    // Api key present in session storage, setup globals
+    var apiKey = tmpApiKey;
+    var userName = sessionStorage.getItem("userName");
+    var loggedIn = true;
+    
+    $(document).trigger('authChecked');
 });
 
 $(document).onFirst('authChecked', function() {
@@ -78,11 +88,13 @@ $(document).onFirst('authChecked', function() {
     if(window.loggedIn) {
         $('.guest-only').hide();
         $('.user-only').show();
+        
         if($('#root').hasClass('guest-only'))
             msgBoxRedirect('You have no authorization to view this site');
     } else {
         $('.guest-only').show();
         $('.user-only').hide();
+        
         if($('#root').hasClass('user-only'))
             gotoLogin();
     }

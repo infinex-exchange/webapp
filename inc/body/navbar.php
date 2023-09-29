@@ -52,11 +52,11 @@
                 </li>
             </ul>
             
-            <a class="theme-switch" data-theme="light" class="px-0 ps-lg-4 nav-link" href="#_">
+            <a data-theme="light" class="px-0 ps-lg-4 nav-link theme-switch" href="#_">
                 <i class="fa-solid fa-sun fa-lg"></i>
                 <span class="d-lg-none">Light mode</span>
             </a>
-            <a class="theme-switch" data-theme="dark" class="px-0 ps-lg-4 nav-link" href="#_" style="display: none">
+            <a data-theme="dark" class="px-0 ps-lg-4 nav-link theme-switch" href="#_" style="display: none">
                 <i class="fa-solid fa-moon fa-lg"></i>
                 <span class="d-lg-none">Dark mode</span>
             </a>

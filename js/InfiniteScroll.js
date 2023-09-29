@@ -9,6 +9,7 @@ class InfiniteScroll {
         this.preloader = preloader ? preloader : container + '-preloader';
         this.scrollable = scrollable;
         
+        this.randomId = Math.random().toString(36).slice(2);
         this.working = false;
         this.noMore = false;
         this.resetTimeout = null;
@@ -99,5 +100,13 @@ class InfiniteScroll {
     
     prepend(elem) {
         $(this.container).prepend(this.render(elem));
+    }
+    
+    get(id) {
+        return $(this.container).find(`[data-id="${id}"]`);
+    }
+    
+    remove(id) {
+        this.get(id).remove();
     }
 }

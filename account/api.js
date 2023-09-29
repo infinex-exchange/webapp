@@ -10,7 +10,7 @@ $(document).ready(function() {
 function renderApiKey(data) {
     return `
         <div class="api-keys-item row p-2 hoverable" onClick="mobileApiKeyDetails(this)"
-         data-sid="${data.sid}" data-api-key="${data.apiKey}" data-description="${data.description}">
+         data-keyid="${data.keyid}" data-api-key="${data.apiKey}" data-description="${data.description}">
             <div class="col-12 col-lg-4 my-auto wrap">
                 <h5 class="secondary api-key-description d-lg-none">${data.description}</h5>
                 <span class="api-key-description d-none d-lg-inline">${data.description}</span>
@@ -18,25 +18,25 @@ function renderApiKey(data) {
             <div class="col-12 col-lg-5">
                 <div class="row flex-nowrap">
                     <div class="col-auto col-lg-10 my-auto wrap">
-                        <span class="wrap" id="api-key-${data.sid}">${data.apiKey}</span>
+                        <span class="wrap" id="api-key-${data.keyid}">${data.apiKey}</span>
                     </div>
                     <div class="col-auto col-lg-2 my-auto">
-                        <a href="#_" class="secondary" data-copy="#api-key-${data.sid}" onClick="copyButton(this); event.stopPropagation();"><i class="fa-solid fa-copy fa-xl"></i></a>
+                        <a href="#_" class="secondary" data-copy="#api-key-${data.keyid}" onClick="copyButton(this); event.stopPropagation();"><i class="fa-solid fa-copy fa-xl"></i></a>
                     </div>
                 </div>
             </div>
             <div class="col-3 d-none d-lg-block my-auto">
-                <button type="button" class="btn btn-primary btn-sm" onClick="showEditAKPrompt(${data.sid})">Rename</a>
-                <button type="button" class="btn btn-primary btn-sm" onClick="removeAK(${data.sid})">Remove</a>
+                <button type="button" class="btn btn-primary btn-sm" onClick="showEditAKPrompt(${data.keyid})">Rename</a>
+                <button type="button" class="btn btn-primary btn-sm" onClick="removeAK(${data.keyid})">Remove</a>
             </div>
         </div>
     `;      
 }
 
-function removeAK(sid) {
+function removeAK(keyid) {
     api(
         'DELETE',
-        '/account/api-keys/' + sid
+        '/account/api-keys/' + keyid
     ).then(function() {
         window.apiKeysScr.reset();
     });
@@ -72,8 +72,8 @@ function showAddAKPrompt() {
     $('#modal-ak-desc-prompt').modal('show');
 }
 
-function showEditAKPrompt(sid) {
-    let oldDescription = $('.sessions-item[data-sid=' + sid + ']').attr('data-description');
+function showEditAKPrompt(keyid) {
+    let oldDescription = $('.sessions-item[data-keyid=' + keyid + ']').attr('data-description');
     
     $('#api-key-description-form').unbind('submit');
     $('#api-key-description-form').submit(function(event) {
@@ -90,7 +90,7 @@ function showEditAKPrompt(sid) {
         
         api(
             'PATCH',
-            '/account/api-keys/' + sid,
+            '/account/api-keys/' + keyid,
             {
                 description: description
             }
@@ -119,16 +119,16 @@ $(document).on('authChecked', function() {
 function mobileApiKeyDetails(item) {
     if($(window).width() > 991) return;
     
-    let sid = $(item).data('sid');
+    let keyid = $(item).data('keyid');
     
     $('#makd-description').html($(item).data('description'));
     $('#makd-rename-btn').unbind('click').on('click', function() {
         $('#modal-api-key-details').modal('hide');
-        showEditAKPrompt(sid);
+        showEditAKPrompt(keyid);
     });
     $('#makd-remove-btn').unbind('click').on('click', function() {
         $('#modal-api-key-details').modal('hide');
-        removeAK(sid);
+        removeAK(keyid);
     });
     $('#makd-api-key').html($(item).data('api-key'));
     

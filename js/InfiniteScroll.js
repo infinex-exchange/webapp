@@ -59,7 +59,7 @@ class InfiniteScroll {
         
         api('GET', url).then(
             function(resp) {
-                for(item of resp[th.root])
+                for(const item of resp[th.root])
                     th.append(item);
                 
                 th.noMore = th.isNoMoreData(resp);

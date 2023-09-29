@@ -1,4 +1,4 @@
-class InfiniteScrollOffsetPg extends InfiniteScroll {
+class InfiniteScrollCursorPg extends InfiniteScroll {
     initPaginator() {
         this.cursor = null;
     }

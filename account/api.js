@@ -1,15 +1,6 @@
-$(document).ready(function() {
-    $('#api-key-description').on('input', function() {
-        if(validateApiKeyDescription($(this).val()))
-            $('#help-api-key-description').hide();
-        else
-            $('#help-api-key-description').show();
-    });
-});
-
 function renderApiKey(data) {
     return `
-        <div data-id="${data.keyid}" class="api-keys-item row p-2 hoverable" onClick="mobileApiKeyDetails(this)"
+        <div data-id="${data.keyid}" class="api-keys-item row p-2 hoverable" onClick="showApiKey(this)"
          data-api-key="${data.apiKey}" data-description="${data.description}">
             <div class="col-12 col-lg-4 my-auto wrap">
                 <h5 class="secondary api-key-description d-lg-none">${data.description}</h5>
@@ -26,14 +17,14 @@ function renderApiKey(data) {
                 </div>
             </div>
             <div class="col-3 d-none d-lg-block my-auto">
-                <button type="button" class="btn btn-primary btn-sm" onClick="showEditAKPrompt(${data.keyid})">Rename</a>
-                <button type="button" class="btn btn-primary btn-sm" onClick="removeAK(${data.keyid})">Remove</a>
+                <button type="button" class="btn btn-primary btn-sm" onClick="editApiKey(${data.keyid})">Rename</a>
+                <button type="button" class="btn btn-primary btn-sm" onClick="removeApiKey(${data.keyid})">Remove</a>
             </div>
         </div>
     `;      
 }
 
-function removeAK(keyid) {
+function removeApiKey(keyid) {
     yesNoPrompt(
         'Are you sure you want to remove this API key?',
         function() {
@@ -47,7 +38,7 @@ function removeAK(keyid) {
     );
 }
 
-function showAddAKPrompt() {
+function addApiKey() {
     $('#api-key-description-form').unbind('submit');
     $('#api-key-description-form').submit(function(event) {
         event.preventDefault();
@@ -81,7 +72,7 @@ function showAddAKPrompt() {
     $('#modal-ak-desc-prompt').modal('show');
 }
 
-function showEditAKPrompt(keyid) {
+function editApiKey(keyid) {
     let old = window.apiKeysScr.get(keyid);
     let oldDescription = old.data('description');
     let oldApiKey = old.data('api-key');
@@ -119,19 +110,7 @@ function showEditAKPrompt(keyid) {
     $('#modal-ak-desc-prompt').modal('show');
 }
 
-$(document).on('authChecked', function() {
-    if(!window.loggedIn)
-        return;
-    
-    window.apiKeysScr = new InfiniteScrollOffsetPg(
-        '/account/api-keys',
-        'apiKeys',
-        renderApiKey,
-        '#api-keys-data'
-    );
-});
-
-function mobileApiKeyDetails(item) {
+function showApiKey(item) {
     if($(window).width() > 991) return;
     
     let keyid = $(item).data('id');
@@ -149,3 +128,22 @@ function mobileApiKeyDetails(item) {
     
     $('#modal-api-key-details').modal('show');
 }
+
+$(document).on('authChecked', function() {
+    if(!window.loggedIn)
+        return;
+        
+    $('#api-key-description').on('input', function() {
+        if(validateApiKeyDescription($(this).val()))
+            $('#help-api-key-description').hide();
+        else
+            $('#help-api-key-description').show();
+    });
+    
+    window.apiKeysScr = new InfiniteScrollOffsetPg(
+        '/account/api-keys',
+        'apiKeys',
+        renderApiKey,
+        '#api-keys-data'
+    );
+});

@@ -29,6 +29,9 @@ include(__DIR__.'/../vendor/pretty_checkbox.html');
 <script src="/js/theme.js?<?php echo filemtime(__DIR__.'/../js/theme.js'); ?>"></script>
 <script src="/js/session.js?<?php echo filemtime(__DIR__.'/../js/session.js'); ?>"></script>
 <script src="/js/global_utils.js?<?php echo filemtime(__DIR__.'/../js/global_utils.js'); ?>"></script>
+<script src="/js/InfiniteScroll.js?<?php echo filemtime(__DIR__.'/../js/InfiniteScroll.js'); ?>"></script>
+<script src="/js/InfiniteScrollOffsetPg.js?<?php echo filemtime(__DIR__.'/../js/InfiniteScrollOffsetPg.js'); ?>"></script>
+<script src="/js/InfiniteScrollCursorPg.js?<?php echo filemtime(__DIR__.'/../js/InfiniteScrollCursorPg.js'); ?>"></script>
 
 <!-- Twitter card -->
 <?php if(!defined('OVERWRITE_TWITTER_CARD')) { ?>

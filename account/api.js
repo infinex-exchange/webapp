@@ -9,7 +9,7 @@ $(document).ready(function() {
 
 function renderApiKey(data) {
     return `
-        <div data-id="${data.keyid}"" class="api-keys-item row p-2 hoverable" onClick="mobileApiKeyDetails(this)"
+        <div data-id="${data.keyid}" class="api-keys-item row p-2 hoverable" onClick="mobileApiKeyDetails(this)"
          data-api-key="${data.apiKey}" data-description="${data.description}">
             <div class="col-12 col-lg-4 my-auto wrap">
                 <h5 class="secondary api-key-description d-lg-none">${data.description}</h5>
@@ -78,8 +78,8 @@ function showAddAKPrompt() {
 
 function showEditAKPrompt(keyid) {
     let old = window.apiKeysScr.get(keyid);
-    let oldDescription = old.attr('data-description');
-    let oldApiKey = old.attr('api-key');
+    let oldDescription = old.data('description');
+    let oldApiKey = old.data('api-key');
     
     $('#api-key-description-form').unbind('submit');
     $('#api-key-description-form').submit(function(event) {

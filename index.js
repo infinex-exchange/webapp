@@ -71,11 +71,11 @@ function getMarketsForIndex(div, req) {
 	        localStorage.setItem(lsKey, div.html());
         }
         else {
-            msgBoxRedirect(data.error);
+            msgBox(data.error, null, '/');
         }
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn(true); 
+        msgBox('No connection', null, '/'); 
     });    
 }
 

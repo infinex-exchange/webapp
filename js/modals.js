@@ -1,4 +1,7 @@
-function msgBox(title, message, redirect = null) {
+function msgBox(message, title = null, redirect = null) {
+    if(!title)
+        title = 'Error';
+    
     let modal = $('#modal');
     
     modal.find('.modal-title').html(title);

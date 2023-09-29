@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include('../templates/head.php'); ?>
-        <script src="/js/validate.js?<?php echo filemtime(__DIR__.'/../js/validate.js'); ?>"></script>
+        <?php include(__DIR__.'/../inc/head.php'); ?>
+        <script src="/account/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
         <title>Login | Infinex</title>
     </head>
     <body class="vh-100 body-background">
-    
-        <!-- Preloader -->
-        <?php include('../templates/preloader.html'); ?>
-        
-        <!-- Navbar -->
-        <?php include('../templates/navbar.php'); ?>
+        <?php include(__DIR__.'/../inc/body.php'); ?>
         
         <!-- Root container -->
         <div id="root" class="container-fluid container-1500 pt-2 guest-only">
@@ -95,8 +90,11 @@
         </div>
         
         <script src="/account/login.js?<?php echo filemtime(__DIR__.'/login.js'); ?>"></script>
-        <?php include('../templates/modals.php'); ?>
-        <?php include('../templates/vanilla_mobile_nav.php'); ?>
+        
+        <?php
+        include(__DIR__.'/../inc/footer.php');
+        include(__DIR__.'/../inc/vanilla_mobile_nav.php');
+        ?>
     
     </body>
 </html>

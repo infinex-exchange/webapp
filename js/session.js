@@ -79,7 +79,7 @@ $(document).onFirst('authChecked', function() {
         $('.user-only').show();
         
         if($('#root').hasClass('guest-only'))
-            msgBox('You have no authorization to view this site', '/');
+            msgBox('You have no authorization to view this site', null, '/');
     } else {
         $('.guest-only').show();
         $('.user-only').hide();

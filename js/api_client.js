@@ -25,7 +25,7 @@ function api(method, url, data = {}, redirectOnError = false) {
                 resolve
             ).fail(
                 function(jqXHR, textStatus, errorThrown) {
-                    msgBox(jqXHR.responseJSON.error.msg, redirectOnError ? '/' : null);
+                    msgBox(jqXHR.responseJSON.error.msg, null, redirectOnError ? '/' : null);
                     reject(jqXHR.responseJSON.error.code);
                 }
             );

@@ -109,4 +109,8 @@ class InfiniteScroll {
     remove(id) {
         this.get(id).remove();
     }
+    
+    replace(id, elem) {
+        this.get(id).replaceWith(this.render(elem));
+    }
 }

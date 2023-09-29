@@ -9,8 +9,8 @@ $(document).ready(function() {
 
 function renderApiKey(data) {
     return `
-        <div class="api-keys-item row p-2 hoverable" onClick="mobileApiKeyDetails(this)"
-         data-keyid="${data.keyid}" data-api-key="${data.apiKey}" data-description="${data.description}">
+        <div data-id={data.keyid} class="api-keys-item row p-2 hoverable" onClick="mobileApiKeyDetails(this)"
+         data-api-key="${data.apiKey}" data-description="${data.description}">
             <div class="col-12 col-lg-4 my-auto wrap">
                 <h5 class="secondary api-key-description d-lg-none">${data.description}</h5>
                 <span class="api-key-description d-none d-lg-inline">${data.description}</span>
@@ -38,7 +38,7 @@ function removeAK(keyid) {
         'DELETE',
         '/account/api-keys/' + keyid
     ).then(function() {
-        window.apiKeysScr.reset();
+        window.apiKeysScr.remove(keyid);
     });
 }
 
@@ -63,7 +63,11 @@ function showAddAKPrompt() {
                 description: description
             }
         ).then(function(data) {
-            window.apiKeysScr.reset();
+            window.apiKeysScr.append({
+                keyid: data.keyid,
+                apiKey: data.apiKey,
+                description: description
+            });
         });
     });
     
@@ -73,7 +77,7 @@ function showAddAKPrompt() {
 }
 
 function showEditAKPrompt(keyid) {
-    let oldDescription = $('.sessions-item[data-keyid=' + keyid + ']').attr('data-description');
+    let oldDescription = window.apiKeysScr.get(keyid).attr('data-description');
     
     $('#api-key-description-form').unbind('submit');
     $('#api-key-description-form').submit(function(event) {
@@ -119,7 +123,7 @@ $(document).on('authChecked', function() {
 function mobileApiKeyDetails(item) {
     if($(window).width() > 991) return;
     
-    let keyid = $(item).data('keyid');
+    let keyid = $(item).data('id');
     
     $('#makd-description').html($(item).data('description'));
     $('#makd-rename-btn').unbind('click').on('click', function() {

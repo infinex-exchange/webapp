@@ -9,7 +9,7 @@ $(document).ready(function() {
 
 function renderApiKey(data) {
     return `
-        <div data-id={data.keyid} class="api-keys-item row p-2 hoverable" onClick="mobileApiKeyDetails(this)"
+        <div data-id="${data.keyid}"" class="api-keys-item row p-2 hoverable" onClick="mobileApiKeyDetails(this)"
          data-api-key="${data.apiKey}" data-description="${data.description}">
             <div class="col-12 col-lg-4 my-auto wrap">
                 <h5 class="secondary api-key-description d-lg-none">${data.description}</h5>

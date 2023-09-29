@@ -41,7 +41,10 @@ $(document).ready(function() {
         
         api(
             'DELETE',
-            '/account/password'
+            '/account/password',
+            {
+                email: email
+            }
         ).then(function() {
             $('#forget-form-step1-wrapper').hide();
             $('#forget-form-step2-wrapper').show();

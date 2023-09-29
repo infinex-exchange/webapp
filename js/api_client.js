@@ -5,7 +5,7 @@ function rawApi(method, url, data, apiKey) {
         dataType: "json"
     };
     
-    if(headers)
+    if(apiKey)
         options['headers'] = {
             Authorization: 'Bearer ' + apiKey
         };

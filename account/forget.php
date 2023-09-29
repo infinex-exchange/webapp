@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <?php include(__DIR__.'/../inc/head.php'); ?>
-        <script src="/js/validate.js?<?php echo filemtime(__DIR__.'/../js/validate.js'); ?>"></script>
+        <script src="/account/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
         <title>Password reset | Infinex</title>
     </head>
     <body class="vh-100 body-background">

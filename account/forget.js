@@ -1,3 +1,5 @@
+window.renderingStagesTarget = 1;
+
 $(document).ready(function() {
     $('#forget-email').on('input', function() {
         if(validateEmail($(this).val()))
@@ -30,79 +32,60 @@ $(document).ready(function() {
     $('#forget-form-step1').submit(function(event) {
         event.preventDefault();
         
-        var email = $(this).find('#forget-email').val();
+        let email = $(this).find('#forget-email').val();
         
         if(!validateEmail(email)) {
             msgBox('Fill the form correctly');
             return;
         }
         
-        $.ajax({
-            url: config.apiUrl + '/account/forget/step1',
-            type: 'POST',
-            data: JSON.stringify({
-                email: email,
-            }),
-            datatype: 'json'
-        })
-        .done(function (data) {
-            if(data.success) {
-                $('#forget-form-step1-wrapper').hide();
-                $('#forget-form-step2-wrapper').show();
-            } else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn();
+        api(
+            'DELETE',
+            '/account/password'
+        ).then(function() {
+            $('#forget-form-step1-wrapper').hide();
+            $('#forget-form-step2-wrapper').show();
         });
     });
     
     $('#forget-form-step2').submit(function(event) {
         event.preventDefault();
         
-        var email = $('#forget-email').val();
-        var code = $('#forget-code').val();
-        var password = $('#forget-password').val();
-        var password2 = $('#forget-password2').val();
+        let email = $('#forget-email').val();
+        let code = $('#forget-code').val();
+        let password = $('#forget-password').val();
+        let password2 = $('#forget-password2').val();
         
         if(!validateVeriCode(code) || !validatePassword(password) || password != password2) {
             msgBox('Fill the form correctly');
             return;
         }
         
-        $.ajax({
-            url: config.apiUrl + '/account/forget/step2',
-            type: 'POST',
-            data: JSON.stringify({
+        api(
+            'PATCH',
+            '/account/password',
+            {
                 email: email,
                 code: code,
                 password: password
-            }),
-            datatype: 'json'
-        })
-        .done(function (data) {
-            if(data.success) {
-                msgBoxRedirect('Your password was changed. Login now', '/account/login');
-            } else {
-                msgBox(data.error);
             }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn();
+        ).then(function() {
+            msgBox(
+                'Your password was changed. Login now',
+                'Success',
+                '/account/login'
+            );
         });
     });
     
-    window.renderingStagesTarget = 1;
-    
-    var urlParams = new URLSearchParams(window.location.search);
-    var email = urlParams.get('email');
-    var code = urlParams.get('code');
+    let urlParams = new URLSearchParams(window.location.search);
+    let email = urlParams.get('email');
+    let code = urlParams.get('code');
     
     if( ( email != null && !validateEmail(email) ) ||
         ( code != null && !validateVeriCode(code) )
     ) {
-        msgBoxRedirect('This action cannot be performed. Check if the copied link is correct.', '/');
+        msgBox('This action cannot be performed. Check if the copied link is correct.', null, '/');
         return;
     }
     

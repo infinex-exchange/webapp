@@ -21,7 +21,7 @@ include(__DIR__.'/../vendor/pretty_checkbox.html');
 <link href="/css/light.css?<?php echo filemtime(__DIR__.'/../css/light.css'); ?>" rel="stylesheet alternate" class="theme-css" data-theme="light">
 
 <!-- App config -->
-<script src="/cfg/config.js?<?php echo filemtime(__DIR__.'/../config.js'); ?>"></script>
+<script src="/cfg/config.js?<?php echo filemtime(__DIR__.'/../cfg/config.js'); ?>"></script>
 
 <!-- Global JS -->
 <script src="/js/api_client.js?<?php echo filemtime(__DIR__.'/../js/api_client.js'); ?>"></script>

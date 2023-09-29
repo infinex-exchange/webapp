@@ -2,14 +2,14 @@ function logOut() {
     api(
         'DELETE',
         '/account/sessions/current'
-    ).finally(
+    ).finally(function() {
         sessionStorage.removeItem('userName');
         sessionStorage.removeItem('apiKey');
         localStorage.removeItem('_userName');
         localStorage.removeItem('_apiKey');
         
         window.location.replace('/account/login');
-    );
+    });
 }
 
 function gotoLogin() {

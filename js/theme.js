@@ -4,7 +4,7 @@ function setTheme(theme) {
     $(`link.theme-css[data-theme="${theme}"]`).attr('rel', 'stylesheet');
     
     $('.theme-switch').hide();
-    $(`.theme-switch[data-theme="${theme}"]`).show();
+    $(`.theme-switch[data-theme!="${theme}"]`).show();
     
     localStorage.setItem('theme', theme);
     

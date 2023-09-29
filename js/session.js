@@ -24,7 +24,7 @@ $(document).ready(function() {
         tmpApiKey = localStorage.getItem("_apiKey");
         if(tmpApiKey === null) {
             // No apiKey in local storage, not logged in
-            var loggedIn = false;
+            window.loggedIn = false;
             $(document).trigger('authChecked');
             return;
         }
@@ -38,9 +38,9 @@ $(document).ready(function() {
         ).done(
             function(data) {
                 // Session is valid, move api key to session storage and setup globals
-                var apiKey = tmpApiKey;
-                var userName = localStorage.getItem('_userName');
-                var loggedIn = true;
+                window.apiKey = tmpApiKey;
+                window.userName = localStorage.getItem('_userName');
+                window.loggedIn = true;
                 
                 sessionStorage.setItem('apiKey', apiKey);
                 sessionStorage.setItem('userName', userName);
@@ -51,7 +51,7 @@ $(document).ready(function() {
             function(jqXHR, textStatus, errorThrown) {
                 // Session is invalid, destroy local storage vars
                 
-                var loggedIn = false;
+                window.loggedIn = false;
                 
                 localStorage.removeItem('_apiKey');
                 localStorage.removeItem('_userName');
@@ -64,9 +64,9 @@ $(document).ready(function() {
     };
     
     // Api key present in session storage, setup globals
-    var apiKey = tmpApiKey;
-    var userName = sessionStorage.getItem("userName");
-    var loggedIn = true;
+    window.apiKey = tmpApiKey;
+    window.userName = sessionStorage.getItem("userName");
+    window.loggedIn = true;
     
     $(document).trigger('authChecked');
 });

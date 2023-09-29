@@ -1,5 +1,5 @@
 $( document ).on('authChecked', function() {
-    if(loggedIn) {
-        $('.navbar-user-name').html(userName);
+    if(window.loggedIn) {
+        $('.navbar-user-name').html(window.userName);
     }
 });

@@ -20,7 +20,7 @@ function api(method, url, data = {}, redirectOnError = false) {
                 method,
                 url,
                 data,
-                loggedIn ? apiKey : null
+                window.loggedIn ? window.apiKey : null
             ).done(
                 resolve
             ).fail(

@@ -1,5 +1,5 @@
-var renderingStage = 0;
-var multiEvents = {};
+window.renderingStage = 0;
+window.multiEvents = {};
 
 $(document).on('renderingStage', function() {
     window.renderingStage++;

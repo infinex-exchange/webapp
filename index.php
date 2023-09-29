@@ -144,7 +144,7 @@
         <script src="/index.js?<?php echo filemtime(__DIR__.'/index.js'); ?>"></script>
         
         <?php
-        include(__DIR__.'/inc/footer.html');
+        include(__DIR__.'/inc/footer.php');
         include(__DIR__.'/inc/vanilla_mobile_nav.php');
         ?>
     

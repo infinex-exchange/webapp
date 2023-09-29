@@ -1,5 +1,4 @@
 function setTheme(theme) {
-    console.log(theme);
     $('link.theme-css').attr('rel', 'stylesheet alternate');
     $(`link.theme-css[data-theme="${theme}"]`).attr('rel', 'stylesheet');
     

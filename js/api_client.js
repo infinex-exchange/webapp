@@ -2,18 +2,22 @@ function rawApi(method, url, data, apiKey) {
     let headers = {};
     if(apiKey)
         headers['Authorization'] = 'Bearer ' + apiKey;
-        
-    return $.ajax({
+    
+    let options = {
         url: config.apiUrl + '/v2' + url,
         type: 'POST',
         headers: headers,
-        data: JSON.stringify(data),
         contentType: "application/json",
         dataType: "json"
-    });
+    };
+    
+    if(data)
+        options['data'] = JSON.stringify(data);
+        
+    return $.ajax(options);
 }
 
-function api(method, url, data = {}, redirectOnError = false) {
+function api(method, url, data = null, redirectOnError = false) {
     return new Promise(
         function(resolve, reject) {
             rawApi(

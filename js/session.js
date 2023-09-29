@@ -33,7 +33,7 @@ $(document).ready(function() {
         rawApi(
             'GET',
             '/account/sessions/current',
-            {},
+            null,
             tmpApiKey
         ).done(
             function(data) {

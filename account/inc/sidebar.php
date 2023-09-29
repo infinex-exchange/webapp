@@ -5,7 +5,7 @@
     </div>
             
     <ul class="nav flex-column">
-        <?php include(__DIR__.'/../../inc/navbar/menu_account.html'); ?>
+        <?php include(__DIR__.'/../../inc/nav/menu_account.html'); ?>
     </ul>
     
 </div>

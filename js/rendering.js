@@ -13,3 +13,8 @@ $(document).onFirst('renderingComplete', function() {
     window.multiEvents['renderingComplete'] = true;
     $('.preloader-wrapper').fadeOut();
 });
+
+$(document).ready(function() {
+    if(typeof window.renderingStagesTarget === 'undefined')
+        $(document).trigger('renderingComplete');
+});

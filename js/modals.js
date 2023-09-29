@@ -16,6 +16,22 @@ function msgBox(message, title = null, redirect = null) {
     modal.modal('show');
 }
 
+function yesNoPrompt(message, callback, title = null) {
+    if(!title)
+        title = 'Confirmation';
+    
+    let modal = $('#modal-yn');
+    
+    modal.find('.modal-title').html(title);
+    modal.find('.modal-body').html(message);
+    
+    modal.find('.yes').unbind('click').click(function() {
+        callback();
+    });
+        
+    modal.modal('show');
+}
+
 // TODO Legacy code
 $(document).on('renderingComplete', function() {
     $.ajax({

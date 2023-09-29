@@ -1,23 +1,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
 
-<!-- Bootstrap -->
-<?php include(__DIR__.'/../vendor/bootstrap.html'); ?>
-
-<!-- jQuery -->
-<?php include(__DIR__.'/../vendor/jquery.html'); ?>
-
-<!-- jQuery Bind First -->
-<script src="/js/jquery.bind-first-0.2.3.min.js"></script>
-
+<!-- Vendor -->
+<?php
+include(__DIR__.'/../vendor/bootstrap.html');
+include(__DIR__.'/../vendor/jquery.html');
+include(__DIR__.'/../vendor/font_awesome.html');
+include(__DIR__.'/../vendor/pretty_checkbox.html');
+?>
+<script src="/vendor/jquery.bind-first-0.2.3.min.js"></script>
 <!-- TODO: Remove after migration to v2: jQuery Ajax Retry -->
 <script src="/vendor/jquery.ajax-retry.min.js"></script>
-
-<!-- Font Awesome -->
-<?php include(__DIR__.'/../vendor/font_awesome.html'); ?>
-
-<!-- Pretty checkbox -->
-<?php include(__DIR__.'/../vendor/pretty_checkbox.html'); ?>
 
 <!-- Favicon -->
 <?php include(__DIR__.'/../favicon/html_code.html'); ?>

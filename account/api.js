@@ -77,7 +77,9 @@ function showAddAKPrompt() {
 }
 
 function showEditAKPrompt(keyid) {
-    let oldDescription = window.apiKeysScr.get(keyid).attr('data-description');
+    let old = window.apiKeysScr.get(keyid);
+    let oldDescription = old.attr('data-description');
+    let oldApiKey = old.attr('api-key');
     
     $('#api-key-description-form').unbind('submit');
     $('#api-key-description-form').submit(function(event) {
@@ -99,7 +101,11 @@ function showEditAKPrompt(keyid) {
                 description: description
             }
         ).then(function() {
-            window.apiKeysScr.reset();
+            window.apiKeysScr.replace(keyid, {
+                keyid: keyid,
+                apiKey: oldApiKey,
+                description: description
+            });
         });   
     });
     

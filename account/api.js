@@ -34,12 +34,17 @@ function renderApiKey(data) {
 }
 
 function removeAK(keyid) {
-    api(
-        'DELETE',
-        '/account/api-keys/' + keyid
-    ).then(function() {
-        window.apiKeysScr.remove(keyid);
-    });
+    yesNoPrompt(
+        'Are you sure you want to remove this API key?',
+        function() {
+            api(
+                'DELETE',
+                '/account/api-keys/' + keyid
+            ).then(function() {
+                window.apiKeysScr.remove(keyid);
+            });
+        }
+    );
 }
 
 function showAddAKPrompt() {

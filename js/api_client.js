@@ -1,18 +1,20 @@
 function rawApi(method, url, data, apiKey) {
-    let headers = {};
-    if(apiKey)
-        headers['Authorization'] = 'Bearer ' + apiKey;
-    
     let options = {
         url: config.apiUrl + '/v2' + url,
-        type: 'POST',
+        type: method,
         headers: headers,
-        contentType: "application/json",
         dataType: "json"
     };
     
-    if(data)
+    if(headers)
+        options['headers'] = {
+            Authorization: 'Bearer ' + apiKey
+        };
+    
+    if(data) {
         options['data'] = JSON.stringify(data);
+        options['contentType'] = "application/json";
+    }
         
     return $.ajax(options);
 }

@@ -13,7 +13,7 @@
         <div class="row m-0 h-rest">
         
         <!-- Left column -->
-        <?php include(__DIR__'/inc/sidebar.php'); ?>
+        <?php include(__DIR__.'/inc/sidebar.php'); ?>
         
         <!-- Main column -->
         <div class="col-12 col-lg-8 p-0 ui-card ui-column">

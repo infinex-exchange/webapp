@@ -2,7 +2,6 @@ function rawApi(method, url, data, apiKey) {
     let options = {
         url: config.apiUrl + '/v2' + url,
         type: method,
-        headers: headers,
         dataType: "json"
     };
     

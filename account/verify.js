@@ -1,3 +1,5 @@
+window.renderingStagesTarget = 1;
+
 $(document).ready(function() {   
     $('#verify-code').on('input', function() {
         if(validateVeriCode($(this).val()))
@@ -9,43 +11,40 @@ $(document).ready(function() {
     $('#verify-form').submit(function(event) {
         event.preventDefault();
         
-        var code = $(this).find('#verify-code').val();
+        let code = $(this).find('#verify-code').val();
         
         if(!validateVeriCode(code)) {
             msgBox('Fill the form correctly');
             return;
         }
         
-        $.ajax({
-            url: config.apiUrl + '/account/verify',
-            type: 'POST',
-            data: JSON.stringify({
+        api(
+            'PATCH',
+            '/account',
+            {
                 email: window.emailAddr,
                 code: code
-            }),
-            datatype: 'json'
-        })
-        .done(function (data) {
-            if(data.success) {
-                msgBoxRedirect('Your account is registered and active. Login now.', '/account/login');
-            } else {
-                msgBox(data.error);
             }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn();
+        ).then(function() {
+            msgBox(
+                'Your account is registered and active. Login now.',
+                'Success',
+                '/account/login'
+            );
         });
     });
     
-    window.renderingStagesTarget = 1;
+    let urlParams = new URLSearchParams(window.location.search);
     
-    var urlParams = new URLSearchParams(window.location.search);
-    
-    var email = urlParams.get('email');
-    var code = urlParams.get('code');
+    let email = urlParams.get('email');
+    let code = urlParams.get('code');
     
     if(email == null) {
-        msgBoxRedirect('This action cannot be performed. Check if the copied link is correct.', '/');
+        msgBox(
+            'This action cannot be performed. Check if the copied link is correct.',
+            null,
+            '/'
+        );
         return;
     }
     

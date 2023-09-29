@@ -1,6 +1,6 @@
+window.renderingStagesTarget = 1;
+
 $(document).ready(function() {
-    window.renderingStagesTarget = 1;
-    
     $('#api-key-description').on('input', function() {
         if(validateApiKeyDescription($(this).val()))
             $('#help-api-key-description').hide();
@@ -10,31 +10,16 @@ $(document).ready(function() {
 });
 
 function removeAK(sid) {
-    $.ajax({
-        url: config.apiUrl + '/account/api_keys/remove',
-        type: 'POST',
-        data: JSON.stringify({
-            api_key: window.apiKey,
-            sid: sid
-        }),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(data.success) {
-            $('.sessions-item[data-sid=' + sid + ']').remove();
-        } else {
-            msgBox(data.error);
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn(false);
-    });     
+    api(
+        'DELETE',
+        '/account/api-keys/' + sid
+    ).then(function() {
+        $('.sessions-item[data-sid=' + sid + ']').remove();
+    });
 }
 
 function addChangeApiKey(sid, api_key, description) {
-    var elem = $('.sessions-item[data-sid=' + sid + ']');
+    let elem = $('.sessions-item[data-sid=' + sid + ']');
     if(elem.length) {
         elem.data('description', description);
         elem.find('.api-key-description').html(description);
@@ -69,7 +54,7 @@ function showAddAKPrompt() {
     $('#api-key-description-form').submit(function(event) {
         event.preventDefault();
         
-        var description = $('#api-key-description').val();
+        let description = $('#api-key-description').val();
         
         if(!validateApiKeyDescription(description)) {
             msgBox('Please fill in the form correctly');
@@ -78,27 +63,15 @@ function showAddAKPrompt() {
         
         $('#modal-ak-desc-prompt').modal('hide');
         
-        $.ajax({
-            url: config.apiUrl + '/account/api_keys/new',
-            type: 'POST',
-            data: JSON.stringify({
-                api_key: window.apiKey,
+        api(
+            'POST',
+            '/account/api-keys',
+            {
                 description: description
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                addChangeApiKey(data.sid, data.api_key, description);
-            } else {
-                msgBox(data.error);
             }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
-        });     
+        ).then(function(data) {
+            addChangeApiKey(data.sid, data.apiKey, description);
+        });
     });
     
     $('#api-key-description').val('');
@@ -107,7 +80,7 @@ function showAddAKPrompt() {
 }
 
 function showEditAKPrompt(sid) {
-    var oldDescription = $('.sessions-item[data-sid=' + sid + ']').attr('data-description');
+    let oldDescription = $('.sessions-item[data-sid=' + sid + ']').attr('data-description');
     
     $('#api-key-description-form').unbind('submit');
     $('#api-key-description-form').submit(function(event) {
@@ -122,28 +95,15 @@ function showEditAKPrompt(sid) {
         
         $('#modal-ak-desc-prompt').modal('hide');
         
-        $.ajax({
-            url: config.apiUrl + '/account/api_keys/edit',
-            type: 'POST',
-            data: JSON.stringify({
-                api_key: window.apiKey,
-                sid: sid,
+        api(
+            'PATCH',
+            '/account/api-keys/' + sid,
+            {
                 description: description
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                addChangeApiKey(sid, null, description);
-            } else {
-                msgBox(data.error);
             }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
-        });     
+        ).then(function() {
+            addChangeApiKey(sid, null, description);
+        });   
     });
     
     $('#api-key-description').val(oldDescription);
@@ -152,7 +112,10 @@ function showEditAKPrompt(sid) {
 }
 
 $(document).on('authChecked', function() {
-    if(window.loggedIn) {
+    if(!window.loggedIn)
+        return;
+    
+    //
         $.ajax({
             url: config.apiUrl + '/account/api_keys/list',
             type: 'POST',
@@ -183,7 +146,7 @@ $(document).on('authChecked', function() {
 function mobileApiKeyDetails(item) {
     if($(window).width() > 991) return;
     
-    var sid = $(item).data('sid');
+    let sid = $(item).data('sid');
     
     $('#makd-description').html($(item).data('description'));
     $('#makd-rename-btn').unbind('click').on('click', function() {

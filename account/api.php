@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include('../templates/head.php'); ?>
-        <script src="/js/validate.js?<?php echo filemtime(__DIR__.'/../js/validate.js'); ?>"></script>
+        <?php include(__DIR__.'/../inc/head.php'); ?>
+        <script src="/account/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
         <title>API keys | Infinex</title>
     </head>
     <body>
-    
-        <!-- Preloader -->
-        <?php include('../templates/preloader.html'); ?>
-        
-        <!-- Navbar -->
-        <?php include('../templates/navbar.php'); ?>
+        <?php include(__DIR__.'/../inc/body.php'); ?>
         
         <!-- Root container -->
         <div id="root" class="container-fluid container-1500 container-rest p-0 user-only">
         <div class="row m-0 h-rest">
         
         <!-- Left column -->
-        <?php include('../templates/sidebar_account.php'); ?>
+        <?php include(__DIR__'/inc/sidebar.php'); ?>
         
         <!-- Main column -->
         <div class="col-12 col-lg-8 p-0 ui-card ui-column">
@@ -123,8 +118,10 @@
         
         <script src="/account/api.js?<?php echo filemtime(__DIR__.'/api.js'); ?>"></script>
         
-        <?php include('../templates/modals.php'); ?>
-        <?php include('../templates/vanilla_mobile_nav.php'); ?>
+        <?php
+        include(__DIR__.'/../inc/footer.php');
+        include(__DIR__.'/../inc/vanilla_mobile_nav.php');
+        ?>
     
     </body>
 </html>

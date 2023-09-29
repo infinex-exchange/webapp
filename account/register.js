@@ -1,25 +1,12 @@
+window.renderingStagesTarget = 1;
+
 function refreshCaptcha(email) {
-    return new Promise(function(resolve, reject) {
-        $.ajax({
-            url: config.apiUrl + '/account/register/captcha',
-            type: 'POST',
-            data: JSON.stringify({
-                email: email
-            }),
-            datatype: 'json'
-        })
-        .done(function (data) {
-            if(data.success) {
-                $('#reg-captcha-img').attr('src', data.img);
-                window.captchaChallenge = data.challenge;
-                resolve();   
-            } else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn();
-        });
+    return api(
+        'GET',
+        '/account/captcha?email=' + encodeURI(email)
+    ).then(function(data) {
+        $('#reg-captcha-img').attr('src', data.img);
+        window.captchaChallenge = data.challenge;
     });
 }
 
@@ -59,71 +46,57 @@ $(document).ready(function() {
     $('#reg-form-step1').submit(function(event) {
         event.preventDefault();
         
-        var email = $('#reg-email').val();
-        var password = $('#reg-password').val();
-        var password2 = $('#reg-password2').val();
+        let email = $('#reg-email').val();
+        let password = $('#reg-password').val();
+        let password2 = $('#reg-password2').val();
         
         if(!validateEmail(email) || !validatePassword(password) || password != password2) {
             msgBox('Fill the form correctly');
             return;
         }
         
-        refreshCaptcha(email).then(function(data) {
+        refreshCaptcha(email).then(function() {
             $('#reg-form-step1-wrapper').hide();
             $('#reg-form-step2-wrapper').show();
-        }).catch(function(err) {
         });
     });
     
     $('#reg-form-step2').submit(function(event) {
         event.preventDefault();
         
-        var email = $('#reg-email').val();
-        var password = $('#reg-password').val();
-        var captchaResponse = $('#reg-captcha').val();
-        var captchaChallenge = window.captchaChallenge;
+        let email = $('#reg-email').val();
+        let password = $('#reg-password').val();
+        let captchaResponse = $('#reg-captcha').val();
         
         if(!validateCaptchaResp(captchaResponse)) {
             msgBox('Fill the form correctly');
             return;
         }
         
-        var data = {
+        let data = {
             email: email,
             password: password,
-            captcha_challenge: captchaChallenge,
-            captcha_response: captchaResponse
+            captchaChallenge: window.captchaChallenge,
+            captchaResponse: captchaResponse
         };
         
         // Refid
         if(localStorage.getItem('refid') !== null) {
-            var expires = localStorage.getItem('refid_expires');
-            var date = new Date();
+            let expires = localStorage.getItem('refid_expires');
+            let date = new Date();
             if(date <= expires)
-                Object.assign(data, {
-                    refid: parseInt(localStorage.getItem('refid'))
-                });
+                data['refid'] = parseInt(localStorage.getItem('refid'));
         }
         
-        $.ajax({
-            url: config.apiUrl + '/account/register',
-            type: 'POST',
-            data: JSON.stringify(data),
-            datatype: 'json'
-        })
-        .done(function (data) {
-            if(data.success) {
-                window.location.replace('/account/verify?email=' + encodeURI(email));
-            } else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn();
+        api(
+            'POST',
+            '/account/',
+            data
+        ).then(function(data) {
+            window.location.replace('/account/verify?email=' + encodeURI(email));
         });
     });
     
-    window.renderingStagesTarget = 1;
     $('#reg-form-step2-wrapper').hide();
     $(document).trigger('renderingStage');
 });

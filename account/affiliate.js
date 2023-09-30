@@ -422,7 +422,7 @@ function renderCharts(div, refid = null) {
 function showRewards(refid, afseid) {
     $('#modal-reflink-details').modal('hide');
     
-    var options = {
+    let options = {
         series: [],
         chart: {
             type: 'bar',
@@ -479,7 +479,7 @@ function showRewards(refid, afseid) {
             let serieData = new Array();
             
             for(let reward of data.rewards)
-                if(reward.reward_type == rtype && reward.slave_level == lvl) {
+                if(reward.type == rtype && reward.slave_level == lvl) {
                     serieData.push({
                         x: reward.assetid,
                         y: reward.amount

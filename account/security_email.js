@@ -57,7 +57,7 @@ $(document).on('authChecked', function() {
             }
         ).then(function() {
             msgBox('Your e-mail address has been changed', 'Success');
-            chestep1();
+            cheStep1();
         });
     });
     

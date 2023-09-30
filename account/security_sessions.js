@@ -1,4 +1,4 @@
-window.renderingStagesTarget = 30;
+window.renderingStagesTarget = 1;
 
 var deviceTypeIconDict = {
     desktop: 'fa-solid fa-computer',
@@ -90,7 +90,7 @@ $(document).on('authChecked', function() {
     if(!window.loggedIn)
         return;
     
-    window.sessionsScr = new InfiniteScrollOffsetPag(
+    window.sessionsScr = new InfiniteScrollOffsetPg(
         '/account/sessions',
         'sessions',
         renderSession,

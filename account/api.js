@@ -102,7 +102,7 @@ function editApiKey(keyid) {
                 apiKey: oldApiKey,
                 description: description
             });
-        });   
+        });
     });
     
     $('#api-key-description').val(oldDescription);

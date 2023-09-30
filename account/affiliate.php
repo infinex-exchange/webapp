@@ -59,7 +59,7 @@
             
             <div class="row">
                 <div class="col-auto my-auto">
-                    <button type="button" class="btn btn-primary btn-sm" onClick="showAddReflinkPrompt()">New reflink</a>
+                    <button type="button" class="btn btn-primary btn-sm" onClick="addReflink()">New reflink</a>
                 </div>
             </div>
             

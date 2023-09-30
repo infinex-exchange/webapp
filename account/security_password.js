@@ -41,6 +41,7 @@ $(document).ready(function() {
             }
         ).then(function() {
             msgBox('Your password has been changed', 'Success');
+            $('#chp-form')[0].reset();
         });
     });
 });

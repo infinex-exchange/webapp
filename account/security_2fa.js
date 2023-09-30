@@ -102,7 +102,7 @@ $(document).on('authChecked', function() {
         
         api2fa(
             'PATCH',
-            '/account/2fa/cases'
+            '/account/2fa/cases',
             {
                 cases: cases
             }

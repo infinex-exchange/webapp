@@ -184,16 +184,6 @@ function renderReflink(data) {
                 <button type="button" class="btn btn-primary btn-sm" onClick="editReflink(${data.refid})">Rename</a>
                 <button type="button" class="btn btn-primary btn-sm" onClick="removeReflink(${data.refid})">Remove</a>
             </div>
-            <div class="col-12 d-none d-lg-block">
-                <div class="row charts" data-refid="${data.refid}">
-    	            <div class="col-12">
-    		            <div class="chart-earn"></div>
-    	            </div>
-    	            <div class="col-12">
-    		            <div class="chart-acquisition"></div>
-    	            </div>
-                </div>
-            </div>
         </div>
     `;    
 }
@@ -294,8 +284,6 @@ function editReflink(refid) {
 }
 
 function showReflink(item) {
-    if($(window).width() > 991) return;
-    
     let refid = $(item).data('id');
     
     $('#mrd-description').html($(item).data('description'));
@@ -324,7 +312,7 @@ function showReflink(item) {
     }
     $('#mrd-members-inner').html(levelsInnerHtml);
     
-    //renderCharts($('#mrd-charts'), refid);
+    renderCharts($('#mrd-charts'), refid);
     
     $('#modal-reflink-details').modal('show');
 }
@@ -372,14 +360,6 @@ function deriveColor(hexColor, magnitude) {
     }
 }
 
-/*function generateCharts() {
-	window.mastercoin = '';
-	    
-	$('.charts:visible').each(function() {
-	    renderCharts(this, $(this).data('refid'));
-	});
-}*/
-
 function renderCharts(div, refid = null) {
 	let earnOptions = {
         series: [],
@@ -395,6 +375,9 @@ function renderCharts(div, refid = null) {
             background: $(':root').css('--color-bg-light'),
             events: {
                 dataPointSelection: function(event, chartContext, config) {
+                    if(!refid)
+                        return;
+                    
                     alert(config.dataPointIndex);
                     /*let date = config.w.config.series[0].data[config.dataPointIndex].x.split('/');
                     showEarnDetails(parseInt(date[0]), parseInt(date[1]), refid);*/

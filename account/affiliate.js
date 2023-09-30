@@ -1,11 +1,13 @@
-dictRewardType = {
+window.renderingStagesTarget = 1;
+
+/*var dictRewardType = {
     SPOT: 'Spot',
     MINING: 'Mining',
     NFT: 'NFT',
     NFT_STUDIO: 'NFT Studio'
 };
 
-dictRewardTypeColor = {
+var dictRewardTypeColor = {
     SPOT: '#4ecdc4',
     MINING: '#c7f464',
     NFT: '#81d4fa',
@@ -31,17 +33,6 @@ function deriveColor(hexColor, magnitude) {
     }
 }
 
-$(document).ready(function() {
-    window.renderingStagesTarget = 1;
-    
-    $('#reflink-description').on('input', function() {
-        if(validateReflinkDescription($(this).val()))
-            $('#help-reflink-description').hide();
-        else
-            $('#help-reflink-description').show();
-    });
-});
-
 function removeReflink(refid) {
     $.ajax({
         url: config.apiUrl + '/account/reflinks/remove',
@@ -66,87 +57,7 @@ function removeReflink(refid) {
     });     
 }
 
-function addChangeReflink(refid, description, members) {
-    var elem = $('.reflinks-item[data-refid=' + refid + ']');
-    if(elem.length) {
-        elem.data('description', description);
-        elem.find('.reflink-description').html(description);
-    }
-    else {
-        var levelsInnerHtml = '';
-        for(var i = 1; i <= 4; i++) {
-            var display = 'd-none d-lg-block';
-            if(i == 1) display = '';
-            
-            levelsInnerHtml += `
-                <div class="col-auto ps-0 text-center ${display}">
-                    <div class="p-1 ui-card-light rounded">
-                        <h6 class="secondary p-1">Lvl ${i}</h6>
-                        <span class="p-1">${members[i]} <i class="fa-solid fa-users secondary"></i></span>
-                    </div>
-                </div>
-            `;
-        }
-        
-        $('#reflinks-data').append(`
-            <div class="reflinks-item row p-2 hoverable" onClick="mobileReflinkDetails(this)"
-             data-refid="${refid}" data-description="${description}" data-members-1="${members[1]}"
-             data-members-2="${members[2]}" data-members-3="${members[3]}" data-members-4="${members[4]}">
-                <div class="col-5 col-lg-4 my-auto wrap">
-                    <h5 class="secondary reflink-description d-lg-none">${description}</h5>
-                    <span class="reflink-description d-none d-lg-inline">${description}</span>
-                </div>
-                <div class="col-auto col-lg-5 my-auto ms-auto">
-                    <div class="row flex-nowrap">
-                        ${levelsInnerHtml}
-                    </div>
-                    <div class="row d-none d-lg-flex">
-                        <div class="col-12 px-0 pt-4">
-                            <h6 class="secondary">Home page reflink:</h6>
-                        </div>
-                        <div class="col-12 p-2">
-                            <div class="row px-2 py-3 flex-nowrap ui-card-light rounded">
-                                <div class="col-auto my-auto wrap">
-                                    <span class="wrap" id="reflink-${refid}-index">http://infinex.cc/?r=${refid}</span>
-                                </div>
-                                <div class="col-auto my-auto">
-                                    <a href="#_" class="secondary" data-copy="#reflink-${refid}-index" onClick="copyButton(this); event.stopPropagation();"><i class="fa-solid fa-copy fa-xl"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 px-0 pt-4">
-                            <h6 class="secondary">Registration form reflink:</h6>
-                        </div>
-                        <div class="col-12 p-2">
-                            <div class="row px-2 py-3 flex-nowrap ui-card-light rounded">
-                                <div class="col-auto my-auto wrap">
-                                    <span class="wrap" id="reflink-${refid}-reg">http://infinex.cc/account/register?r=${refid}</span>
-                                </div>
-                                <div class="col-auto my-auto">
-                                    <a href="#_" class="secondary" data-copy="#reflink-${refid}-reg" onClick="copyButton(this); event.stopPropagation();"><i class="fa-solid fa-copy fa-xl"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3 d-none d-lg-block my-auto">
-                    <button type="button" class="btn btn-primary btn-sm" onClick="showEditReflinkPrompt(${refid})">Rename</a>
-                    <button type="button" class="btn btn-primary btn-sm" onClick="removeReflink(${refid})">Remove</a>
-                </div>
-                <div class="col-12 d-none d-lg-block">
-                    <div class="row charts" data-refid="${refid}">
-        	            <div class="col-12">
-        		            <div class="chart-earn"></div>
-        	            </div>
-        	            <div class="col-12">
-        		            <div class="chart-acquisition"></div>
-        	            </div>
-                    </div>
-                </div>
-            </div>
-        `);
-    }      
-}
+
 
 function showAddReflinkPrompt() {
     $('#reflink-description-form').unbind('submit');
@@ -235,38 +146,7 @@ function showEditReflinkPrompt(refid) {
     $('#modal-reflink-desc-prompt').modal('show');
 }
 
-$(document).on('authChecked', function() {
-    if(window.loggedIn) {
-        $.ajax({
-            url: config.apiUrl + '/account/reflinks',
-            type: 'POST',
-            data: JSON.stringify({
-                api_key: window.apiKey
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                $.each(data.reflinks, function(k, v) {
-                    addChangeReflink(v.refid, v.description, v.members); 
-                });
-                
-                generateCharts();
-                
-                $(document).trigger('renderingStage');
-            } else {
-                msgBoxRedirect(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(true);
-        });
-    }
-});
-
-function mobileReflinkDetails(item) {
+function showReflink(item) {
     if($(window).width() > 991) return;
     
     var refid = $(item).data('refid');
@@ -589,4 +469,100 @@ function showEarnDetails(month, year, refid) {
     .fail(function (jqXHR, textStatus, errorThrown) {
         msgBoxNoConn(false);
     });
+}*/
+
+
+
+function renderReflink(data) {
+    let levelsInnerHtml = '';
+    for(let i = 1; i <= 4; i++) {
+        let display = 'd-none d-lg-block';
+        if(i == 1) display = '';
+        
+        levelsInnerHtml += `
+            <div class="col-auto ps-0 text-center ${display}">
+                <div class="p-1 ui-card-light rounded">
+                    <h6 class="secondary p-1">Lvl ${i}</h6>
+                    <span class="p-1">${data.members[i]} <i class="fa-solid fa-users secondary"></i></span>
+                </div>
+            </div>
+        `;
+    }
+        
+    return `
+        <div class="reflinks-item row p-2 hoverable" onClick="mobileReflinkDetails(this)"
+         data-id="${data.refid}" data-description="${data.description}" data-members-1="${data.members[1]}"
+         data-members-2="${data.members[2]}" data-members-3="${data.members[3]}" data-members-4="${data.members[4]}">
+            <div class="col-5 col-lg-4 my-auto wrap">
+                <h5 class="secondary reflink-description d-lg-none">${data.description}</h5>
+                <span class="reflink-description d-none d-lg-inline">${data.description}</span>
+            </div>
+            <div class="col-auto col-lg-5 my-auto ms-auto">
+                <div class="row flex-nowrap">
+                    ${levelsInnerHtml}
+                </div>
+                <div class="row d-none d-lg-flex">
+                    <div class="col-12 px-0 pt-4">
+                        <h6 class="secondary">Home page reflink:</h6>
+                    </div>
+                    <div class="col-12 p-2">
+                        <div class="row px-2 py-3 flex-nowrap ui-card-light rounded">
+                            <div class="col-auto my-auto wrap">
+                                <span class="wrap" id="reflink-${data.refid}-index">http://infinex.cc/?r=${data.refid}</span>
+                            </div>
+                            <div class="col-auto my-auto">
+                                <a href="#_" class="secondary" data-copy="#reflink-${data.refid}-index" onClick="copyButton(this); event.stopPropagation();"><i class="fa-solid fa-copy fa-xl"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 px-0 pt-4">
+                        <h6 class="secondary">Registration form reflink:</h6>
+                    </div>
+                    <div class="col-12 p-2">
+                        <div class="row px-2 py-3 flex-nowrap ui-card-light rounded">
+                            <div class="col-auto my-auto wrap">
+                                <span class="wrap" id="reflink-${data.refid}-reg">http://infinex.cc/account/register?r=${data.refid}</span>
+                            </div>
+                            <div class="col-auto my-auto">
+                                <a href="#_" class="secondary" data-copy="#reflink-${data.refid}-reg" onClick="copyButton(this); event.stopPropagation();"><i class="fa-solid fa-copy fa-xl"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 d-none d-lg-block my-auto">
+                <button type="button" class="btn btn-primary btn-sm" onClick="showEditReflinkPrompt(${data.refid})">Rename</a>
+                <button type="button" class="btn btn-primary btn-sm" onClick="removeReflink(${data.refid})">Remove</a>
+            </div>
+            <div class="col-12 d-none d-lg-block">
+                <div class="row charts" data-refid="${data.refid}">
+    	            <div class="col-12">
+    		            <div class="chart-earn"></div>
+    	            </div>
+    	            <div class="col-12">
+    		            <div class="chart-acquisition"></div>
+    	            </div>
+                </div>
+            </div>
+        </div>
+    `;    
 }
+
+$(document).on('authChecked', function() {
+    if(!window.loggedIn)
+        return;
+    
+    $('#reflink-description').on('input', function() {
+        if(validateReflinkDescription($(this).val()))
+            $('#help-reflink-description').hide();
+        else
+            $('#help-reflink-description').show();
+    });
+    
+    window.apiKeysScr = new InfiniteScrollOffsetPg(
+        '/account/reflinks',
+        'reflinks',
+        renderReflink,
+        '#reflinks-data'
+    );
+});

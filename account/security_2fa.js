@@ -1,54 +1,49 @@
-/*function reload2faConfig() {
-    $.ajax({
-        url: config.apiUrl + '/account/2fa',
-        type: 'POST',
-        data: JSON.stringify({
-            api_key: window.apiKey
-        }),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(data.success) {
-            $.each(data.providers, function(k, v) {
-                var div = $('.2fa-provider[data-provider="' + k + '"]');
-                if(v.configured) {
-                    div.find('.status-avbl').show();
-                    div.find('.status-not-avbl').hide();
-                    div.find('.btn-configure').hide();
-                    div.find('.btn-remove').show();
-                    if(v.enabled) {
-                        div.find('.status-active').show();
-                        div.find('.status-not-active').hide();
-                        div.find('.btn-use').hide();
-                    }
-                    else {
-                        div.find('.status-active').hide();
-                        div.find('.status-not-active').show();
-                        div.find('.btn-use').show();
-                    }
+function reload2faProviders() {
+    api(
+        'GET',
+        '/account/2fa/providers'
+    ).then(function(data) {
+        data.providers.forEach(function(v, k) {
+            let div = $('.2fa-provider[data-provider="' + k + '"]');
+            if(v.configured) {
+                div.find('.status-avbl').show();
+                div.find('.status-not-avbl').hide();
+                div.find('.btn-configure').hide();
+                div.find('.btn-remove').show();
+                if(v.enabled) {
+                    div.find('.status-active').show();
+                    div.find('.status-not-active').hide();
+                    div.find('.btn-use').hide();
                 }
                 else {
-                    div.find('.status-avbl').hide();
-                    div.find('.status-not-avbl').show();
-                    div.find('.btn-configure').show();
-                    div.find('.btn-remove').hide();
-                    div.find('.status-active, .status-not-active, .btn-use').hide();
+                    div.find('.status-active').hide();
+                    div.find('.status-not-active').show();
+                    div.find('.btn-use').show();
                 }
-            });
-            
-            $.each(data.cases, function(k, v) {
-                $('.2fa-case[data-case="' + k + '"]').prop('checked', v);
-            });
+            }
+            else {
+                div.find('.status-avbl').hide();
+                div.find('.status-not-avbl').show();
+                div.find('.btn-configure').show();
+                div.find('.btn-remove').hide();
+                div.find('.status-active, .status-not-active, .btn-use').hide();
+            }
+        });
+        
+        $(document).trigger('renderingStage');
+    });
+}
+
+function reload2faCases() {
+    api(
+        'GET',
+        '/account/2fa/cases'
+    ).then(function(data) {
+        data.cases.forEach(function(v, k) {
+            $('.2fa-case[data-case="' + k + '"]').prop('checked', v);
+        });
                     
-            $(document).trigger('renderingStage');
-        } else {
-            msgBoxRedirect(data.error);
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn(true);
+        $(document).trigger('renderingStage');
     });                 
 }
 
@@ -252,6 +247,9 @@ $(document).ready(function() {
 });
 
 $(document).on('authChecked', function() {
-    if(window.loggedIn)
-        reload2faConfig();
-});*/
+    if(!window.loggedIn)
+        return;
+    
+    reload2faProviders();
+    reload2faCases();
+});

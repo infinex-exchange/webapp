@@ -1,4 +1,4 @@
-window.renderingStagesTarget = 1;
+window.renderingStagesTarget = 3;
 
 var deviceTypeIconDict = {
     desktop: 'fa-solid fa-computer',

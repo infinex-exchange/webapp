@@ -2,6 +2,8 @@ function api2fa(method, url, data = null, redirectOnError = false) {
     return new Promise(function(resolve, reject) {
         function retry(code = null) {
             if(code)
+                if(data === null)
+                    data = {};
                 data["code2FA"] = code;
             
             apiRaw(

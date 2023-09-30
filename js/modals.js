@@ -1,4 +1,4 @@
-function msgBox(message, title = null, redirect = null) {
+function msgBox(message, title = null, redirectOrCallback = null) {
     if(!title)
         title = 'Error';
     
@@ -8,10 +8,12 @@ function msgBox(message, title = null, redirect = null) {
     modal.find('.modal-body').html(message);
     
     modal.find('.modal-close').unbind('click');
-    if(redirect)
+    if(typeof redirectOrCallback == "string")
         modal.find('.modal-close').click(function() {
             window.location.replace(redirect);
         });
+    else if(typeof redirectOrCallback == "function")
+        modal.find('.modal-close').click(redirectOrCallback);
         
     modal.modal('show');
 }

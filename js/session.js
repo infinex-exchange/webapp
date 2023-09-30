@@ -30,13 +30,13 @@ $(document).ready(function() {
         }
         
         // Api key in local storage, need to check is still valid
-        rawApi(
+        apiRawNoSession(
             'GET',
             '/account/sessions/current',
             null,
             tmpApiKey
-        ).done(
-            function(data) {
+        ).then(
+            function() {
                 // Session is valid, move api key to session storage and setup globals
                 window.apiKey = tmpApiKey;
                 window.userName = localStorage.getItem('_userName');
@@ -47,8 +47,8 @@ $(document).ready(function() {
                 
                 $(document).trigger('authChecked');
             }
-        ).fail(
-            function(jqXHR, textStatus, errorThrown) {
+        ).catch(
+            function() {
                 // Session is invalid, destroy local storage vars
                 
                 window.loggedIn = false;

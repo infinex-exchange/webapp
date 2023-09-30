@@ -1,3 +1,57 @@
+function api2fa(method, url, data = null, redirectOnError = false) {
+    return new Promise(function(resolve, reject) {
+        function retry(code = null) {
+            if(code)
+                data["code2FA"] = code;
+            
+            apiRaw(
+                method,
+                url,
+                data
+            ).then(
+                resolve
+            ).catch(
+                function(error) {
+                    if(error == 'REQUIRE_2FA' || error == 'INVALID_2FA') {
+                        $('#2fa-code').val('');
+                        $('#2fa-submit').prop('disabled', true);
+                    }
+                    
+                    if(error == 'REQUIRE_2FA') {
+                        $('#2fa-provider').html(error.msg);
+                        
+                        $('#2fa-form').unbind('submit').on('submit', function() {
+                            $('#2fa-modal').modal('hide');
+                            retry( $('#2fa-code').val() );
+                        });
+                         
+                        $('#2fa-modal').modal('show');
+                    }
+                    else if(error == 'INVALID_2FA') {
+                        msgBox(
+                            error.msg,
+                            null,
+                            function() {
+                                $('#2fa-modal').modal('show');
+                            }
+                        );
+                    }
+                    
+                    else {
+                        msgBox(
+                            error.msg,
+                            null,
+                            redirectOnError ? '/' : null
+                        );
+                    }
+                }
+            );
+        }
+        
+        retry();
+    });
+}
+
 $(document).ready(function() {
     $('#2fa-code').on('input', function() {
         if(validate2FA($(this).val())) {
@@ -9,21 +63,7 @@ $(document).ready(function() {
             $('#2fa-submit').prop('disabled', true);  
         }
     });
-    
-    $('#2fa-submit').on('click', function() {
-        $('#2fa-modal').modal('hide');
-        setTimeout(function() {
-            $('#2fa-code').val('');
-        }, 200);
-    });
 });
-
-function start2fa(provider) {
-    $('#2fa-code').val('');
-    $('#2fa-provider').html(provider);
-    $('#2fa-submit').prop('disabled', true);  
-    $('#2fa-modal').modal('show');
-}
 
 function validate2FA(code) {
     return code.match(/^[0-9]{4,20}$/);

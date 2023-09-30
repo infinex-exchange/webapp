@@ -487,7 +487,7 @@ function renderReflink(data) {
     }
         
     return `
-        <div class="reflinks-item row p-2 hoverable" onClick="mobileReflinkDetails(this)"
+        <div class="reflinks-item row p-2 hoverable" onClick="showReflink(this)"
          data-id="${data.refid}" data-description="${data.description}" data-members-1="${data.members[1]}"
          data-members-2="${data.members[2]}" data-members-3="${data.members[3]}" data-members-4="${data.members[4]}">
             <div class="col-5 col-lg-4 my-auto wrap">
@@ -528,7 +528,7 @@ function renderReflink(data) {
                 </div>
             </div>
             <div class="col-3 d-none d-lg-block my-auto">
-                <button type="button" class="btn btn-primary btn-sm" onClick="showEditReflinkPrompt(${data.refid})">Rename</a>
+                <button type="button" class="btn btn-primary btn-sm" onClick="editReflink(${data.refid})">Rename</a>
                 <button type="button" class="btn btn-primary btn-sm" onClick="removeReflink(${data.refid})">Remove</a>
             </div>
             <div class="col-12 d-none d-lg-block">

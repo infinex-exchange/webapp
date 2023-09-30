@@ -12,12 +12,12 @@ function api2fa(method, url, data = null, redirectOnError = false) {
                 resolve
             ).catch(
                 function(error) {
-                    if(error == 'REQUIRE_2FA' || error == 'INVALID_2FA') {
+                    if(error.code == 'REQUIRE_2FA' || error.code == 'INVALID_2FA') {
                         $('#2fa-code').val('');
                         $('#2fa-submit').prop('disabled', true);
                     }
                     
-                    if(error == 'REQUIRE_2FA') {
+                    if(error.code == 'REQUIRE_2FA') {
                         $('#2fa-provider').html(error.msg);
                         
                         $('#2fa-form').unbind('submit').on('submit', function() {
@@ -27,7 +27,7 @@ function api2fa(method, url, data = null, redirectOnError = false) {
                          
                         $('#2fa-modal').modal('show');
                     }
-                    else if(error == 'INVALID_2FA') {
+                    else if(error.code == 'INVALID_2FA') {
                         msgBox(
                             error.msg,
                             null,

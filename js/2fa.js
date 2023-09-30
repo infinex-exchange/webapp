@@ -20,7 +20,8 @@ function api2fa(method, url, data = null, redirectOnError = false) {
                     if(error.code == 'REQUIRE_2FA') {
                         $('#2fa-provider').html(error.msg);
                         
-                        $('#2fa-form').unbind('submit').on('submit', function() {
+                        $('#2fa-form').unbind('submit').on('submit', function(event) {
+                            event.preventDefault();
                             $('#2fa-modal').modal('hide');
                             retry( $('#2fa-code').val() );
                         });

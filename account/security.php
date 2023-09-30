@@ -3,7 +3,7 @@
     <head>
         <?php include(__DIR__.'/../inc/head.php'); ?>
         <script src="/account/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
-        <?php include(__DIR__'/../vendor/qrcode.html'); ?>
+        <?php include(__DIR__.'/../vendor/qrcode.html'); ?>
         <title>Security settings | Infinex</title>
     </head>
     <body>

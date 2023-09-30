@@ -3,7 +3,7 @@ function reload2faProviders() {
         'GET',
         '/account/2fa/providers'
     ).then(function(data) {
-        data.providers.forEach(function(v, k) {
+        $.each(data.providers, function(k, v) {
             let div = $('.2fa-provider[data-provider="' + k + '"]');
             if(v.configured) {
                 div.find('.status-avbl').show();
@@ -39,7 +39,7 @@ function reload2faCases() {
         'GET',
         '/account/2fa/cases'
     ).then(function(data) {
-        data.cases.forEach(function(v, k) {
+        $.each(data.cases, function(k, v) {
             $('.2fa-case[data-case="' + k + '"]').prop('checked', v);
         });
                     

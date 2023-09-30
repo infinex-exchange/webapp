@@ -29,23 +29,21 @@ function api2fa(method, url, data = null, redirectOnError = false) {
                         $('#2fa-modal').modal('show');
                     }
                     else if(error.code == 'INVALID_2FA') {
-                        /*msgBox(
+                        msgBox(
                             error.msg,
                             null,
                             function() {
                                 $('#2fa-modal').modal('show');
                             }
-                        );*/
-                        alert(1);
+                        );
                     }
                     
                     else {
-                        /*msgBox(
+                        msgBox(
                             error.msg,
                             null,
                             redirectOnError ? '/' : null
-                        );*/
-                        alert(2);
+                        );
                     }
                 }
             );

@@ -500,7 +500,6 @@ function showRewards(refid, afseid) {
         }
         
         chart.updateSeries(series);
-        console.log(series);
         chart.updateOptions({
             chart: {
                 height: serieMaxCount * 35

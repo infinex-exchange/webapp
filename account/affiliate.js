@@ -1,5 +1,3 @@
-window.renderingStagesTarget = 0;
-
 /*var dictRewardType = {
     SPOT: 'Spot',
     MINING: 'Mining',

@@ -180,7 +180,7 @@
 
                         <div class="col-12 py-2">
                             <div class="pretty p-switch p-bigger">
-                                <input type="checkbox" class="2fa-case" data-case="WITHDRAW" id="case-withdraw">
+                                <input type="checkbox" class="2fa-case" data-case="WITHDRAWAL" id="case-withdraw">
                                 <div class="state p-primary">
                                     <label for="case-withdraw">
                                         Withdraw funds

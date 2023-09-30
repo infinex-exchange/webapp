@@ -469,7 +469,7 @@ function showRewards(refid, afseid) {
     api(
         'GET',
         '/affiliate/reflinks/' + refid + '/settlements/' + afseid + '/rewards'
-    ).then(function() {
+    ).then(function(data) {
         let series = new Array();
         let serieMaxCount = 0;
         let colors = new Array();

@@ -40,14 +40,6 @@
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
             
-            <form id="tfa-form" class="d-none gap-3">
-                <div class="form-group">
-                    <label for="tfa-code">2FA code:</label>
-                    <input type="text" class="form-control" id="tfa-code">
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
-            
             </div>
             
             <div class="col-12 col-lg-5 p-4 my-auto secondary">
@@ -92,6 +84,7 @@
         <script src="/account/login.js?<?php echo filemtime(__DIR__.'/login.js'); ?>"></script>
         
         <?php
+        include(__DIR__.'/../inc/2fa.php');
         include(__DIR__.'/../inc/footer.php');
         include(__DIR__.'/../inc/vanilla_mobile_nav.php');
         ?>

@@ -1,33 +1,26 @@
 $(document).ready(function() {
-    $('#login-form, #tfa-form').submit(function(event) {
+    $('#login-form').submit(function(event) {
         event.preventDefault();
         
         let email = $('#login-email').val().toLowerCase();
         let password = $('#login-password').val();
         let remember = $('#login-remember').prop('checked');
-        let tfa = $('#tfa-code').val();
         
-        if(!email.length ||
-           !password.length ||
-           ($(this).is('#tfa-form') && !tfa.length)
+        if(!validateEmail(email) ||
+           !validatePassword(password))
         ) {
             msgBox('Fill the form correctly');
             return;
         }
         
-        let data = {
-            email: email,
-            password: password,
-            remember: remember
-        };
-        
-        if(tfa.length)
-	        data['code2FA'] = tfa;
-        
-        api(
+        api2fa(
             'POST',
             '/account/sessions',
-            data
+            {
+                email: email,
+                password: password,
+                remember: remember
+            }
         ).then(function (data) {
             sessionStorage.setItem('apiKey', data.apiKey);
             sessionStorage.setItem('userName', email);
@@ -43,10 +36,6 @@ $(document).ready(function() {
             if(back != null)
                 redirectUrl = window.location.origin + back;
             window.location.replace(redirectUrl);
-        })
-        .catch(function(error) {
-            if(error == 'REQUIRE_2FA')
-                $('#login-form, #tfa-form').toggleClass('d-grid d-none');
         });
     }); 
 });

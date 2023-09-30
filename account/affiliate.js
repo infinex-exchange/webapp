@@ -560,7 +560,7 @@ $(document).on('authChecked', function() {
     });
     
     window.apiKeysScr = new InfiniteScrollOffsetPg(
-        '/account/reflinks',
+        '/affiliate/reflinks',
         'reflinks',
         renderReflink,
         '#reflinks-data'

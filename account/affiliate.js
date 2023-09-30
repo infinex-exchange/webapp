@@ -144,42 +144,6 @@ function showEditReflinkPrompt(refid) {
     $('#modal-reflink-desc-prompt').modal('show');
 }
 
-function showReflink(item) {
-    if($(window).width() > 991) return;
-    
-    var refid = $(item).data('refid');
-    
-    $('#mrd-description').html($(item).data('description'));
-    $('#mrd-rename-btn').unbind('click').on('click', function() {
-        $('#modal-reflink-details').modal('hide');
-        showEditReflinkPrompt(refid);
-    });
-    $('#mrd-remove-btn').unbind('click').on('click', function() {
-        $('#modal-reflink-details').modal('hide');
-        removeReflink(refid);
-    });
-    $('#mrd-reflink-index').html('https://infinex.cc/?r=' + $(item).data('refid'));
-    $('#mrd-reflink-reg').html('https://infinex.cc/account/register?r=' + $(item).data('refid'));
-    
-    var levelsInnerHtml = '';
-    for(var i = 1; i <= 4; i++) {
-        var members = $(item).data('members-' + i);
-        levelsInnerHtml += `
-            <div class="col-auto ps-0 text-center">
-                <div class="p-1 rounded" style="background-color: var(--color-input);">
-                    <h6 class="secondary p-1">Lvl ${i}</h6>
-                    <span class="p-1">${members} <i class="fa-solid fa-users secondary"></i></span>
-                </div>
-            </div>
-        `;
-    }
-    $('#mrd-members-inner').html(levelsInnerHtml);
-    
-    renderCharts($('#mrd-charts'), refid);
-    
-    $('#modal-reflink-details').modal('show');
-}
-
 function generateCharts() {
 	window.mastercoin = '';
 	    
@@ -470,6 +434,41 @@ function showEarnDetails(month, year, refid) {
 }*/
 
 
+function showReflink(item) {
+    if($(window).width() > 991) return;
+    
+    let refid = $(item).data('id');
+    
+    $('#mrd-description').html($(item).data('description'));
+    $('#mrd-rename-btn').unbind('click').on('click', function() {
+        $('#modal-reflink-details').modal('hide');
+        editReflink(refid);
+    });
+    $('#mrd-remove-btn').unbind('click').on('click', function() {
+        $('#modal-reflink-details').modal('hide');
+        removeReflink(refid);
+    });
+    $('#mrd-reflink-index').html('https://infinex.cc/?r=' + refid);
+    $('#mrd-reflink-reg').html('https://infinex.cc/account/register?r=' + refid);
+    
+    let levelsInnerHtml = '';
+    for(let i = 1; i <= 4; i++) {
+        let members = $(item).data('members-' + i);
+        levelsInnerHtml += `
+            <div class="col-auto ps-0 text-center">
+                <div class="p-1 rounded" style="background-color: var(--color-input);">
+                    <h6 class="secondary p-1">Lvl ${i}</h6>
+                    <span class="p-1">${members} <i class="fa-solid fa-users secondary"></i></span>
+                </div>
+            </div>
+        `;
+    }
+    $('#mrd-members-inner').html(levelsInnerHtml);
+    
+    //renderCharts($('#mrd-charts'), refid);
+    
+    $('#modal-reflink-details').modal('show');
+}
 
 function renderReflink(data) {
     let levelsInnerHtml = '';

@@ -118,11 +118,11 @@ function showApiKey(item) {
     $('#makd-description').html($(item).data('description'));
     $('#makd-rename-btn').unbind('click').on('click', function() {
         $('#modal-api-key-details').modal('hide');
-        showEditAKPrompt(keyid);
+        editApiKey(keyid);
     });
     $('#makd-remove-btn').unbind('click').on('click', function() {
         $('#modal-api-key-details').modal('hide');
-        removeAK(keyid);
+        removeApiKey(keyid);
     });
     $('#makd-api-key').html($(item).data('api-key'));
     

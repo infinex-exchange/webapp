@@ -7,7 +7,7 @@ $(document).ready(function() {
         let remember = $('#login-remember').prop('checked');
         
         if(!validateEmail(email) ||
-           !validatePassword(password))
+           !validatePassword(password)
         ) {
             msgBox('Fill the form correctly');
             return;

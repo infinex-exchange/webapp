@@ -476,12 +476,11 @@ function editReflink(refid) {
                 refid: refid,
                 description: description,
                 members: {
-                    1: 0,
-                    2: 0,
-                    3: 0,
-                    4: 0
+                    1: old.data('members-1'),
+                    2: old.data('members-2'),
+                    3: old.data('members-3'),
+                    4: old.data('members-4')
                 }
-                // TODO missing properties
             });
         });
     });

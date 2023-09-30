@@ -44,7 +44,7 @@
 	            <h3>Performance</h3>
             </div>
             
-            <div class="row charts" data-refid="">
+            <div id="charts-agg" class="row">
 	            <div class="col-12">
 		            <div class="chart-earn"></div>
 	            </div>

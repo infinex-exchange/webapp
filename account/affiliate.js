@@ -1,3 +1,5 @@
+window.renderingStagesTarget = 1;
+
 var dictRewardType = {
     SPOT: 'Spot',
     MINING: 'Mining',
@@ -12,206 +14,7 @@ var dictRewardTypeColor = {
     NFT_STUDIO: '#fd6a6a'
 };
 
-function deriveColor(hexColor, magnitude) {
-    hexColor = hexColor.replace(`#`, ``);
-    if (hexColor.length === 6) {
-        const decimalColor = parseInt(hexColor, 16);
-        let r = (decimalColor >> 16) + magnitude;
-        r > 255 && (r = 255);
-        r < 0 && (r = 0);
-        let g = (decimalColor & 0x0000ff) + magnitude;
-        g > 255 && (g = 255);
-        g < 0 && (g = 0);
-        let b = ((decimalColor >> 8) & 0x00ff) + magnitude;
-        b > 255 && (b = 255);
-        b < 0 && (b = 0);
-        return `#${(g | (b << 8) | (r << 16)).toString(16)}`;
-    } else {
-        return hexColor;
-    }
-}
-
-/*function generateCharts() {
-	window.mastercoin = '';
-	    
-	$('.charts:visible').each(function() {
-	    renderCharts(this, $(this).data('refid'));
-	});
-}
-
-function renderCharts(div, refid) {
-	var earnOptions = {
-        series: [],
-        chart: {
-            height: 200,
-            type: 'bar',
-            zoom: {
-                enabled: false
-            },
-            toolbar: {
-                show: false
-            },
-            background: $(':root').css('--color-bg-light'),
-            events: {
-                dataPointSelection: function(event, chartContext, config) {
-                    var date = config.w.config.series[0].data[config.dataPointIndex].x.split('/');
-                    showEarnDetails(parseInt(date[0]), parseInt(date[1]), refid);
-                }
-            }
-        },
-        stroke: {
-            curve: 'straight'
-        },
-        xaxis: {
-            type: 'category'
-        },
-        yaxis: {
-            labels: {
-                formatter: function (value) {
-                    return value + ' ' + window.mastercoin;
-                }
-            }
-        },
-        noData: {
-            text: 'Loading...'
-        },
-        dataLabels: {
-            enabled: false
-        },
-        theme: {
-	        mode: 'dark'
-	    },
-        title: {
-            text: 'Earnings'
-        }
-    };
-    
-    var acqOptions = {
-        series: [],
-        chart: {
-            height: 200,
-            type: 'bar',
-            stacked: true,
-            zoom: {
-                enabled: false
-            },
-            toolbar: {
-                show: false
-            },
-            background: $(':root').css('--color-bg-light')
-        },
-        stroke: {
-            curve: 'straight'
-        },
-        xaxis: {
-            type: 'category'
-        },
-        noData: {
-            text: 'Loading...'
-        },
-        dataLabels: {
-            enabled: false
-        },
-        theme: {
-	        mode: 'dark'
-	    },
-        tooltip: {
-            shared: true,
-            intersect: false
-        },
-        title: {
-            text: 'Acquisition'
-        }
-    };
-	
-	var earnChart = new ApexCharts($(div).find('.chart-earn')[0], earnOptions);
-    earnChart.render();
-    
-    var acqChart = new ApexCharts($(div).find('.chart-acquisition')[0], acqOptions);
-    acqChart.render();
-	
-	var data = new Object();
-	data['api_key'] = window.apiKey;
-	if(refid != '') data['refid'] = refid;
-	
-	$.ajax({
-        url: config.apiUrl + '/account/affiliate_settlements',
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(data.success) {
-            window.mastercoin = data.mastercoin;
-            
-            var earnSeries = [
-                {
-                    name: 'Rewards',
-                    data: new Array()
-                }
-            ];
-			var acqSeries = [
-                {
-                    name: 'Lvl 1',
-                    data: new Array()
-                },
-                {
-                    name: 'Lvl 2',
-                    data: new Array()
-                },
-                {
-                    name: 'Lvl 3',
-                    data: new Array()
-                },
-                {
-                    name: 'Lvl 4',
-                    data: new Array()
-                }
-            ];
-			
-			for(set of data.settlements) {
-				var month = set.month + '/' + set.year;
-				
-				earnSeries[0].data.push({
-		            x: month,
-		            y: set.mastercoin_equiv
-		        });
-    
-		        acqSeries[0].data.push({
-		            x: month,
-		            y: set.acquisition['1']
-		        });
-                
-                acqSeries[1].data.push({
-		            x: month,
-		            y: set.acquisition['2']
-		        });
-                
-                acqSeries[2].data.push({
-		            x: month,
-		            y: set.acquisition['3']
-		        });
-                
-                acqSeries[3].data.push({
-		            x: month,
-		            y: set.acquisition['4']
-		        });
-			}
-			
-			earnChart.updateSeries(earnSeries, true);
-		    acqChart.updateSeries(acqSeries, true);
-        } else {
-            msgBoxRedirect(data.error);
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn(true);
-    });
-}
-
-function showEarnDetails(month, year, refid) {
+/*function showEarnDetails(month, year, refid) {
     var options = {
         series: [],
         chart: {
@@ -537,10 +340,202 @@ $(document).on('authChecked', function() {
             $('#help-reflink-description').show();
     });
     
+    window.refCoin = '';
+    
     window.reflinksScr = new InfiniteScrollOffsetPg(
         '/affiliate/reflinks',
         'reflinks',
         renderReflink,
         '#reflinks-data'
     );
+    
+    renderCharts('#charts-agg');
+    $(document).trigger('renderingStage');
 });
+
+function deriveColor(hexColor, magnitude) {
+    hexColor = hexColor.replace(`#`, ``);
+    if (hexColor.length === 6) {
+        const decimalColor = parseInt(hexColor, 16);
+        let r = (decimalColor >> 16) + magnitude;
+        r > 255 && (r = 255);
+        r < 0 && (r = 0);
+        let g = (decimalColor & 0x0000ff) + magnitude;
+        g > 255 && (g = 255);
+        g < 0 && (g = 0);
+        let b = ((decimalColor >> 8) & 0x00ff) + magnitude;
+        b > 255 && (b = 255);
+        b < 0 && (b = 0);
+        return `#${(g | (b << 8) | (r << 16)).toString(16)}`;
+    } else {
+        return hexColor;
+    }
+}
+
+/*function generateCharts() {
+	window.mastercoin = '';
+	    
+	$('.charts:visible').each(function() {
+	    renderCharts(this, $(this).data('refid'));
+	});
+}*/
+
+function renderCharts(div, refid = null) {
+	let earnOptions = {
+        series: [],
+        chart: {
+            height: 200,
+            type: 'bar',
+            zoom: {
+                enabled: false
+            },
+            toolbar: {
+                show: false
+            },
+            background: $(':root').css('--color-bg-light'),
+            events: {
+                dataPointSelection: function(event, chartContext, config) {
+                    /*let date = config.w.config.series[0].data[config.dataPointIndex].x.split('/');
+                    showEarnDetails(parseInt(date[0]), parseInt(date[1]), refid);*/
+                }
+            }
+        },
+        stroke: {
+            curve: 'straight'
+        },
+        xaxis: {
+            type: 'category'
+        },
+        yaxis: {
+            labels: {
+                formatter: function (value) {
+                    return value + ' ' + window.mastercoin;
+                }
+            }
+        },
+        noData: {
+            text: 'Loading...'
+        },
+        dataLabels: {
+            enabled: false
+        },
+        theme: {
+	        mode: 'dark'
+	    },
+        title: {
+            text: 'Earnings'
+        }
+    };
+    
+    var acqOptions = {
+        series: [],
+        chart: {
+            height: 200,
+            type: 'bar',
+            stacked: true,
+            zoom: {
+                enabled: false
+            },
+            toolbar: {
+                show: false
+            },
+            background: $(':root').css('--color-bg-light')
+        },
+        stroke: {
+            curve: 'straight'
+        },
+        xaxis: {
+            type: 'category'
+        },
+        noData: {
+            text: 'Loading...'
+        },
+        dataLabels: {
+            enabled: false
+        },
+        theme: {
+	        mode: 'dark'
+	    },
+        tooltip: {
+            shared: true,
+            intersect: false
+        },
+        title: {
+            text: 'Acquisition'
+        }
+    };
+	
+	let earnChart = new ApexCharts($(div).find('.chart-earn')[0], earnOptions);
+    earnChart.render();
+    
+    let acqChart = new ApexCharts($(div).find('.chart-acquisition')[0], acqOptions);
+    acqChart.render();
+	
+	let url = refid === null
+            ? '/affiliate/agg-settlements'
+            : '/affiliate/reflinks/' + refid + '/settlements';
+    
+    api(
+        'GET',
+        url
+    ).then(function(data) {
+        window.refCoin = data.refCoin;
+            
+        let earnSeries = [
+            {
+                name: 'Rewards',
+                data: new Array()
+            }
+        ];
+        let acqSeries = [
+            {
+                name: 'Lvl 1',
+                data: new Array()
+            },
+            {
+                name: 'Lvl 2',
+                data: new Array()
+            },
+            {
+                name: 'Lvl 3',
+                data: new Array()
+            },
+            {
+                name: 'Lvl 4',
+                data: new Array()
+            }
+        ];
+	
+        for(set of data.settlements) {
+            let month = set.month + '/' + set.year;
+		
+    		earnSeries[0].data.push({
+                x: month,
+                y: set.refCoinEquiv
+            });
+    
+            acqSeries[0].data.push({
+                x: month,
+                y: set.acquisition['1']
+            });
+                
+                acqSeries[1].data.push({
+                x: month,
+                y: set.acquisition['2']
+            });
+                
+                acqSeries[2].data.push({
+                x: month,
+                y: set.acquisition['3']
+            });
+                
+                acqSeries[3].data.push({
+                x: month,
+                y: set.acquisition['4']
+            });
+	    }
+	
+        earnChart.updateSeries(earnSeries, true);
+        acqChart.updateSeries(acqSeries, true);
+    });
+}

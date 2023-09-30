@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include(__DIR__.'/../inc/head.php'); ?>
+        <?php
+        include(__DIR__.'/../inc/head.php');
+        include(__DIR__.'/../vendor/apexcharts.html');
+        ?>
         <script src="/account/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
         <title>Affiliate program | Infinex</title>
         <style type="text/css">

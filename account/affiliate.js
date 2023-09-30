@@ -403,7 +403,7 @@ function removeReflink(refid) {
                 'DELETE',
                 '/affiliate/reflinks/' + refid
             ).then(function() {
-                window.reflinksScr.remove(keyid);
+                window.reflinksScr.remove(refid);
             });
         }
     );
@@ -432,7 +432,13 @@ function addReflink() {
         ).then(function(data) {
             window.reflinksScr.append({
                 refid: data.refid,
-                description: description
+                description: description,
+                members: {
+                    1: 0,
+                    2: 0,
+                    3: 0,
+                    4: 0
+                }
             });
         });
     });
@@ -468,7 +474,13 @@ function editReflink(refid) {
         ).then(function() {
             window.reflinksScr.replace(refid, {
                 refid: refid,
-                description: description
+                description: description,
+                members: {
+                    1: 0,
+                    2: 0,
+                    3: 0,
+                    4: 0
+                }
                 // TODO missing properties
             });
         });

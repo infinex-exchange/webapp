@@ -14,115 +14,6 @@ var dictRewardTypeColor = {
     NFT_STUDIO: '#fd6a6a'
 };
 
-/*function showEarnDetails(month, year, refid) {
-    var options = {
-        series: [],
-        chart: {
-            type: 'bar',
-            stacked: true,
-            stackType: '100%',
-            zoom: {
-                enabled: false
-            },
-            toolbar: {
-                show: false
-            },
-            background: $(':root').css('--color-bg-light')
-        },
-        plotOptions: {
-            bar: {
-                horizontal: true
-            }
-        },
-        stroke: {
-            curve: 'straight'
-        },
-        xaxis: {
-            type: 'category'
-        },
-        noData: {
-            text: 'Loading...'
-        },
-        dataLabels: {
-            enabled: false
-        },
-        theme: {
-	        mode: 'dark'
-	    },
-        tooltip: {
-            shared: false,
-            intersect: true
-        }
-    };
-	
-	var chart = new ApexCharts($('#mr-chart')[0], options);
-    chart.render();
-    
-    var data = new Object();
-	data['api_key'] = window.apiKey;
-    data['month'] = month;
-    data['year'] = year;
-	if(refid != '') data['refid'] = refid;
-	
-	$.ajax({
-        url: config.apiUrl + '/account/affiliate_rewards',
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(data.success) {
-            $('#modal-reflink-details').modal('hide');
-            $('#modal-rewards').modal('show');
-            
-            var series = new Array();
-            var serieMaxCount = 0;
-            var colors = new Array();
-            
-            for(var rtype in dictRewardType) for(var lvl = 1; lvl < 4; lvl++) {
-                var serieCount = 0;
-                var serieData = new Array();
-                
-                for(var reward of data.rewards)
-                    if(reward.reward_type == rtype && reward.slave_level == lvl) {
-                        serieData.push({
-                            x: reward.assetid,
-                            y: reward.amount
-                        });
-                        
-                        serieCount++;
-                    }
-                
-                series.push({
-                    name: dictRewardType[rtype] + ' (Lvl ' + lvl + ')',
-                    data: serieData
-                });
-                
-                console.log(deriveColor(dictRewardTypeColor[rtype], (lvl - 1) * 15));
-                colors.push(deriveColor(dictRewardTypeColor[rtype], (lvl - 1) * 15));
-                
-                if(serieCount > serieMaxCount)
-                    serieMaxCount = serieCount;
-            }
-            
-            chart.updateSeries(series);
-            chart.updateOptions({
-                chart: {
-                    height: serieMaxCount * 35
-                },
-                colors: colors
-            });
-        } else {
-            msgBox(data.error);
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn(false);
-    });
-}*/
-
 function renderReflink(data) {
     let levelsInnerHtml = '';
     for(let i = 1; i <= 4; i++) {
@@ -378,9 +269,10 @@ function renderCharts(div, refid = null) {
                     if(!refid)
                         return;
                     
-                    console.log(config.w.config.series);
-                    /*let date = config.w.config.series[0].data[config.dataPointIndex].x.split('/');
-                    showEarnDetails(parseInt(date[0]), parseInt(date[1]), refid);*/
+                    showRewards(
+                        refid,
+                        config.w.config.series[0].data[config.dataPointIndex].description.afseid
+                    );
                 }
             }
         },
@@ -524,5 +416,95 @@ function renderCharts(div, refid = null) {
 	
         earnChart.updateSeries(earnSeries, true);
         acqChart.updateSeries(acqSeries, true);
+    });
+}
+
+function showRewards(refid, afseid) {
+    $('#modal-reflink-details').modal('hide');
+    
+    var options = {
+        series: [],
+        chart: {
+            type: 'bar',
+            stacked: true,
+            stackType: '100%',
+            zoom: {
+                enabled: false
+            },
+            toolbar: {
+                show: false
+            },
+            background: $(':root').css('--color-bg-light')
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true
+            }
+        },
+        stroke: {
+            curve: 'straight'
+        },
+        xaxis: {
+            type: 'category'
+        },
+        noData: {
+            text: 'Loading...'
+        },
+        dataLabels: {
+            enabled: false
+        },
+        theme: {
+	        mode: 'dark'
+	    },
+        tooltip: {
+            shared: false,
+            intersect: true
+        }
+    };
+	
+	let chart = new ApexCharts($('#mr-chart')[0], options);
+    chart.render();
+    $('#modal-rewards').modal('show');
+    
+    api(
+        'GET',
+        '/affiliate/reflinks/' + refid + '/settlements/' + afseid + '/rewards'
+    ).then(function() {
+        let series = new Array();
+        let serieMaxCount = 0;
+        let colors = new Array();
+        
+        for(let rtype in dictRewardType) for(let lvl = 1; lvl < 4; lvl++) {
+            let serieCount = 0;
+            let serieData = new Array();
+            
+            for(let reward of data.rewards)
+                if(reward.reward_type == rtype && reward.slave_level == lvl) {
+                    serieData.push({
+                        x: reward.assetid,
+                        y: reward.amount
+                    });
+                    
+                    serieCount++;
+                }
+            
+            series.push({
+                name: dictRewardType[rtype] + ' (Lvl ' + lvl + ')',
+                data: serieData
+            });
+            
+            colors.push(deriveColor(dictRewardTypeColor[rtype], (lvl - 1) * 15));
+            
+            if(serieCount > serieMaxCount)
+                serieMaxCount = serieCount;
+        }
+        
+        chart.updateSeries(series);
+        chart.updateOptions({
+            chart: {
+                height: serieMaxCount * 35
+            },
+            colors: colors
+        });
     });
 }

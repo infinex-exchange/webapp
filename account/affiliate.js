@@ -395,6 +395,7 @@ function renderCharts(div, refid = null) {
             background: $(':root').css('--color-bg-light'),
             events: {
                 dataPointSelection: function(event, chartContext, config) {
+                    alert(config.dataPointIndex);
                     /*let date = config.w.config.series[0].data[config.dataPointIndex].x.split('/');
                     showEarnDetails(parseInt(date[0]), parseInt(date[1]), refid);*/
                 }

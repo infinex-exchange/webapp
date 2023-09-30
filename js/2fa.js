@@ -39,11 +39,12 @@ function api2fa(method, url, data = null, redirectOnError = false) {
                     }
                     
                     else {
-                        msgBox(
+                        /*msgBox(
                             error.msg,
                             null,
                             redirectOnError ? '/' : null
-                        );
+                        );*/
+                        alert(2);
                     }
                 }
             );

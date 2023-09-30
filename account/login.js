@@ -22,6 +22,7 @@ $(document).ready(function() {
                 remember: remember
             }
         ).then(function (data) {
+            alert('then');
             sessionStorage.setItem('apiKey', data.apiKey);
             sessionStorage.setItem('userName', email);
         

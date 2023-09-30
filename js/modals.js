@@ -10,7 +10,7 @@ function msgBox(message, title = null, redirectOrCallback = null) {
     modal.find('.modal-close').unbind('click');
     if(typeof redirectOrCallback == "string")
         modal.find('.modal-close').click(function() {
-            window.location.replace(redirect);
+            window.location.replace(redirectOrCallback);
         });
     else if(typeof redirectOrCallback == "function")
         modal.find('.modal-close').click(redirectOrCallback);

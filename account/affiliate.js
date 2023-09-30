@@ -1,4 +1,4 @@
-window.renderingStagesTarget = 1;
+window.renderingStagesTarget = 0;
 
 /*var dictRewardType = {
     SPOT: 'Spot',

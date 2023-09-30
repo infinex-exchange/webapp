@@ -94,6 +94,6 @@ $(document).on('authChecked', function() {
         '/account/sessions',
         'sessions',
         renderSession,
-        '#sessions-data'
+        $('#sessions-data')
     );
 });

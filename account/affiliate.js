@@ -225,7 +225,7 @@ $(document).on('authChecked', function() {
         '/affiliate/reflinks',
         'reflinks',
         renderReflink,
-        '#reflinks-data'
+        $('#reflinks-data')
     );
     
     renderCharts('#charts-agg');

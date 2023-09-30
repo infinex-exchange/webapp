@@ -1,27 +1,26 @@
 class InfiniteScroll {
-    constructor(endpoint, root, render, container, scrollable = window, preloader = null) {
+    constructor(endpoint, root, render, container, scrollableContainer = false) {
         let th = this;
         
         this.endpoint = endpoint;
         this.root = root;
         this.render = render;
         this.container = container;
-        this.preloader = preloader ? preloader : container + '-preloader';
-        this.scrollable = scrollable;
+        this.preloader = $(container.attr('id') + '-preloader');
+        this.scrollable = scrollableContainer ? container : $(window);
         
-        this.randomId = Math.random().toString(36).slice(2);
         this.working = false;
         this.noMore = false;
         this.resetTimeout = null;
         
         this.initPaginator();
         
-        $(this.scrollable).on('scroll', function() {
-            if(th.working || th.noMore)
+        this.scrollable.on('scroll', function() {
+            if(!th.endpoint || th.working || th.noMore)
 	            return;
 	        
             if(
-                this != window &&
+                ! $(this).is( $(window) ) &&
                 Math.round(
                     $(this).scrollTop() + $(this).innerHeight(),
                     10
@@ -34,21 +33,22 @@ class InfiniteScroll {
             }
             
             else if(
-                this == window &&
-                $(window).scrollTop() + $(window).height() >= thisAS.container.height()
+                $(this).is( $(window) ) &&
+                $(this).scrollTop() + $(this).height() >= th.container.height()
             ) {
                 th.nextPage();
             }
         });
         
-        this.nextPage();
+        if(this.endpoint)
+            this.nextPage();
     }
     
     nextPage() {
         let th = this;
         
         this.working = true;
-        $(this.preloader).show();
+        this.preloader.show();
         
         let url = this.endpoint;
         let nextPageQuery = this.getNextPageQuery();
@@ -68,42 +68,45 @@ class InfiniteScroll {
         ).finally(
             function() {
                 th.working = false;
-                $(th.preloader).hide();
+                th.preloader.hide();
             }
         );
     }
     
-    reset() {
+    reset(endpoint = null) {
         let th = this;
         
         if(this.working) {
             clearTimeout(this.resetTimeout);
             this.resetTimeout = setTimeout(
                 function() {
-                    th.reset()
+                    th.reset(endpoint)
                 },
                 100
             );
         }
         else {
+            if(endpoint)
+                this.endpoint = endpoint;
             this.noMore = false;
-            $(this.container).empty();
+            this.container.empty();
             this.initPaginator();
         
-            this.nextPage();
+            if(this.endpoint)
+                this.nextPage();
         }
     }
     
     append(elem) {
-        $(this.container).append(this.render(elem));
+        this.container.append(this.render(elem));
     }
     
     prepend(elem) {
-        $(this.container).prepend(this.render(elem));
+        this.container.prepend(this.render(elem));
     }
     
     get(id) {
-        return $(this.container).find(`[data-id="${id}"]`);
+        return this.container.find(`[data-id="${id}"]`);
     }
     
     remove(id) {

@@ -144,6 +144,6 @@ $(document).on('authChecked', function() {
         '/account/api-keys',
         'apiKeys',
         renderApiKey,
-        '#api-keys-data'
+        $('#api-keys-data')
     );
 });

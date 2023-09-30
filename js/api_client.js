@@ -46,6 +46,7 @@ function api(method, url, data = null, redirectOnError = false) {
     ).catch(
         function(error) {
             msgBox(error.msg, null, redirectOnError ? '/' : null);
+            throw error.code;
         }
     );
 }

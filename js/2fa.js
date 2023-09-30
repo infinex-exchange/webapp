@@ -51,6 +51,7 @@ function api2fa(method, url, data = null, redirectOnError = false) {
                             null,
                             redirectOnError ? '/' : null
                         );
+                        reject(error.code);
                     }
                 }
             );

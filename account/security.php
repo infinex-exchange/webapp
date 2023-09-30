@@ -1,25 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include('../templates/head.php'); ?>
-        <?php include('../imports/qrcode.html'); ?>
-        <script src="/js/validate.js?<?php echo filemtime(__DIR__.'/../js/validate.js'); ?>"></script>
+        <?php include(__DIR__.'/../inc/head.php'); ?>
+        <script src="/account/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
+        <?php include(__DIR__'/../vendor/qrcode.html'); ?>
         <title>Security settings | Infinex</title>
     </head>
     <body>
-    
-        <!-- Preloader -->
-        <?php include('../templates/preloader.html'); ?>
-        
-        <!-- Navbar -->
-        <?php include('../templates/navbar.php'); ?>
+        <?php include(__DIR__.'/../inc/body.php'); ?>
         
         <!-- Root container -->
         <div id="root" class="container-fluid container-1500 p-0 user-only">
         <div class="row m-0 h-rest">
         
         <!-- Left column -->
-        <?php include('../templates/sidebar_account.php'); ?>
+        <?php include(__DIR__.'/inc/sidebar.php'); ?>
         
         <!-- Main column -->
         <div class="col-12 col-lg-8 p-0 ui-card ui-column">
@@ -211,9 +206,6 @@
         </div>
         </div>
         
-        <script src="/account/security.js?<?php echo filemtime(__DIR__.'/security.js'); ?>"></script>
-        <script src="/account/security_2fa.js?<?php echo filemtime(__DIR__.'/security_2fa.js'); ?>"></script>
-        
         <div class="modal fade" tabindex="-1" role="dialog" id="modal-configure">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -241,9 +233,16 @@
             </div>
         </div>
         
-        <?php include('../templates/modals.php'); ?>
-        <?php include('../templates/2fa.php'); ?>
-        <?php include('../templates/vanilla_mobile_nav.php'); ?>
+        <script src="/account/security_sessions.js?<?php echo filemtime(__DIR__.'/security_sessions.js'); ?>"></script>
+        <script src="/account/security_password.js?<?php echo filemtime(__DIR__.'/security_password.js'); ?>"></script>
+        <script src="/account/security_email.js?<?php echo filemtime(__DIR__.'/security_email.js'); ?>"></script>
+        <script src="/account/security_2fa.js?<?php echo filemtime(__DIR__.'/security_2fa.js'); ?>"></script>
+        
+        <?php
+        include(__DIR__.'/../inc/2fa.php');
+        include(__DIR__.'/../inc/footer.php');
+        include(__DIR__.'/../inc/vanilla_mobile_nav.php');
+        ?>
     
     </body>
 </html>

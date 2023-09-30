@@ -1,4 +1,4 @@
-function reload2faConfig() {
+/*function reload2faConfig() {
     $.ajax({
         url: config.apiUrl + '/account/2fa',
         type: 'POST',
@@ -254,4 +254,4 @@ $(document).ready(function() {
 $(document).on('authChecked', function() {
     if(window.loggedIn)
         reload2faConfig();
-});
+});*/

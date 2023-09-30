@@ -506,7 +506,7 @@ function renderCharts(div, refid = null) {
             }
         ];
 	
-        for(set of data.settlements.reverse() {
+        for(set of data.settlements.reverse()) {
             let month = set.month + '/' + set.year;
 		
     		earnSeries[0].data.push({

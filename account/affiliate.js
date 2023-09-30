@@ -409,7 +409,7 @@ function renderCharts(div, refid = null) {
         yaxis: {
             labels: {
                 formatter: function (value) {
-                    return value + ' ' + window.mastercoin;
+                    return value + ' ' + window.refCoin;
                 }
             }
         },
@@ -472,8 +472,8 @@ function renderCharts(div, refid = null) {
     acqChart.render();
 	
 	let url = refid === null
-            ? '/affiliate/agg-settlements'
-            : '/affiliate/reflinks/' + refid + '/settlements';
+            ? '/affiliate/agg-settlements?limit=12'
+            : '/affiliate/reflinks/' + refid + '/settlements?limit=12';
     
     api(
         'GET',
@@ -506,7 +506,7 @@ function renderCharts(div, refid = null) {
             }
         ];
 	
-        for(set of data.settlements) {
+        for(set of data.settlements.reverse() {
             let month = set.month + '/' + set.year;
 		
     		earnSeries[0].data.push({

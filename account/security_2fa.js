@@ -47,208 +47,67 @@ function reload2faCases() {
     });                 
 }
 
-$(document).ready(function() {
+$(document).on('authChecked', function() {
+    if(!window.loggedIn)
+        return;
+    
     window.qrcode = new QRCode("mc-qrcode", {
         correctLevel : QRCode.CorrectLevel.H
     });
                 
-    function btnConfigure(event) {
-        event.preventDefault();
+    $('.btn-configure').on('click', function() {
+        let provider = $(this).closest('.2fa-provider').data('provider');
         
-        var provider = $(this).closest('.2fa-provider').data('provider');
-        if(typeof(provider) == 'undefined')
-            provider = $(this).data('provider');
-        else
-            $('#2fa-form').data('provider', provider);
-        
-        $('#2fa-form').unbind('submit');
-        $('#2fa-form').bind('submit', btnConfigure);
-        
-        var data = new Object();
-        data['api_key'] = window.apiKey;
-        data['provider'] = provider
-        
-        var tfa = $('#2fa-code').val();
-        if(tfa != '')
-            data['code_2fa'] = tfa;
-        
-        $.ajax({
-            url: config.apiUrl + '/account/2fa/configure',
-            type: 'POST',
-            data: JSON.stringify(data),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                if($(window).width() < 992) {
-                    window.location = data.ga_qr;
-                }
-                else {
-                    window.qrcode.clear();
-                    window.qrcode.makeCode(data.ga_qr);
-                    $('#modal-configure').modal('show');
-                }
-                
-                reload2faConfig();
-            }
-            else if(data.need_2fa) {
-                start2fa(data.provider_2fa);
+        api2fa(
+            'PUT',
+            '/account/2fa/providers/' + provider
+        ).then(function(data) {
+            if($(window).width() < 992) {
+                window.location = data.url;
             }
             else {
-                msgBox(data.error);
+                window.qrcode.clear();
+                window.qrcode.makeCode(data.url);
+                $('#modal-configure').modal('show');
             }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
+            
+            reload2faProviders();
         });
-    }
+    });
     
-    $('.btn-configure').on('click', btnConfigure);
+    $('.btn-remove').on('click', function() {
+        let provider = $(this).closest('.2fa-provider').data('provider');
+        
+        api2fa(
+            'DELETE',
+            '/account/2fa/providers/' + provider
+        ).then(reload2faProviders);
+    });
     
-    function btnRemove(event) {
-        event.preventDefault();
+    $('.btn-use').on('click', function() {
+        let provider = $(this).closest('.2fa-provider').data('provider');
         
-        var provider = $(this).closest('.2fa-provider').data('provider');
-        if(typeof(provider) == 'undefined')
-            provider = $(this).data('provider');
-        else
-            $('#2fa-form').data('provider', provider);
-        
-        $('#2fa-form').unbind('submit');
-        $('#2fa-form').bind('submit', btnRemove);
-        
-        var data = new Object();
-        data['api_key'] = window.apiKey;
-        data['provider'] = provider;
-        
-        var tfa = $('#2fa-code').val();
-        if(tfa != '')
-            data['code_2fa'] = tfa;
-        
-        $.ajax({
-            url: config.apiUrl + '/account/2fa/remove',
-            type: 'POST',
-            data: JSON.stringify(data),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                reload2faConfig();
-            }
-            else if(data.need_2fa) {
-                start2fa(data.provider_2fa);
-            }
-            else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
-        });
-    }
+        api2fa(
+            'POST',
+            '/account/2fa/providers/' + provider
+        ).then(reload2faProviders);
+    });
     
-    $('.btn-remove').on('click', btnRemove);
-    
-    function btnUse(event) {
-        event.preventDefault();
-        
-        var provider = $(this).closest('.2fa-provider').data('provider');
-        if(typeof(provider) == 'undefined')
-            provider = $(this).data('provider');
-        else
-            $('#2fa-form').data('provider', provider);
-        
-        $('#2fa-form').unbind('submit');
-        $('#2fa-form').bind('submit', btnUse);
-        
-        var data = new Object();
-        data['api_key'] = window.apiKey;
-        data['provider'] = provider;
-        
-        var tfa = $('#2fa-code').val();
-        if(tfa != '')
-            data['code_2fa'] = tfa;
-        
-        $.ajax({
-            url: config.apiUrl + '/account/2fa/use',
-            type: 'POST',
-            data: JSON.stringify(data),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                reload2faConfig();
-            }
-            else if(data.need_2fa) {
-                start2fa(data.provider_2fa);
-            }
-            else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
-        });
-    }
-    
-    $('.btn-use').on('click', btnUse);
-    
-    function btnSaveCases(event) {
-        event.preventDefault();
-        
-        $('#2fa-form').unbind('submit');
-        $('#2fa-form').bind('submit', btnSaveCases);
-        
-        var cases = new Object();
+    $('.btn-save-cases').on('click', function() {
+        let cases = new Object();
         
         $('.2fa-case').each(function(){
             cases[ $(this).data('case') ] = $(this).prop('checked');
         });
         
-        var data = new Object();
-        data['api_key'] = window.apiKey;
-        data['cases'] = cases;
-        
-        var tfa = $('#2fa-code').val();
-        if(tfa != '')
-            data['code_2fa'] = tfa;
-        
-        $.ajax({
-            url: config.apiUrl + '/account/2fa/cases',
-            type: 'POST',
-            data: JSON.stringify(data),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                reload2faConfig();
+        api2fa(
+            'PATCH',
+            '/account/2fa/cases'
+            {
+                cases: cases
             }
-            else if(data.need_2fa) {
-                start2fa(data.provider_2fa);
-            }
-            else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
-        });
-    }
-    
-    $('.btn-save-cases').on('click', btnSaveCases);
-});
-
-$(document).on('authChecked', function() {
-    if(!window.loggedIn)
-        return;
+        ).then(reload2faCases);
+    });
     
     reload2faProviders();
     reload2faCases();

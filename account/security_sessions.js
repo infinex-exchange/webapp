@@ -43,7 +43,7 @@ function renderSession(data) {
         csButton = 'Logout';
     }
     
-    let time = new Date(v.lastAct * 1000).toLocaleString();
+    let time = new Date(data.lastAct * 1000).toLocaleString();
     
     return `
         <div class="sessions-item row p-2 hoverable" data-id="${data.sid}">

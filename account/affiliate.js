@@ -1,4 +1,4 @@
-/*var dictRewardType = {
+var dictRewardType = {
     SPOT: 'Spot',
     MINING: 'Mining',
     NFT: 'NFT',
@@ -31,120 +31,7 @@ function deriveColor(hexColor, magnitude) {
     }
 }
 
-function removeReflink(refid) {
-    $.ajax({
-        url: config.apiUrl + '/account/reflinks/remove',
-        type: 'POST',
-        data: JSON.stringify({
-            api_key: window.apiKey,
-            refid: refid
-        }),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(data.success) {
-            $('.reflinks-item[data-refid=' + refid + ']').remove();
-        } else {
-            msgBox(data.error);
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn(false);
-    });     
-}
-
-
-
-function showAddReflinkPrompt() {
-    $('#reflink-description-form').unbind('submit');
-    $('#reflink-description-form').submit(function(event) {
-        event.preventDefault();
-        
-        var description = $('#reflink-description').val();
-        
-        if(!validateReflinkDescription(description)) {
-            msgBox('Please fill in the form correctly');
-            return;
-        }
-        
-        $('#modal-reflink-desc-prompt').modal('hide');
-        
-        $.ajax({
-            url: config.apiUrl + '/account/reflinks/new',
-            type: 'POST',
-            data: JSON.stringify({
-                api_key: window.apiKey,
-                description: description
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                addChangeReflink(data.refid, description, {1:0, 2:0, 3:0, 4:0});
-            } else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
-        });     
-    });
-    
-    $('#reflink-description').val('');
-    $('#help-reflink-description').hide();
-    $('#modal-reflink-desc-prompt').modal('show');
-}
-
-function showEditReflinkPrompt(refid) {
-    var oldDescription = $('.reflinks-item[data-refid=' + refid + ']').attr('data-description');
-    
-    $('#reflink-description-form').unbind('submit');
-    $('#reflink-description-form').submit(function(event) {
-        event.preventDefault();
-        
-        var description = $('#reflink-description').val();
-        
-        if(!validateReflinkDescription(description)) {
-            msgBox('Please fill in the form correctly');
-            return;
-        }
-        
-        $('#modal-reflink-desc-prompt').modal('hide');
-        
-        $.ajax({
-            url: config.apiUrl + '/account/reflinks/rename',
-            type: 'POST',
-            data: JSON.stringify({
-                api_key: window.apiKey,
-                refid: refid,
-                description: description
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                addChangeReflink(refid, description, null);
-            } else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
-        });     
-    });
-    
-    $('#reflink-description').val(oldDescription);
-    $('#help-reflink-description').hide();
-    $('#modal-reflink-desc-prompt').modal('show');
-}
-
-function generateCharts() {
+/*function generateCharts() {
 	window.mastercoin = '';
 	    
 	$('.charts:visible').each(function() {
@@ -433,43 +320,6 @@ function showEarnDetails(month, year, refid) {
     });
 }*/
 
-
-function showReflink(item) {
-    if($(window).width() > 991) return;
-    
-    let refid = $(item).data('id');
-    
-    $('#mrd-description').html($(item).data('description'));
-    $('#mrd-rename-btn').unbind('click').on('click', function() {
-        $('#modal-reflink-details').modal('hide');
-        editReflink(refid);
-    });
-    $('#mrd-remove-btn').unbind('click').on('click', function() {
-        $('#modal-reflink-details').modal('hide');
-        removeReflink(refid);
-    });
-    $('#mrd-reflink-index').html('https://infinex.cc/?r=' + refid);
-    $('#mrd-reflink-reg').html('https://infinex.cc/account/register?r=' + refid);
-    
-    let levelsInnerHtml = '';
-    for(let i = 1; i <= 4; i++) {
-        let members = $(item).data('members-' + i);
-        levelsInnerHtml += `
-            <div class="col-auto ps-0 text-center">
-                <div class="p-1 rounded" style="background-color: var(--color-input);">
-                    <h6 class="secondary p-1">Lvl ${i}</h6>
-                    <span class="p-1">${members} <i class="fa-solid fa-users secondary"></i></span>
-                </div>
-            </div>
-        `;
-    }
-    $('#mrd-members-inner').html(levelsInnerHtml);
-    
-    //renderCharts($('#mrd-charts'), refid);
-    
-    $('#modal-reflink-details').modal('show');
-}
-
 function renderReflink(data) {
     let levelsInnerHtml = '';
     for(let i = 1; i <= 4; i++) {
@@ -545,6 +395,126 @@ function renderReflink(data) {
     `;    
 }
 
+function removeReflink(refid) {
+    yesNoPrompt(
+        'Are you sure you want to remove this reflink?',
+        function() {
+            api(
+                'DELETE',
+                '/affiliate/reflinks/' + refid
+            ).then(function() {
+                window.reflinksScr.remove(keyid);
+            });
+        }
+    );
+}
+
+function addReflink() {
+    $('#reflink-description-form').unbind('submit');
+    $('#reflink-description-form').submit(function(event) {
+        event.preventDefault();
+        
+        let description = $('#reflink-description').val();
+        
+        if(!validateReflinkDescription(description)) {
+            msgBox('Please fill in the form correctly');
+            return;
+        }
+        
+        $('#modal-reflink-desc-prompt').modal('hide');
+        
+        api(
+            'POST',
+            '/affiliate/reflinks',
+            {
+                description: description
+            }
+        ).then(function(data) {
+            window.reflinksScr.append({
+                refid: data.refid,
+                description: description
+            });
+        });
+    });
+    
+    $('#reflink-description').val('');
+    $('#help-reflink-description').hide();
+    $('#modal-reflink-desc-prompt').modal('show');
+}
+
+function editReflink(refid) {
+    let old = window.reflinksScr.get(refid);
+    let oldDescription = old.data('description');
+    
+    $('#reflink-description-form').unbind('submit');
+    $('#reflink-description-form').submit(function(event) {
+        event.preventDefault();
+        
+        let description = $('#reflink-description').val();
+        
+        if(!validateReflinkDescription(description)) {
+            msgBox('Please fill in the form correctly');
+            return;
+        }
+        
+        $('#modal-reflink-desc-prompt').modal('hide');
+        
+        api(
+            'PATCH',
+            '/affiliate/reflinks/' + refid,
+            {
+                description: description
+            }
+        ).then(function() {
+            window.reflinksScr.replace(refid, {
+                refid: refid,
+                description: description
+                // TODO missing properties
+            });
+        });
+    });
+    
+    $('#reflink-description').val(oldDescription);
+    $('#help-reflink-description').hide();
+    $('#modal-reflink-desc-prompt').modal('show');
+}
+
+function showReflink(item) {
+    if($(window).width() > 991) return;
+    
+    let refid = $(item).data('id');
+    
+    $('#mrd-description').html($(item).data('description'));
+    $('#mrd-rename-btn').unbind('click').on('click', function() {
+        $('#modal-reflink-details').modal('hide');
+        editReflink(refid);
+    });
+    $('#mrd-remove-btn').unbind('click').on('click', function() {
+        $('#modal-reflink-details').modal('hide');
+        removeReflink(refid);
+    });
+    $('#mrd-reflink-index').html('https://infinex.cc/?r=' + refid);
+    $('#mrd-reflink-reg').html('https://infinex.cc/account/register?r=' + refid);
+    
+    let levelsInnerHtml = '';
+    for(let i = 1; i <= 4; i++) {
+        let members = $(item).data('members-' + i);
+        levelsInnerHtml += `
+            <div class="col-auto ps-0 text-center">
+                <div class="p-1 rounded" style="background-color: var(--color-input);">
+                    <h6 class="secondary p-1">Lvl ${i}</h6>
+                    <span class="p-1">${members} <i class="fa-solid fa-users secondary"></i></span>
+                </div>
+            </div>
+        `;
+    }
+    $('#mrd-members-inner').html(levelsInnerHtml);
+    
+    //renderCharts($('#mrd-charts'), refid);
+    
+    $('#modal-reflink-details').modal('show');
+}
+
 $(document).on('authChecked', function() {
     if(!window.loggedIn)
         return;
@@ -556,7 +526,7 @@ $(document).on('authChecked', function() {
             $('#help-reflink-description').show();
     });
     
-    window.apiKeysScr = new InfiniteScrollOffsetPg(
+    window.reflinksScr = new InfiniteScrollOffsetPg(
         '/affiliate/reflinks',
         'reflinks',
         renderReflink,

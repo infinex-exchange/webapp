@@ -378,7 +378,7 @@ function renderCharts(div, refid = null) {
                     if(!refid)
                         return;
                     
-                    alert(config.dataPointIndex);
+                    console.log(config.w.config.series);
                     /*let date = config.w.config.series[0].data[config.dataPointIndex].x.split('/');
                     showEarnDetails(parseInt(date[0]), parseInt(date[1]), refid);*/
                 }
@@ -495,7 +495,10 @@ function renderCharts(div, refid = null) {
 		
     		earnSeries[0].data.push({
                 x: month,
-                y: set.refCoinEquiv
+                y: set.refCoinEquiv,
+                description: {
+                    afseid: typeof set.afseid === 'undefined' ? null : set.afseid
+                }
             });
     
             acqSeries[0].data.push({

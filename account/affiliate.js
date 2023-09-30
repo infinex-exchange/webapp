@@ -479,7 +479,7 @@ function showRewards(refid, afseid) {
             let serieData = new Array();
             
             for(let reward of data.rewards)
-                if(reward.type == rtype && reward.slave_level == lvl) {
+                if(reward.type == rtype && reward.slaveLevel == lvl) {
                     serieData.push({
                         x: reward.assetid,
                         y: reward.amount

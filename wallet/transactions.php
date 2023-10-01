@@ -47,6 +47,8 @@
         </div>
         </div>
         
+        <script src="/wallet/transactions.js?<?php echo filemtime(__DIR__.'/transactions.js'); ?>"></script>
+        
         <?php
         include(__DIR__.'/inc/tx_history.php');
         include(__DIR__.'/../inc/footer.php');

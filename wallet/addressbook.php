@@ -2,6 +2,8 @@
 <html lang="en">
     <head>
         <?php include(__DIR__.'/../inc/head.php'); ?>
+        <!-- TODO legacy code -->
+        <script src="/js/ajax_scroll.js?<?php echo filemtime(__DIR__.'/../js/ajax_scroll.js'); ?>"></script>
         <script src="/wallet/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
         <title>Address book | Infinex</title>
     </head>

@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include('../templates/head.php'); ?>
-        <script src="/js/validate.js?<?php echo filemtime(__DIR__.'/../js/validate.js'); ?>"></script>
-        <script src="/js/ajax_scroll.js?<?php echo filemtime(__DIR__.'/../js/ajax_scroll.js'); ?>"></script>
+        <?php include(__DIR__.'/../inc/head.php'); ?>
+        <script src="/wallet/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
         <title>Address book | Infinex</title>
     </head>
     <body>
-    
-        <!-- Preloader -->
-        <?php include('../templates/preloader.html'); ?>
-        
-        <!-- Navbar -->
-        <?php include('../templates/navbar.php'); ?>
+        <?php include(__DIR__.'/../inc/body.php'); ?>
         
         <!-- Root container -->
         <div id="root" class="container-fluid container-1500 p-0 user-only">
@@ -137,8 +131,11 @@
         
         <script src="/wallet/addressbook.js?<?php echo filemtime(__DIR__.'/addressbook.js'); ?>"></script>
         
-        <?php include('../templates/modals.php'); ?>
-        <?php include('../templates/vanilla_mobile_nav.php'); ?>
+        <?php
+        include(__DIR__.'/../inc/2fa.php');
+        include(__DIR__.'/../inc/footer.php');
+        include(__DIR__.'/../inc/vanilla_mobile_nav.php');
+        ?>
     
     </body>
 </html>

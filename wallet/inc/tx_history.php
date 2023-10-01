@@ -154,4 +154,4 @@
         </div>
     </div>
 </div>
-<script src="/js/tx_history.js?<?php echo filemtime(__DIR__.'/../js/tx_history.js'); ?>"></script>        
+<script src="/wallet/js/tx_history.js?<?php echo filemtime(__DIR__.'/../js/tx_history.js'); ?>"></script>        

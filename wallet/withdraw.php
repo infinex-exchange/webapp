@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include('../templates/head.php'); ?>
-        <?php include('../imports/bignumber.html'); ?>
-        <script src="/js/validate.js?<?php echo filemtime(__DIR__.'/../js/validate.js'); ?>"></script>
-        <script src="/js/ajax_scroll.js?<?php echo filemtime(__DIR__.'/../js/ajax_scroll.js'); ?>"></script>
+        <?php
+        include(__DIR__.'/../inc/head.php');
+        include(__DIR__.'/../vendor/bignumber.html');
+        ?>
+        <script src="/js/Select.js?<?php echo filemtime(__DIR__.'/../js/Select.js'); ?>"></script>
+        <script src="/js/SelectCoin.js?<?php echo filemtime(__DIR__.'/../js/SelectCoin.js'); ?>"></script>
+        <script src="/js/SelectNet.js?<?php echo filemtime(__DIR__.'/../js/SelectNet.js'); ?>"></script>
+        <script src="/js/SelectAdbk.js?<?php echo filemtime(__DIR__.'/../js/SelectAdbk.js'); ?>"></script>
+        <script src="/wallet/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
         <title>Withdrawal | Infinex</title>
     </head>
     <body>
-    
-        <!-- Preloader -->
-        <?php include('../templates/preloader.html'); ?>
-        
-        <!-- Navbar -->
-        <?php include('../templates/navbar.php'); ?>
+        <?php include(__DIR__.'/../inc/body.php'); ?>
         
         <!-- Root container -->
         <div id="root" class="container-fluid container-1500 p-0 user-only">
@@ -31,7 +31,7 @@
                     <h3>&#9312 Select coin to withdraw:</h3>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <?php include('../templates/select_coin.php'); ?>
+                    <i id="select-coin"></i>
                 </div>
             </div>
             
@@ -41,7 +41,7 @@
                         <h3>&#9313 Select withdrawal network:</h3>
                     </div>
                     <div class="col-12 col-lg-6">
-                        <?php include('../templates/select_net.php'); ?>
+                        <i id="select-net"></i>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                     <div class="row">
                         <div class="col-12 col-lg-6 py-2">
                             <label for="select-adbk">Address:</label>
-                            <?php include('../templates/select_adbk.php'); ?>
+                            <i id="select-adbk"></i>
                             <small id="help-address" class="form-text" style="display: none">Address is invalid</small>
                         </div>
                         
@@ -191,28 +191,19 @@
         </div>
         
         <!-- Right column -->
-        <div class="col-12 col-lg-3 p-0 ui-card ui-column">
-        
-            <div class="row p-2">
-                <h3>Last withdrawals</h3>
-            </div>
-            
-            <div id="recent-tx-data">
-            </div>
-        
-        <!-- / Right column -->
-        </div>
+        <?php include(__DIR__.'/inc/sidebar.php'); ?>
             
         <!-- / Root container -->    
         </div>
         </div>
         
-        <?php include('../templates/tx_history.php'); ?>
         <script src="/wallet/withdraw.js?<?php echo filemtime(__DIR__.'/withdraw.js'); ?>"></script>
         
-        <?php include('../templates/modals.php'); ?>
-        <?php include('../templates/2fa.php'); ?>
-        <?php include('../templates/vanilla_mobile_nav.php'); ?>
+        <?php
+        include(__DIR__.'/../inc/2fa.php');
+        include(__DIR__.'/../inc/footer.php');
+        include(__DIR__.'/../inc/vanilla_mobile_nav.php');
+        ?>
     
     </body>
 </html>

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include('../templates/head.php'); ?>
-        <script src="/js/ajax_scroll.js?<?php echo filemtime(__DIR__.'/../js/ajax_scroll.js'); ?>"></script>
+        <?php include(__DIR__.'/../inc/head.php'); ?>
         <title>Wallet | Infinex</title>
         <style type="text/css">
             @media (max-width: 991px) {
@@ -17,12 +16,7 @@
         </style>
     </head>
     <body>
-    
-        <!-- Preloader -->
-        <?php include('../templates/preloader.html'); ?>
-        
-        <!-- Navbar -->
-        <?php include('../templates/navbar.php'); ?>
+        <?php include(__DIR__.'/../inc/body.php'); ?>
         
         <!-- Root container -->
         <div id="root" class="container-fluid container-1500 p-0 user-only">
@@ -81,17 +75,7 @@
         </div>
         
         <!-- Right column -->
-        <div class="col-12 col-lg-3 p-0 ui-card ui-column d-none d-lg-block">
-        
-            <div class="row p-2">
-                <h3>Recent transactions</h3>
-            </div>
-            
-            <div id="recent-tx-data">
-            </div>
-        
-        <!-- / Right column -->
-        </div>
+        <?php include(__DIR__.'/inc/sidebar.php'); ?>
             
         <!-- / Root container -->    
         </div>
@@ -143,12 +127,43 @@
             </div>
         </div>
         
-        <?php include('../templates/tx_history.php'); ?>
-        <?php include('../templates/trade.php'); ?>
+        <div class="modal fade" tabindex="-1" role="dialog" id="modal-trade">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="modal-close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="mt-spot-header" class="row py-2 d-none">
+                    <h5 class="secondary">Spot markets:</h5>
+                </div>
+                
+	            <div class="row" id="mt-spot-data">
+	            </div>
+	            
+	            <div id="mt-p2p-container" class="d-none">
+                    <div class="row py-2">
+                        <h5 class="secondary">P2P markets:</h5>
+                    </div>
+	               <div class="row" id="mt-p2p-data">
+	               </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="modal-close btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
         <script src="/wallet/overview.js?<?php echo filemtime(__DIR__.'/overview.js'); ?>"></script>
+        <script src="/wallet/overview_trade.js?<?php echo filemtime(__DIR__.'/overview_trade.js'); ?>"></script>
         
-        <?php include('../templates/modals.php'); ?>
-        <?php include('../templates/vanilla_mobile_nav.php'); ?>
+        <?php
+        include(__DIR__.'/../inc/footer.php');
+        include(__DIR__.'/../inc/vanilla_mobile_nav.php');
+        ?>
     
     </body>
 </html>

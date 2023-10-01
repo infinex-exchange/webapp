@@ -1,5 +1,5 @@
 class InfiniteScroll {
-    constructor(endpoint, root, render, container, scrollableContainer = false) {
+    constructor(endpoint, root, render, container, scrollableContainer = false, afterAdd = null) {
         let th = this;
         
         this.endpoint = endpoint;
@@ -8,6 +8,7 @@ class InfiniteScroll {
         this.container = container;
         this.preloader = $(container.attr('id') + '-preloader');
         this.scrollable = scrollableContainer ? container : $(window);
+        this.afterAdd = afterAdd;
         
         this.working = false;
         this.noMore = false;
@@ -99,10 +100,14 @@ class InfiniteScroll {
     
     append(elem) {
         this.container.append(this.render(elem));
+        if(this.afterAdd)
+            this.afterAdd(this.container.children().last(), elem);
     }
     
     prepend(elem) {
         this.container.prepend(this.render(elem));
+        if(this.afterAdd)
+            this.afterAdd(this.container.children().first(), elem);
     }
     
     get(id) {
@@ -115,5 +120,7 @@ class InfiniteScroll {
     
     replace(id, elem) {
         this.get(id).replaceWith(this.render(elem));
+        if(this.afterAdd)
+            this.afterAdd(this.get(id), elem);
     }
 }

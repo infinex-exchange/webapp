@@ -85,7 +85,7 @@ function removeReflink(refid) {
         function() {
             api(
                 'DELETE',
-                '/affiliate/reflinks/' + refid
+                '/affiliate/v2/reflinks/' + refid
             ).then(function() {
                 window.reflinksScr.remove(refid);
             });
@@ -109,7 +109,7 @@ function addReflink() {
         
         api(
             'POST',
-            '/affiliate/reflinks',
+            '/affiliate/v2/reflinks',
             {
                 description: description
             }
@@ -151,7 +151,7 @@ function editReflink(refid) {
         
         api(
             'PATCH',
-            '/affiliate/reflinks/' + refid,
+            '/affiliate/v2/reflinks/' + refid,
             {
                 description: description
             }
@@ -222,7 +222,7 @@ $(document).on('authChecked', function() {
     window.refCoin = '';
     
     window.reflinksScr = new InfiniteScrollOffsetPg(
-        '/affiliate/reflinks',
+        '/affiliate/v2/reflinks',
         'reflinks',
         renderReflink,
         $('#reflinks-data')
@@ -348,8 +348,8 @@ function renderCharts(div, refid = null) {
     acqChart.render();
 	
 	let url = refid === null
-            ? '/affiliate/agg-settlements?limit=12'
-            : '/affiliate/reflinks/' + refid + '/settlements?limit=12';
+            ? '/affiliate/v2/agg-settlements?limit=12'
+            : '/affiliate/v2/reflinks/' + refid + '/settlements?limit=12';
     
     api(
         'GET',
@@ -468,7 +468,7 @@ function showRewards(refid, afseid) {
     
     api(
         'GET',
-        '/affiliate/reflinks/' + refid + '/settlements/' + afseid + '/rewards'
+        '/affiliate/v2/reflinks/' + refid + '/settlements/' + afseid + '/rewards'
     ).then(function(data) {
         let series = new Array();
         let serieMaxCount = 0;

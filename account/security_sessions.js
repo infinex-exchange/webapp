@@ -78,7 +78,7 @@ function renderSession(data) {
 function killSession(sid) {
     api(
         'DELETE',
-        '/account/sessions/' + sid
+        '/account/v2/sessions/' + sid
     ).then(
         function() {
             window.sessionsScr.remove(sid);
@@ -91,7 +91,7 @@ $(document).on('authChecked', function() {
         return;
     
     window.sessionsScr = new InfiniteScrollOffsetPg(
-        '/account/sessions',
+        '/account/v2/sessions',
         'sessions',
         renderSession,
         $('#sessions-data')

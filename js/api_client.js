@@ -2,7 +2,7 @@ function apiRawNoSession(method, url, data = null, apiKey = null) {
     return new Promise(
         function(resolve, reject) {
             let options = {
-                url: config.apiUrl + '/v2' + url,
+                url: config.apiUrl + url,
                 type: method,
                 dataType: "json"
             };

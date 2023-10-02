@@ -51,7 +51,7 @@ $(document).on('authChecked', function() {
         
         api(
             'PATCH',
-            '/account/email',
+            '/account/v2/email',
             {
                 code: code
             }
@@ -72,7 +72,7 @@ $(document).on('authChecked', function() {
         
         api(
             'PUT',
-            '/account/email',
+            '/account/v2/email',
             {
                 password: pass,
                 email: email
@@ -85,13 +85,13 @@ $(document).on('authChecked', function() {
     $('#che-cancel').click(function() {
         api(
             'DELETE',
-            '/account/email',
+            '/account/v2/email',
         ).then(cheStep1);
     });
     
     api(
         'GET',
-        '/account/email'
+        '/account/v2/email'
     ).then(function(data) {
         if(data.pendingChange)
             cheStep2(data.pendingChange);

@@ -20,7 +20,7 @@ $(document).ready(function() {
         
         api(
             'PATCH',
-            '/account',
+            '/account/v2/signup',
             {
                 email: window.emailAddr,
                 code: code

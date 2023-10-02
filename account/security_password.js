@@ -34,7 +34,7 @@ $(document).ready(function() {
         
         api(
             'PUT',
-            '/account/password',
+            '/account/v2/password',
             {
                 oldPassword: oldP,
                 password: newP

@@ -3,7 +3,7 @@ window.renderingStagesTarget = 1;
 function refreshCaptcha(email) {
     return api(
         'GET',
-        '/account/captcha?email=' + encodeURI(email)
+        '/account/v2/signup/captcha?email=' + encodeURI(email)
     ).then(function(data) {
         $('#reg-captcha-img').attr('src', data.img);
         window.captchaChallenge = data.challenge;
@@ -90,7 +90,7 @@ $(document).ready(function() {
         
         api(
             'POST',
-            '/account/',
+            '/account/v2/signup',
             data
         ).then(function(data) {
             window.location.replace('/account/verify?email=' + encodeURI(email));

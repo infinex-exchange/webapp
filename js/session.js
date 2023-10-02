@@ -1,7 +1,7 @@
 function logOut() {
     api(
         'DELETE',
-        '/account/sessions/current'
+        '/account/v2/sessions/current'
     ).finally(function() {
         sessionStorage.removeItem('userName');
         sessionStorage.removeItem('apiKey');
@@ -32,7 +32,7 @@ $(document).ready(function() {
         // Api key in local storage, need to check is still valid
         apiRawNoSession(
             'GET',
-            '/account/sessions/current',
+            '/account/v2/sessions/current',
             null,
             tmpApiKey
         ).then(

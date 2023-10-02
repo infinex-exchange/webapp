@@ -41,7 +41,7 @@ $(document).ready(function() {
         
         api(
             'DELETE',
-            '/account/password',
+            '/account/v2/password',
             {
                 email: email
             }
@@ -66,7 +66,7 @@ $(document).ready(function() {
         
         api(
             'PATCH',
-            '/account/password',
+            '/account/v2/password',
             {
                 email: email,
                 code: code,

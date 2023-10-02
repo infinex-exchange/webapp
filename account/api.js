@@ -30,7 +30,7 @@ function removeApiKey(keyid) {
         function() {
             api(
                 'DELETE',
-                '/account/api-keys/' + keyid
+                '/account/v2/api-keys/' + keyid
             ).then(function() {
                 window.apiKeysScr.remove(keyid);
             });
@@ -54,7 +54,7 @@ function addApiKey() {
         
         api(
             'POST',
-            '/account/api-keys',
+            '/account/v2/api-keys',
             {
                 description: description
             }
@@ -92,7 +92,7 @@ function editApiKey(keyid) {
         
         api(
             'PATCH',
-            '/account/api-keys/' + keyid,
+            '/account/v2/api-keys/' + keyid,
             {
                 description: description
             }
@@ -141,7 +141,7 @@ $(document).on('authChecked', function() {
     });
     
     window.apiKeysScr = new InfiniteScrollOffsetPg(
-        '/account/api-keys',
+        '/account/v2/api-keys',
         'apiKeys',
         renderApiKey,
         $('#api-keys-data')

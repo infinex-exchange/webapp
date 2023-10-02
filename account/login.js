@@ -15,7 +15,7 @@ $(document).ready(function() {
         
         api2fa(
             'POST',
-            '/account/sessions',
+            '/account/v2/sessions',
             {
                 email: email,
                 password: password,

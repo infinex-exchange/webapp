@@ -13,6 +13,8 @@ class InfiniteScroll {
         this.working = false;
         this.noMore = false;
         this.resetTimeout = null;
+        this.searchQuery = '';
+        this.searchTimeout = null;
         
         this.initPaginator();
         
@@ -56,7 +58,10 @@ class InfiniteScroll {
         if(nextPageQuery) {
             let querySep = this.endpoint.includes('?') ? '&' : '?';
             url = url + querySep + nextPageQuery;
-        
+        }
+        if(this.searchQuery.length) {
+            let querySep = this.endpoint.includes('?') ? '&' : '?';
+            url = url + querySep + 'q=' + encodeURIComponent(this.searchQuery);
         }
         
         api('GET', url).then(
@@ -122,5 +127,15 @@ class InfiniteScroll {
         this.get(id).replaceWith(this.render(elem));
         if(this.afterAdd)
             this.afterAdd(this.get(id), elem);
+    }
+    
+    bindSearch(input) {
+        let th = this;
+        
+        input.on('input', function() {
+            th.searchQuery = $(this).val();
+            clearTimeout(th.searchTimeout);
+            setTimeout(th.scr.reset, 500);
+        });
     }
 }

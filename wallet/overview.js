@@ -1,5 +1,6 @@
-$(document).ready(function() {
-    window.renderingStagesTarget = 2;
+$(document).on('authChecked', function() {
+    if(!window.loggedIn)
+        return;
     
     $('#asset-search').on('input', function() {
         var query = $(this).val();
@@ -15,10 +16,7 @@ $(document).ready(function() {
         window.assetAS.data.no_zero = $(this).prop('checked');
         window.assetAS.reset();
     });
-});
-
-$(document).on('authChecked', function() {
-    if(window.loggedIn) {
+        
         var hideZero = localStorage.getItem('wallet_hideZero');
         if(hideZero === null)
             hideZero = false;

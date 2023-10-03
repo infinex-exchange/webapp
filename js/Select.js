@@ -14,7 +14,6 @@ class Select {
         this.endpoint = endpoint;
         this.onChange = onChange;
         this.autoSelect = autoSelect;
-        this.searchTimeout = null;
         
         this.key = null;
         this.value = null;
@@ -88,22 +87,7 @@ class Select {
         });
         
         if(canSearch)
-            this.div.find('.selector-search').on('input', function() {
-                let query = $(this).val();
-                
-                clearTimeout(th.searchTimeout);
-                setTimeout(
-                    function() {
-                        newEndpoint = th.endpoint;
-                        if(newEndpoint && query != '') {
-                            newEndpoint += newEndpoint.includes('?') ? '&' : '?';
-                            newEndpoint += 'q=' + encodeURIComponent(query);
-                        }
-                        th.scr.reset(newEndpoint);
-                    },
-                    500
-                );
-            });
+            this.scr.bindSearch(this.div.find('.selector-search'));
         
         $('html').on('click', function(e) {
             if($(e.target).is( th.div.find('.selector-search') )) {

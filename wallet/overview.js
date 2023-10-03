@@ -1,54 +1,5 @@
-$(document).on('authChecked', function() {
-    if(!window.loggedIn)
-        return;
-    
-    $('#asset-search').on('input', function() {
-        var query = $(this).val();
-        if(query == '')
-            delete window.assetAS.data.search;
-        else
-            window.assetAS.data.search = query;
-        window.assetAS.reset();
-    });
-    
-    $('#asset-hide-zero').change(function() {
-        localStorage.setItem('wallet_hideZero', $(this).prop('checked'));
-        window.assetAS.data.no_zero = $(this).prop('checked');
-        window.assetAS.reset();
-    });
-        
-        var hideZero = localStorage.getItem('wallet_hideZero');
-        if(hideZero === null)
-            hideZero = false;
-        else
-            hideZero = $.parseJSON(hideZero);
-        $('#asset-hide-zero').prop('checked', hideZero);
-    
-        window.assetAS = new AjaxScroll(
-            $('#asset-data'),
-            $('#asset-data-preloader'),
-            {
-                api_key: window.apiKey,
-                no_zero: hideZero
-            },
-            function() {
-                
-                //---
-                this.data.offset = this.offset;
-                var thisAS = this;
-                
-                $.ajax({
-                    url: config.apiUrl + '/wallet/balances_ex',
-                    type: 'POST',
-                    data: JSON.stringify(thisAS.data),
-                    contentType: "application/json",
-                    dataType: "json",
-                })
-                .retry(config.retry)
-                .done(function (data) {
-                    if(data.success) {
-                        $.each(data.balances, function(k, v) {
-                            thisAS.append(`
+function renderAsset(data) {
+    thisAS.append(`
                                 <div class="assets-item row p-1 hoverable" onClick="mobileAssetDetails(this)"
                                 data-icon="${v.icon_url}" data-symbol="${k}" data-name="${v.name}"
                                 data-total="${v.total}" data-avbl="${v.avbl}" data-locked="${v.locked}">
@@ -77,40 +28,9 @@ $(document).on('authChecked', function() {
                                 </div>
                             `);
                         });
-                        
-                        thisAS.done();
-                
-                        if(thisAS.offset == 0)
-                            $(document).trigger('renderingStage');
-                            
-                        if(Object.keys(data.balances).length != 50)
-                            thisAS.noMoreData();
-                    } else {
-                        msgBoxRedirect(data.error);
-                        thisAS.done();
-                        thisAS.noMoreData();
-                    }
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    msgBoxNoConn(true);
-                    thisAS.done();
-                    thisAS.noMoreData();
-                });
-                //---
-                
-            },
-            true,
-            true
-        );
-        
-        var txHistoryData = {
-            api_key: window.apiKey
-        };
-        initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true, 10);
-    }
-});
+}
 
-function mobileAssetDetails(item) {
+function showAsset(item) {
     $('#mad-icon').attr('src', $(item).data('icon'));
     $('#mad-name').html($(item).data('name'));
     $('#mad-total').html($(item).data('total') + ' ' + $(item).data('symbol'));;
@@ -126,3 +46,31 @@ function mobileAssetDetails(item) {
     
     $('#modal-mobile-asset-details').modal('show');
 }
+
+$(document).on('authChecked', function() {
+    if(!window.loggedIn)
+        return;
+    
+    let hideZero = localStorage.getItem('wallet_hideZero');
+    if(hideZero === null)
+        hideZero = false;
+    else
+        hideZero = $.parseJSON(hideZero);
+    $('#asset-hide-zero').prop('checked', hideZero);
+    
+    window.balancesScr = new InfiniteScroll(
+        '/wallet/v2/balances' + hideZero ? '?nonZero' : '',
+        'balances',
+        renderAsset,
+        $('#asset-data')
+    );
+    window.balancesScr.bindSearch( $('#asset-search') );
+    
+    $('#asset-hide-zero').change(function() {
+        let hideZero = $(this).prop('checked');
+        localStorage.setItem('wallet_hideZero', hideZero);
+        window.balancesScr.reset('/wallet/v2/balances' + hideZero ? '?nonZero' : '');
+    });
+        
+    initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true, 10);
+});

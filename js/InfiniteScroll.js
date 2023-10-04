@@ -87,7 +87,7 @@ class InfiniteScroll {
         );
     }
     
-    reset(endpoint = null) {
+    reset(endpoint = '') {
         let th = this;
         
         if(this.working) {
@@ -100,7 +100,7 @@ class InfiniteScroll {
             );
         }
         else {
-            if(endpoint)
+            if(endpoint != '')
                 this.endpoint = endpoint;
             this.noMore = false;
             this.container.empty();

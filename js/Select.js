@@ -11,7 +11,6 @@ class Select {
     ) {
         let th = this;
         
-        this.endpoint = endpoint;
         this.onChange = onChange;
         this.autoSelect = autoSelect;
         
@@ -59,7 +58,7 @@ class Select {
         }
         
         this.scr = new InfiniteScrollOffsetPg(
-            this.endpoint,
+            endpoint,
             root,
             this.render,
             this.div.find('.selector-data'),
@@ -73,7 +72,7 @@ class Select {
         this.div.on('click', function(event) {
             event.stopPropagation();
             
-            if(!th.endpoint)
+            if(!th.scr.endpoint)
                 return;
             
             let thisDropdown = th.div.find('.selector-dropdown');
@@ -140,5 +139,9 @@ class Select {
         
         if(this.onChange)
             this.onChange(this.key, this.val, this.data);
+    }
+    
+    reset(endpoint = '') {
+        this.scr.reset(endpoint);
     }
 }

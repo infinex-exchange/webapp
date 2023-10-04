@@ -114,7 +114,7 @@
                                 <h5 class="d-inline" id="deposit-min-symbol"></h5>
                             </div>
                         </div>
-                        <div class="row mt-5">
+                        <div class="row mt-3">
                             <div class="col-12">
                                 <span class="secondary">Confirmations target:</span><br>
                                 <h5 class="wrap d-inline" id="deposit-confirmations"></h5>

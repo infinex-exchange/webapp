@@ -66,7 +66,9 @@ class Select {
             true,
             function(item, obj) {
                 console.log('after add');
-                this.afterAdd(item, obj);
+                console.log(item);
+                console.log(obj);
+                //this.afterAdd(item, obj);
             },
             this.div.find('.selector-data-preloader')
         );

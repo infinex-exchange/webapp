@@ -18,7 +18,7 @@ class SelectCoin extends Select {
                     <img width="24px" height="24px" src="${data.iconUrl}">
                 </div>
                 <div class="col my-auto">
-                    <strong>${data.asset}</strong>
+                    <strong>${data.symbol}</strong>
                     <span class="secondary">${data.name}</span>
                 </div>
             </div>

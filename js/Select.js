@@ -101,15 +101,17 @@ class Select {
     }
     
     afterAdd(item, obj) {
+        let th = this;
+        
         item.data('data', obj);
         
         item.on('click', function() {
             th.selectItem(item);
         });
         
-        if(th.autoSelect) {
-            th.selectItem(item);
-            th.autoSelect = false;
+        if(this.autoSelect) {
+            this.selectItem(item);
+            this.autoSelect = false;
         }
     }
     

@@ -135,7 +135,7 @@ class InfiniteScroll {
         input.on('input', function() {
             th.searchQuery = $(this).val();
             clearTimeout(th.searchTimeout);
-            setTimeout(
+            th.searchTimeout = setTimeout(
                 function() {
                     th.reset();
                 },

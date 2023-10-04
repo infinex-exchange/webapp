@@ -8,7 +8,7 @@ class InfiniteScroll {
         afterAdd = null,
         preloader = null,
         onPageLoaded = null,
-        onFistPageLoaded = null
+        onFirstPageLoaded = null
     ) {
         let th = this;
         

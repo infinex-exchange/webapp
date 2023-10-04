@@ -2,7 +2,7 @@ function prettyBalance(amount, prec) {
     let bn = new BigNumber(amount);
     bn = bn.dp(prec, BigNumber.ROUND_DOWN);
     if(bn.isZero())
-        return '< ' + '0'.repeat(prec-1);
+        return '< 0.' + '0'.repeat(prec-1) + '1';
     else
         return bn.toString();
 }

@@ -57,7 +57,7 @@ $(document).on('authChecked', function() {
         hideZero = $.parseJSON(hideZero);
     $('#asset-hide-zero').prop('checked', hideZero);
     
-    window.balancesScr = new InfiniteScroll(
+    window.balancesScr = new InfiniteScrollOffsetPg(
         '/wallet/v2/balances' + hideZero ? '?nonZero' : '',
         'balances',
         renderAsset,

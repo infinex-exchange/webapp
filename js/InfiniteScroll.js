@@ -135,7 +135,7 @@ class InfiniteScroll {
         input.on('input', function() {
             th.searchQuery = $(this).val();
             clearTimeout(th.searchTimeout);
-            setTimeout(th.scr.reset, 500);
+            setTimeout(th.reset, 500);
         });
     }
 }

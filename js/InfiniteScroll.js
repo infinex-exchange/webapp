@@ -6,7 +6,9 @@ class InfiniteScroll {
         container,
         scrollableContainer = false,
         afterAdd = null,
-        preloader = null
+        preloader = null,
+        onPageLoaded = null,
+        onFistPageLoaded = null
     ) {
         let th = this;
         
@@ -17,12 +19,15 @@ class InfiniteScroll {
         this.preloader = preloader ? preloader : $(container.attr('id') + '-preloader');
         this.scrollable = scrollableContainer ? container : $(window);
         this.afterAdd = afterAdd;
+        this.onPageLoaded = onPageLoaded;
+        this.onFirstPageLoaded = onFirstPageLoaded;
         
         this.working = false;
         this.noMore = false;
         this.resetTimeout = null;
         this.searchQuery = '';
         this.searchTimeout = null;
+        this.firstPageLoaded = false;
         
         this.initPaginator();
         
@@ -74,6 +79,14 @@ class InfiniteScroll {
         
         api('GET', url).then(
             function(resp) {
+                if(th.onPageLoaded)
+                    th.onPageLoaded(resp[th.root]);
+                if(!th.firstPageLoaded) {
+                    if(th.onFirstPageLoaded)
+                        th.onFirstPageLoaded(resp[th.root]);
+                    th.firstPageLoaded = true;
+                }
+                
                 for(const item of resp[th.root])
                     th.append(item);
                 
@@ -104,6 +117,7 @@ class InfiniteScroll {
                 this.endpoint = endpoint;
             this.noMore = false;
             this.container.empty();
+            this.firstPageLoaded = false;
             this.initPaginator();
         
             if(this.endpoint)

@@ -1,5 +1,5 @@
 class SelectNet extends Select {
-    constructor(target, endpoint, onChange = null, autoSelect = false) {
+    constructor(target, endpoint, onChange = null, autoSelect = false, autoSelectSingle = false) {
         super(
             target,
             endpoint,
@@ -7,7 +7,8 @@ class SelectNet extends Select {
             'Select network...',
             false,
             onChange,
-            autoSelect
+            autoSelect,
+            autoSelectSingle
         );
     }
     

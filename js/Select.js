@@ -7,12 +7,14 @@ class Select {
         canSearch,
         onChange = null,
         autoSelect = false,
+        autoSelectSingle = false,
         nullVal = null
     ) {
         let th = this;
         
         this.onChange = onChange;
         this.autoSelect = autoSelect;
+        this.autoSelectSingle = autoSelectSingle;
         
         this.key = null;
         this.value = null;
@@ -66,7 +68,11 @@ class Select {
             function(item, obj) {
                 th.afterAdd(item, obj);
             },
-            this.div.find('.selector-data-preloader')
+            this.div.find('.selector-data-preloader'),
+            null,
+            function(items) {
+                th.onFirstPageLoaded(items);
+            }
         );
         
         this.div.on('click', function(event) {
@@ -143,5 +149,10 @@ class Select {
     
     reset(endpoint = '') {
         this.scr.reset(endpoint);
+    }
+    
+    onFirstPageLoaded(items) {
+        if(this.autoSelectSingle && items.length == 1)
+            this.autoSelect = true;
     }
 }

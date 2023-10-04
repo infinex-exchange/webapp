@@ -60,7 +60,7 @@ class InfiniteScroll {
             url = url + querySep + nextPageQuery;
         }
         if(this.searchQuery.length) {
-            let querySep = this.endpoint.includes('?') ? '&' : '?';
+            let querySep = url.includes('?') ? '&' : '?';
             url = url + querySep + 'q=' + encodeURIComponent(this.searchQuery);
         }
         

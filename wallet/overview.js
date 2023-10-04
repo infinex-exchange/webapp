@@ -31,9 +31,9 @@ function renderAsset(data) {
                 ${avbl}<span class="d-none d-lg-inline"> ${data.symbol}</span>
             </div>
             <div class="my-auto d-none d-lg-block" style="width: 30%">
-                <a href="/wallet/deposit/${data.symbol}" class="small link-ultra px-1"><strong>Deposit</strong></a>
-                <a href="/wallet/withdraw/${data.symbol}" class="small link-ultra px-1"><strong>Withdraw</strong></a>
-                <a href="/wallet/transfer/${data.symbol}" class="small link-ultra px-1"><strong>Transfer</strong></a>
+                <a href="/wallet/deposit/${data.symbol}" onClick="event.stopPropagation()" class="small link-ultra px-1"><strong>Deposit</strong></a>
+                <a href="/wallet/withdraw/${data.symbol}" onClick="event.stopPropagation()" class="small link-ultra px-1"><strong>Withdraw</strong></a>
+                <a href="/wallet/transfer/${data.symbol}" onClick="event.stopPropagation()" class="small link-ultra px-1"><strong>Transfer</strong></a>
                 <a href="#_" class="small link-ultra px-1" onClick="showTrade('${data.symbol}', event)"><strong>Trade</strong></a>
             </div>
         </div>

@@ -3,6 +3,7 @@
     <head>
         <?php
         include(__DIR__.'/../inc/head.php');
+        include(__DIR__.'/../vendor/bignumber.html');
         ?>
         <title>Wallet | Infinex</title>
         <style type="text/css">

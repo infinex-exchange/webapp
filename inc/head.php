@@ -7,6 +7,7 @@ include(__DIR__.'/../vendor/bootstrap.html');
 include(__DIR__.'/../vendor/jquery.html');
 include(__DIR__.'/../vendor/font_awesome.html');
 include(__DIR__.'/../vendor/pretty_checkbox.html');
+include(__DIR__.'/../vendor/bignumber.html');
 ?>
 <script src="/vendor/jquery.bind-first-0.2.3.min.js"></script>
 <!-- TODO: Remove after migration to v2: jQuery Ajax Retry -->

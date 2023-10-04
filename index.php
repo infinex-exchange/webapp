@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
     <head>
-        <?php
-        include(__DIR__.'/inc/head.php');
-        include(__DIR__.'/vendor/bignumber.html');
-        ?>
+        <?php include(__DIR__.'/inc/head.php'); ?>
         <title>Infinex - cryptocurrency trading platform</title>
     </head>
     <body class="body-background">

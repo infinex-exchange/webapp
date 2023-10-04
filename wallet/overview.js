@@ -58,7 +58,7 @@ $(document).on('authChecked', function() {
     $('#asset-hide-zero').prop('checked', hideZero);
     
     window.balancesScr = new InfiniteScrollOffsetPg(
-        '/wallet/v2/balances' + hideZero ? '?nonZero' : '',
+        '/wallet/v2/balances' + (hideZero ? '?nonZero' : ''),
         'balances',
         renderAsset,
         $('#asset-data')
@@ -68,7 +68,7 @@ $(document).on('authChecked', function() {
     $('#asset-hide-zero').change(function() {
         let hideZero = $(this).prop('checked');
         localStorage.setItem('wallet_hideZero', hideZero);
-        window.balancesScr.reset('/wallet/v2/balances' + hideZero ? '?nonZero' : '');
+        window.balancesScr.reset('/wallet/v2/balances' + (hideZero ? '?nonZero' : ''));
     });
         
     initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true, 10);

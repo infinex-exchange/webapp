@@ -92,7 +92,6 @@ class InfiniteScroll {
             );
         }
         else {
-            console.log(this);
             if(endpoint)
                 this.endpoint = endpoint;
             this.noMore = false;
@@ -136,7 +135,12 @@ class InfiniteScroll {
         input.on('input', function() {
             th.searchQuery = $(this).val();
             clearTimeout(th.searchTimeout);
-            setTimeout(th.reset, 500);
+            setTimeout(
+                function() {
+                    th.reset();
+                },
+                500
+            );
         });
     }
 }

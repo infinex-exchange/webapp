@@ -1,7 +1,7 @@
 function onCoinSelected(symbol) {
-    $('#deposit-step2').hide();
     $('#deposit-step3').hide();
     window.selectNet.reset('/wallet/v2/assets/' + symbol + '/networks');
+    $('#deposit-step2').show();
 }
 
 function onNetSelected(symbol) {

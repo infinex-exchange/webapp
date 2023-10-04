@@ -64,7 +64,9 @@ class Select {
             this.render,
             this.div.find('.selector-data'),
             true,
-            this.afterAdd,
+            function(item, obj) {
+                this.afterAdd(item, obj);
+            },
             this.div.find('.selector-data-preloader')
         );
         

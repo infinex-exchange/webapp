@@ -1,33 +1,32 @@
 function renderAsset(data) {
-    thisAS.append(`
-                                <div class="assets-item row p-1 hoverable" onClick="mobileAssetDetails(this)"
-                                data-icon="${v.icon_url}" data-symbol="${k}" data-name="${v.name}"
-                                data-total="${v.total}" data-avbl="${v.avbl}" data-locked="${v.locked}">
-                                    <div class="my-auto" style="width: 60px">
-                                        <img width="40" height="40" src="${v.icon_url}">
-                                    </div>
-                                    <div class="my-auto m-50-minus" style="width: calc(20% - 60px)">
-                                        ${k}<br>
-                                        <span class="small">${v.name}</span>
-                                    </div>
-                                    <div class="text-end my-auto d-none d-lg-block" style="width: 19%">
-                                        ${v.total} ${k}
-                                    </div>
-                                    <div class="text-end my-auto m-50-percent" style="width: 19%">
-                                        ${v.avbl}<span class="d-none d-lg-inline"> ${k}</span>
-                                    </div>
-                                    <div class="text-end my-auto d-none d-lg-block" style="width: 18%">
-                                        ${v.locked} ${k}
-                                    </div>
-                                    <div class="my-auto d-none d-lg-block" style="width: 24%">
-                                        <a href="/wallet/deposit/${k}" class="small link-ultra px-1"><strong>Deposit</strong></a>
-                                        <a href="/wallet/withdraw/${k}" class="small link-ultra px-1"><strong>Withdraw</strong></a>
-                                        <a href="/wallet/transfer/${k}" class="small link-ultra px-1"><strong>Transfer</strong></a>
-                                        <a href="#_" class="small link-ultra px-1" onClick="showTrade('${k}', event)"><strong>Trade</strong></a>
-                                    </div>
-                                </div>
-                            `);
-                        });
+    return `
+        <div data-id="${data.symbol}" class="assets-item row p-1 hoverable" onClick="showAsset(this)"
+        data-icon="${data.iconUrl}" data-name="${data.name}" data-total="${data.total}"
+        data-avbl="${data.avbl}" data-locked="${data.locked}">
+            <div class="my-auto" style="width: 60px">
+                <img width="40" height="40" src="${data.iconUrl}">
+            </div>
+            <div class="my-auto m-50-minus" style="width: calc(20% - 60px)">
+                ${data.symbol}<br>
+                <span class="small">${data.name}</span>
+            </div>
+            <div class="text-end my-auto d-none d-lg-block" style="width: 19%">
+                ${data.total} ${data.symbol}
+            </div>
+            <div class="text-end my-auto m-50-percent" style="width: 19%">
+                ${data.avbl}<span class="d-none d-lg-inline"> ${data.symbol}</span>
+            </div>
+            <div class="text-end my-auto d-none d-lg-block" style="width: 18%">
+                ${data.locked} ${data.symbol}
+            </div>
+            <div class="my-auto d-none d-lg-block" style="width: 24%">
+                <a href="/wallet/deposit/${data.symbol}" class="small link-ultra px-1"><strong>Deposit</strong></a>
+                <a href="/wallet/withdraw/${data.symbol}" class="small link-ultra px-1"><strong>Withdraw</strong></a>
+                <a href="/wallet/transfer/${data.symbol}" class="small link-ultra px-1"><strong>Transfer</strong></a>
+                <a href="#_" class="small link-ultra px-1" onClick="showTrade('${data.symbol}', event)"><strong>Trade</strong></a>
+            </div>
+        </div>
+    `;
 }
 
 function showAsset(item) {

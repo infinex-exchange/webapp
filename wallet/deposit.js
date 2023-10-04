@@ -125,7 +125,9 @@ $(document).on('authChecked', function() {
             'GET',
             '/wallet/v2/assets/' + symbol
         ).then(
-            window.selectCoin.setCustom
+            function(data) {
+                window.selectCoin.setCustom(data);
+            }
         );
     }
     

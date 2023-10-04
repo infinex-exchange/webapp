@@ -20,7 +20,7 @@
         <div class="col-12 col-lg-9 p-0 ui-card ui-column">
         
             <div class="row py-2">
-                <h2>Withdraw</h2>
+                <h2>Withdrawal</h2>
             </div>
             
             <div class="row py-2">
@@ -60,28 +60,6 @@
                                 <div class="px-2">
                                     Looks like our connection to this network is not working properly.<br>
                                     You can request a withdrawal as normal, but it will be processed with delay.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row" id="withdraw-experimental-warning">
-                        <div class="col-12 py-2">
-                            <div class="alert alert-danger d-flex align-items-center" role="alert">
-                                <div class="px-2">
-                                    <i class="fa-solid fa-flask fa-2x"></i>
-                                </div>
-                                <div class="px-2">
-                                    We have classified this coin as <strong>experimental</strong>.
-                                    We cannot guarantee the correct operation of deposits and withdrawals,
-                                    because the official wallet provided by the developers of this project
-                                    is unstable and often causes some issues.
-                                    Your withdrawal may take a long time to reach your wallet
-                                    or even never arrive.
-                                    We do not provide any technical support for this coin.
-                                    You can contact the developers of the project directly and request an update to the official client.
-                                    Unpredictable losts of synchronization, from a few minutes to even couple of weeks can occur.
-                                    These cases are beyond our control. Use this coin at your own risk.
                                 </div>
                             </div>
                         </div>
@@ -194,7 +172,7 @@
         </div>
         </div>
         
-        <script src="/wallet/withdraw.js?<?php echo filemtime(__DIR__.'/withdraw.js'); ?>"></script>
+        <script src="/wallet/withdrawal.js?<?php echo filemtime(__DIR__.'/withdrawal.js'); ?>"></script>
         
         <?php
         include(__DIR__.'/../inc/2fa.php');

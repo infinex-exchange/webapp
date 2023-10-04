@@ -21,7 +21,7 @@ function renderAsset(data) {
             </div>
             <div class="my-auto d-none d-lg-block" style="width: 30%">
                 <a href="/wallet/deposit/${data.symbol}" onClick="event.stopPropagation()" class="small link-ultra px-1"><strong>Deposit</strong></a>
-                <a href="/wallet/withdraw/${data.symbol}" onClick="event.stopPropagation()" class="small link-ultra px-1"><strong>Withdraw</strong></a>
+                <a href="/wallet/withdrawal/${data.symbol}" onClick="event.stopPropagation()" class="small link-ultra px-1"><strong>Withdraw</strong></a>
                 <a href="/wallet/transfer/${data.symbol}" onClick="event.stopPropagation()" class="small link-ultra px-1"><strong>Transfer</strong></a>
                 <a href="#_" class="small link-ultra px-1" onClick="showTrade('${data.symbol}', event)"><strong>Trade</strong></a>
             </div>
@@ -36,7 +36,7 @@ function showAsset(item) {
     $('#mad-avbl').html($(item).data('avbl') + ' ' + $(item).data('id'));
     $('#mad-locked').html($(item).data('locked') + ' ' + $(item).data('id'));
     $('#mad-deposit').attr('href', '/wallet/deposit/' + $(item).data('id'));
-    $('#mad-withdraw').attr('href', '/wallet/withdraw/' + $(item).data('id'));
+    $('#mad-withdraw').attr('href', '/wallet/withdrawal/' + $(item).data('id'));
     $('#mad-transfer').attr('href', '/wallet/transfer/' + $(item).data('id'));
     $('#mad-trade').off('click').on('click', function() {
         $('#modal-mobile-asset-details').modal('hide');

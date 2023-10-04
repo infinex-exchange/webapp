@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-auto order-1 my-auto p-1 p-lg-2">
                     <a href="/wallet/deposit" class="btn btn-primary btn-sm">Deposit</a>
-                    <a href="/wallet/withdraw" class="btn btn-primary btn-sm">Withdraw</a>
+                    <a href="/wallet/withdrawal" class="btn btn-primary btn-sm">Withdraw</a>
                     <a href="/wallet/transfer" class="btn btn-primary btn-sm">Transfer</a>
                 </div>
                 

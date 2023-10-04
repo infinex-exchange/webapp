@@ -12,135 +12,123 @@ function updateFees(feeMin, feeMax) {
                             .trigger('input');
 }
 
-$(document).ready(function() {
-    window.renderingStagesTarget = 2;
+function onCoinSelected(symbol) {
+    $('#withdraw-step2, #withdraw-step3').hide();
     
-    $('#select-coin').on('dataLoaded', function() {
-        $(document).trigger('renderingStage');
-    });
+    window.selectNet.reset('/wallet/v2/assets/' + symbol + '/networks');
     
-    // Download balance and init net selector when coin selected
-    $('#select-coin').on('change', function() {
-        $('#withdraw-step2').hide();
-        $('#withdraw-step3').hide();
-        var asset = $('#select-coin').val();
+    api(
+        'GET',
+        '/wallet/v2/balances/' + symbol
+    ).then(
+        function(data) {
+            window.wdRawBalance = new BigNumber(data.avbl);
+            $('#withdraw-step2').show();
+        }
+    );
+}
+
+function onNetSelected(symbol) {
+    $('#withdraw-step3').hide();
+    
+    window.selectAdbk.reset('/wallet/v2/addressbook?network=' + symbol);
+    
+    api(
+        'GET',
+        '/wallet/v2/withdrawal/' + window.selectCoin.key + '/' + symbol
+    ).then(
+        // Reset validation variables
+        window.validAddress = false;
+        window.validMemo = false;
+        window.validAdbkName = false;
         
-         $.ajax({
-            url: config.apiUrl + '/wallet/balances',
-            type: 'POST',
-            data: JSON.stringify({
-                api_key: window.apiKey,
-                symbols: [ asset ]
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                window.wdRawBalance = new BigNumber(data.balances[asset].avbl);
-                initSelectNet(asset);
-            } else {
-                msgBox(data.error);
+        // Reset form
+        $('#withdraw-form').get(0).reset();
+        $('small[id^="help-"]').hide();
+        $('#withdraw-amount').data('val', '').val('').trigger('prevalidated');
+        $('#withdraw-save').trigger('change');
+        
+        // Operating warning
+        if(data.operating)
+            $('#withdraw-operating-warning').addClass('d-none');
+        else
+            $('#withdraw-operating-warning').removeClass('d-none');
+        
+        // Precision
+        window.wdAmountPrec = data.prec;
+        
+        // Round raw balance to this precision
+        window.wdBalance = window.wdRawBalance.dp(data.prec, BigNumber.ROUND_DOWN);
+        $('#withdraw-balance').html(window.wdBalance.toString());
+        
+        window.wdFeeMinOrig = data.fee_min;
+        window.wdFeeMaxOrig = data.fee_max;
+        updateFees(data.fee_min, data.fee_max);
+        
+        // Memo
+        if(typeof(data.memo_name) !== 'undefined') {
+            $('#withdraw-memo-name').html(data.memo_name + ':');
+            $('#withdraw-memo-wrapper').removeClass('d-none');
+        }
+        else {
+            $('#withdraw-memo-wrapper').addClass('d-none');
+        }
+        
+        // Contract
+        if(typeof(data.contract) !== 'undefined') {
+            $('#withdraw-contract').html(data.contract);
+            $('#withdraw-contract-wrapper').removeClass('d-none');
+        }
+        else {
+            $('#withdraw-contract-wrapper').addClass('d-none');
+        }
+        
+        $('#withdraw-step3').show();
+        $('html, body').animate({
+            scrollTop: $("#withdraw-step3").offset().top
+        }, 1000);
+    );
+}
+
+$(document).on('authChecked', function() {
+    if(!window.loggedIn)
+        return;
+    
+    window.selectCoin = new SelectCoin(
+        $('#select-coin'),
+        '/wallet/v2/assets',
+        onCoinSelected
+    );
+    
+    window.selectNet = new SelectNet(
+        $('#select-net'),
+        null,
+        onNetSelected,
+        false,
+        true
+    );
+    
+    window.selectAdbk = new SelectAdbk(
+        $('#select-adbk'),
+        null,
+        onChangeAdbk
+    );
+        
+    let pathArray = window.location.pathname.split('/');
+    let pathLast = pathArray[pathArray.length - 1];
+    if(pathLast != 'withdrawal' && pathLast != '') {
+        let symbol = pathLast.toUpperCase();
+        api(
+            'GET',
+            '/wallet/v2/assets/' + symbol
+        ).then(
+            function(data) {
+                window.selectCoin.setCustom(data);
             }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
-        });
-    });
+        );
+    }
     
-    // Show net selector when networks list downloaded
-    $('#select-net').on('dataLoaded', function() {
-        $('#withdraw-step2').show();
-    });
-    
-    // Download info and show step3 when network selected
-    $('#select-net').on('change', function() {        
-        $('#withdraw-step3').hide();
-        
-        initSelectAdbk($('#select-coin').val(), $('#select-net').data('network'));
-        
-        $.ajax({
-            url: config.apiUrl + '/wallet/withdraw/info',
-            type: 'POST',
-            data: JSON.stringify({
-                api_key: window.apiKey,
-                asset: $('#select-coin').val(),
-                network: $('#select-net').data('network')
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                // Reset validation variables
-                window.validAddress = false;
-                window.validMemo = false;
-                window.validAdbkName = false;
-                
-                // Reset form
-                $('#withdraw-form').get(0).reset();
-                $('small[id^="help-"]').hide();
-                $('#withdraw-amount').data('val', '').val('').trigger('prevalidated');
-                $('#withdraw-save').trigger('change');
-                
-                // Operating warning
-                if(data.operating)
-                    $('#withdraw-operating-warning').addClass('d-none');
-                else
-                    $('#withdraw-operating-warning').removeClass('d-none');
-                
-                // Experimental warning
-                if(!data.experimental)
-                    $('#withdraw-experimental-warning').addClass('d-none');
-                else
-                    $('#withdraw-experimental-warning').removeClass('d-none');
-                
-                // Precision
-                window.wdAmountPrec = data.prec;
-                
-                // Round raw balance to this precision
-                window.wdBalance = window.wdRawBalance.dp(data.prec, BigNumber.ROUND_DOWN);
-                $('#withdraw-balance').html(window.wdBalance.toString());
-                
-                window.wdFeeMinOrig = data.fee_min;
-                window.wdFeeMaxOrig = data.fee_max;
-                updateFees(data.fee_min, data.fee_max);
-                
-                // Memo
-                if(typeof(data.memo_name) !== 'undefined') {
-                    $('#withdraw-memo-name').html(data.memo_name + ':');
-                    $('#withdraw-memo-wrapper').removeClass('d-none');
-                }
-                else {
-                    $('#withdraw-memo-wrapper').addClass('d-none');
-                }
-                
-                // Contract
-                if(typeof(data.contract) !== 'undefined') {
-                    $('#withdraw-contract').html(data.contract);
-                    $('#withdraw-contract-wrapper').removeClass('d-none');
-                }
-                else {
-                    $('#withdraw-contract-wrapper').addClass('d-none');
-                }
-                
-                $('#withdraw-step3').show();
-                $('html, body').animate({
-                    scrollTop: $("#withdraw-step3").offset().top
-                }, 1000);
-            } else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
-        });
-    });
-    
-    
-    
+    // TODO: legacy code below
     
     // Fee range -> fee input
     $('#withdraw-fee-range').on('input', function() {
@@ -452,24 +440,11 @@ $(document).ready(function() {
 	    }
     });
     
-    initSelectCoin();
-});
-
-$(document).on('authChecked', function() {
-    if(window.loggedIn) {
-        var txHistoryData = {
-            api_key: window.apiKey,
-            type: 'WITHDRAWAL'
-        };
-        initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true, 10);
-        
-        var pathArray = window.location.pathname.split('/');
-        var pathLast = pathArray[pathArray.length - 1];
-        if(pathLast != 'withdraw' && pathLast != '') {
-            var symbol = pathLast.toUpperCase();
-            $('#select-coin').val(symbol).trigger('change');
-        }
-    }
+    var txHistoryData = {
+        api_key: window.apiKey,
+        type: 'WITHDRAWAL'
+    };
+    initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true, 10);
 });
 
 $(document).on('newWalletTransaction', function() {

@@ -36,7 +36,7 @@ function onNetSelected(symbol) {
             // Warnings
             if(data.warnings.length > 0) {
                 let warnHtml = data.warnings.join('<br><br>');
-                $('#deposit-warning-content').html(data.warning);
+                $('#deposit-warning-content').html(warnHtml);
                 $('#deposit-warning').removeClass('d-none')
             }
             else

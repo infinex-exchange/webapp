@@ -43,15 +43,15 @@ function renderAsset(data) {
 function showAsset(item) {
     $('#mad-icon').attr('src', $(item).data('icon'));
     $('#mad-name').html($(item).data('name'));
-    $('#mad-total').html($(item).data('total') + ' ' + $(item).data('symbol'));;
-    $('#mad-avbl').html($(item).data('avbl') + ' ' + $(item).data('symbol'));
-    $('#mad-locked').html($(item).data('locked') + ' ' + $(item).data('symbol'));
-    $('#mad-deposit').attr('href', '/wallet/deposit/' + $(item).data('symbol'));
-    $('#mad-withdraw').attr('href', '/wallet/withdraw/' + $(item).data('symbol'));
-    $('#mad-transfer').attr('href', '/wallet/transfer/' + $(item).data('symbol'));
+    $('#mad-total').html($(item).data('total') + ' ' + $(item).data('id'));;
+    $('#mad-avbl').html($(item).data('avbl') + ' ' + $(item).data('id'));
+    $('#mad-locked').html($(item).data('locked') + ' ' + $(item).data('id'));
+    $('#mad-deposit').attr('href', '/wallet/deposit/' + $(item).data('id'));
+    $('#mad-withdraw').attr('href', '/wallet/withdraw/' + $(item).data('id'));
+    $('#mad-transfer').attr('href', '/wallet/transfer/' + $(item).data('id'));
     $('#mad-trade').off('click').on('click', function() {
         $('#modal-mobile-asset-details').modal('hide');
-	    showTrade($(item).data('symbol'));
+	    showTrade($(item).data('id'));
     });
     
     $('#modal-mobile-asset-details').modal('show');

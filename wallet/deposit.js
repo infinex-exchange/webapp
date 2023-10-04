@@ -102,22 +102,31 @@ $(document).ready(function() {
 });
 
 $(document).on('authChecked', function() {
-    if(window.loggedIn) {
-        window.qrcode = new QRCode("deposit-qrcode", {
-            correctLevel : QRCode.CorrectLevel.H
-        });
+    if(!window.loggedIn)
+        return;
+
+    window.qrcode = new QRCode("deposit-qrcode", {
+        correctLevel : QRCode.CorrectLevel.H
+    });
     
-        var txHistoryData = {
-            api_key: window.apiKey,
-            type: 'DEPOSIT'
-        };
-        initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true, 10);
-        
-        var pathArray = window.location.pathname.split('/');
-        var pathLast = pathArray[pathArray.length - 1];
-        if(pathLast != 'deposit' && pathLast != '') {
-            var symbol = pathLast.toUpperCase();
-            $('#select-coin').val(symbol).trigger('change');
+    window.selectCoin = new SelectCoin(
+        $('#select-coin'),
+        '/wallet/v2/assets',
+        function() {
+            alert('changed');
         }
+    );
+        
+    let pathArray = window.location.pathname.split('/');
+    let pathLast = pathArray[pathArray.length - 1];
+    if(pathLast != 'deposit' && pathLast != '') {
+        let symbol = pathLast.toUpperCase();
+        window.selectCoin.setCustom(symbol);
     }
+    
+    var txHistoryData = {
+        api_key: window.apiKey,
+        type: 'DEPOSIT'
+    };
+    initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true, 10);
 });

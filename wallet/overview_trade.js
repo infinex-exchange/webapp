@@ -1,3 +1,5 @@
+// TODO: Legacy code
+
 function loadSpotMarkets(assetid, offset = 0) {
 	if(offset == 0) {
 		$('#mt-spot-data').html('');

@@ -133,7 +133,7 @@ class Select {
         let tmpElem = $(this.render(obj));
         
         this.key = tmpElem.data('id');
-        this.val = item.data('val');
+        this.val = tmpElem.data('val');
         this.data = obj;
         
         this.div.find('.selector-input').val(this.val);

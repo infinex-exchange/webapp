@@ -65,10 +65,7 @@ class Select {
             this.div.find('.selector-data'),
             true,
             function(item, obj) {
-                console.log('after add');
-                console.log(item);
-                console.log(obj);
-                //this.afterAdd(item, obj);
+                this.afterAdd(item, obj);
             },
             this.div.find('.selector-data-preloader')
         );
@@ -107,6 +104,8 @@ class Select {
     }
     
     afterAdd(item, obj) {
+        console.log('x');
+        return;
         let th = this;
         
         item.data('data', obj);

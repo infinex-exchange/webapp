@@ -1,8 +1,8 @@
 function updateFees(feeMin, feeMax) {
-    var feeMinDec = new BigNumber(feeMin);
-    var feeMaxDec = new BigNumber(feeMax);
-    var dp = Math.max(feeMinDec.dp(), feeMaxDec.dp());
-    var feeStep = new BigNumber(10);
+    let feeMinDec = new BigNumber(feeMin);
+    let feeMaxDec = new BigNumber(feeMax);
+    let dp = Math.max(feeMinDec.dp(), feeMaxDec.dp());
+    let feeStep = new BigNumber(10);
     feeStep = feeStep.pow(-dp).dp(dp).toString();
     
     $('#withdraw-fee-range').attr('min', feeMin)
@@ -36,7 +36,7 @@ function onNetSelected(symbol) {
     api(
         'GET',
         '/wallet/v2/withdrawal/' + window.selectCoin.key + '/' + symbol
-    ).then(
+    ).then(function(data) {
         // Reset validation variables
         window.validAddress = false;
         window.validMemo = false;
@@ -61,9 +61,9 @@ function onNetSelected(symbol) {
         window.wdBalance = window.wdRawBalance.dp(data.prec, BigNumber.ROUND_DOWN);
         $('#withdraw-balance').html(window.wdBalance.toString());
         
-        window.wdFeeMinOrig = data.fee_min;
-        window.wdFeeMaxOrig = data.fee_max;
-        updateFees(data.fee_min, data.fee_max);
+        window.wdFeeMinOrig = data.feeMin;
+        window.wdFeeMaxOrig = data.feeMax;
+        updateFees(data.feeMin, data.feeMax);
         
         // Memo
         if(typeof(data.memo_name) !== 'undefined') {
@@ -87,7 +87,7 @@ function onNetSelected(symbol) {
         $('html, body').animate({
             scrollTop: $("#withdraw-step3").offset().top
         }, 1000);
-    );
+    });
 }
 
 $(document).on('authChecked', function() {

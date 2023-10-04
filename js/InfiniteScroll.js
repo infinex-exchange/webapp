@@ -92,6 +92,7 @@ class InfiniteScroll {
             );
         }
         else {
+            console.log(this);
             if(endpoint)
                 this.endpoint = endpoint;
             this.noMore = false;

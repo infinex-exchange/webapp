@@ -148,6 +148,12 @@ class Select {
     }
     
     reset(endpoint = '') {
+        this.key = null;
+        this.val = null;
+        this.data = null;
+        
+        his.div.find('.selector-input').val('');
+        
         this.scr.reset(endpoint);
     }
     

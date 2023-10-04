@@ -11,7 +11,6 @@ function prettyBalance(amount, prec) {
 
 function renderAsset(data) {
     let total = prettyBalance(data.total, data.defaultPrec);
-    let locked = prettyBalance(data.locked, data.defaultPrec);
     let avbl = prettyBalance(data.avbl, data.defaultPrec);
     
     return `
@@ -25,16 +24,13 @@ function renderAsset(data) {
                 ${data.symbol}<br>
                 <span class="small">${data.name}</span>
             </div>
-            <div class="text-end my-auto d-none d-lg-block" style="width: 19%">
+            <div class="text-end my-auto d-none d-lg-block" style="width: 25%">
                 ${total} ${data.symbol}
             </div>
-            <div class="text-end my-auto m-50-percent" style="width: 19%">
+            <div class="text-end my-auto m-50-percent" style="width: 25%">
                 ${avbl}<span class="d-none d-lg-inline"> ${data.symbol}</span>
             </div>
-            <div class="text-end my-auto d-none d-lg-block" style="width: 18%">
-                ${locked} ${data.symbol}
-            </div>
-            <div class="my-auto d-none d-lg-block" style="width: 24%">
+            <div class="my-auto d-none d-lg-block" style="width: 30%">
                 <a href="/wallet/deposit/${data.symbol}" class="small link-ultra px-1"><strong>Deposit</strong></a>
                 <a href="/wallet/withdraw/${data.symbol}" class="small link-ultra px-1"><strong>Withdraw</strong></a>
                 <a href="/wallet/transfer/${data.symbol}" class="small link-ultra px-1"><strong>Transfer</strong></a>

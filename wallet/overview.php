@@ -57,16 +57,13 @@
                 <div style="width: calc(20% - 60px)">
                 <h5>Token</h5>
                 </div>
-                <div class="text-end" style="width: 19%">
+                <div class="text-end" style="width: 25%">
                 <h5>Total</h5>
                 </div>
-                <div class="text-end" style="width: 19%">
+                <div class="text-end" style="width: 25%">
                 <h5>Available</h5>
                 </div>
-                <div class="text-end" style="width: 18%">
-                <h5>Locked</h5>
-                </div>
-                <div style="width: 24%">
+                <div style="width: 30%">
                 <h5>Action</h5>
                 </div>
             </div>

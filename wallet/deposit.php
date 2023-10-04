@@ -62,26 +62,6 @@
                         </div>
                     </div>
                     
-                    <div id="deposit-experimental-warning" class="col-12">
-                        <div class="alert alert-danger d-flex align-items-center my-2" role="alert">
-                            <div class="px-2">
-                                <i class="fa-solid fa-flask fa-2x"></i>
-                            </div>
-                            <div class="px-2">
-                                We have classified this coin as <strong>experimental</strong>.
-                                We cannot guarantee the correct operation of deposits and withdrawals,
-                                because the official wallet provided by the developers of this project
-                                is unstable and often causes some issues.
-                                Your deposit may take a long time to reach your exchange account
-                                or even never arrive.
-                                We do not provide any technical support for this coin.
-                                You can contact the developers of the project directly and request an update to the official client.
-                                Unpredictable losts of synchronization, from a few minutes to even couple of weeks can occur.
-                                These cases are beyond our control. Use this coin at your own risk.
-                            </div>
-                        </div>
-                    </div>
-                    
                     <div id="deposit-warning" class="col-12">
                         <div class="alert alert-warning d-flex align-items-center my-2" role="alert">
                             <div class="px-2">
@@ -125,6 +105,13 @@
                                 <div class="col-auto my-auto">
                                     <a href="#_" class="secondary copy-button" data-copy="#deposit-memo"><i class="fa-solid fa-copy fa-xl"></i></a>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <span class="secondary">Minimal deposit amount:</span><br>
+                                <h5 class="wrap d-inline" id="deposit-min-amount"></h5>
+                                <h5 class="d-inline" id="deposit-min-symbol"></h5>
                             </div>
                         </div>
                         <div class="row mt-5">

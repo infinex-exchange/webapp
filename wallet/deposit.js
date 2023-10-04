@@ -104,7 +104,9 @@ $(document).on('authChecked', function() {
     window.selectNet = new SelectNet(
         $('#select-net'),
         null,
-        onNetSelected
+        onNetSelected,
+        false,
+        true
     );
         
     let pathArray = window.location.pathname.split('/');

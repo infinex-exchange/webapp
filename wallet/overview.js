@@ -1,4 +1,17 @@
+function prettyBalance(amount, prec) {
+    let bn = new BigNumber(amount);
+    bn = bn.dp(prec, BigNumber.ROUND_DOWN);
+    if(bn.isZero())
+        return '< ' + '0'.repeat(prec-1);
+    else
+        return bn.toString();
+}
+
 function renderAsset(data) {
+    let total = prettyBalance(data.total, data.defaultPrec);
+    let locked = prettyBalance(data.locked, data.defaultPrec);
+    let avbl = prettyBalance(data.avbl, data.defaultPrec);
+    
     return `
         <div data-id="${data.symbol}" class="assets-item row p-1 hoverable" onClick="showAsset(this)"
         data-icon="${data.iconUrl}" data-name="${data.name}" data-total="${data.total}"
@@ -11,13 +24,13 @@ function renderAsset(data) {
                 <span class="small">${data.name}</span>
             </div>
             <div class="text-end my-auto d-none d-lg-block" style="width: 19%">
-                ${data.total} ${data.symbol}
+                ${total} ${data.symbol}
             </div>
             <div class="text-end my-auto m-50-percent" style="width: 19%">
-                ${data.avbl}<span class="d-none d-lg-inline"> ${data.symbol}</span>
+                ${avbl}<span class="d-none d-lg-inline"> ${data.symbol}</span>
             </div>
             <div class="text-end my-auto d-none d-lg-block" style="width: 18%">
-                ${data.locked} ${data.symbol}
+                ${locked} ${data.symbol}
             </div>
             <div class="my-auto d-none d-lg-block" style="width: 24%">
                 <a href="/wallet/deposit/${data.symbol}" class="small link-ultra px-1"><strong>Deposit</strong></a>

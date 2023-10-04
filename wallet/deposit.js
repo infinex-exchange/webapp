@@ -121,7 +121,12 @@ $(document).on('authChecked', function() {
     let pathLast = pathArray[pathArray.length - 1];
     if(pathLast != 'deposit' && pathLast != '') {
         let symbol = pathLast.toUpperCase();
-        window.selectCoin.setCustom(symbol);
+        api(
+            'GET',
+            '/wallet/v2/assets/' + symbol
+        ).then(
+            window.selectCoin.setCustom
+        );
     }
     
     var txHistoryData = {

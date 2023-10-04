@@ -5,7 +5,7 @@ class SelectNet extends Select {
             endpoint,
             'networks',
             'Select network...',
-            true,
+            false,
             onChange,
             autoSelect
         );

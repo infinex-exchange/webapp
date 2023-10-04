@@ -62,9 +62,10 @@ class Select {
             this.endpoint,
             root,
             this.render,
-            this.div,
+            this.div.find('.selector-data'),
             true,
-            this.afterAdd
+            this.afterAdd,
+            this.div.find('.selector-data-preloader')
         );
         
         this.div.on('click', function(event) {

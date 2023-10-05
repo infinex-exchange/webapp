@@ -37,15 +37,7 @@ function onNetSelected(symbol) {
         'GET',
         '/wallet/v2/withdrawal/' + window.selectCoin.key + '/' + symbol
     ).then(function(data) {
-        // Reset form
-        
-        window.validAddress = false;
-        window.validMemo = false;
-        window.validAdbkName = false;
-        $('#withdraw-form').get(0).reset();
-        $('small[id^="help-"]').hide();
-        $('#withdraw-amount').data('val', '').val('').trigger('prevalidated');
-        $('#withdraw-save').trigger('change');
+
         
         // Memo
         
@@ -143,6 +135,15 @@ $(document).on('authChecked', function() {
             }
         );
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // Fee range -> fee input
     $('#withdraw-fee-range').on('input', function() {

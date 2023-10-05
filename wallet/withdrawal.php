@@ -65,6 +65,16 @@
                         </div>
                     </div>
                     
+                    <div id="withdraw-warning" class="col-12">
+                        <div class="alert alert-warning d-flex align-items-center my-2" role="alert">
+                            <div class="px-2">
+                                <i class="fa-solid fa-triangle-exclamation fa-2x"></i>
+                            </div>
+                            <div class="px-2" id="withdraw-warning-content">
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="row">
                         <div class="col-12 col-lg-6 py-2">
                             <label for="select-adbk">Address:</label>

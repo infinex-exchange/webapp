@@ -37,43 +37,41 @@ function onNetSelected(symbol) {
         'GET',
         '/wallet/v2/withdrawal/' + window.selectCoin.key + '/' + symbol
     ).then(function(data) {
-        // Reset validation variables
+        // Reset form
+        
         window.validAddress = false;
         window.validMemo = false;
         window.validAdbkName = false;
-        
-        // Reset form
         $('#withdraw-form').get(0).reset();
         $('small[id^="help-"]').hide();
         $('#withdraw-amount').data('val', '').val('').trigger('prevalidated');
         $('#withdraw-save').trigger('change');
         
-        // Operating warning
-        if(data.operating)
-            $('#withdraw-operating-warning').addClass('d-none');
-        else
-            $('#withdraw-operating-warning').removeClass('d-none');
-        
-        // Precision
-        window.wdAmountPrec = data.prec;
-        
-        // Round raw balance to this precision
-        window.wdBalance = window.wdRawBalance.dp(data.prec, BigNumber.ROUND_DOWN);
-        $('#withdraw-balance').html(window.wdBalance.toString());
-        
-        window.wdFeeMinOrig = data.feeMin;
-        window.wdFeeMaxOrig = data.feeMax;
-        updateFees(data.feeMin, data.feeMax);
-        
         // Memo
-        if(typeof(data.memo_name) !== 'undefined') {
-            $('#withdraw-memo-name').html(data.memo_name + ':');
+        
+        if(data.memoName) {
+            $('#withdraw-memo-name').html(data.memoName + ':');
             $('#withdraw-memo-wrapper').removeClass('d-none');
         }
         else {
             $('#withdraw-memo-wrapper').addClass('d-none');
         }
         
+        // Warnings
+        if(data.warnings.length > 0) {
+            let warnHtml = data.warnings.join('<br><br>');
+            $('#withdraw-warning-content').html(warnHtml);
+            $('#withdraw-warning').removeClass('d-none')
+        }
+        else
+            $('#withdraw-warning').addClass('d-none');
+        
+        // Operating warning
+        if(data.operating)
+            $('#withdraw-operating-warning').addClass('d-none');
+        else
+            $('#withdraw-operating-warning').removeClass('d-none');
+            
         // Contract
         if(typeof(data.contract) !== 'undefined') {
             $('#withdraw-contract').html(data.contract);
@@ -82,6 +80,21 @@ function onNetSelected(symbol) {
         else {
             $('#withdraw-contract-wrapper').addClass('d-none');
         }
+        
+        // Min amount
+        $('#withdraw-min-amount').html(data.minAmount);
+        
+        // Precision
+        window.wdAmountPrec = data.prec;
+        
+        // Round raw balance to this precision
+        window.wdBalance = window.wdRawBalance.dp(data.prec, BigNumber.ROUND_DOWN);
+        $('#withdraw-balance').html(window.wdBalance.toString());
+        
+        // Fees
+        window.wdFeeMinOrig = data.feeMin;
+        window.wdFeeMaxOrig = data.feeMax;
+        updateFees(data.feeMin, data.feeMax);
         
         $('#withdraw-step3').show();
         $('html, body').animate({
@@ -128,8 +141,6 @@ $(document).on('authChecked', function() {
         );
     }
     
-    // TODO: legacy code below
-    
     // Fee range -> fee input
     $('#withdraw-fee-range').on('input', function() {
         window.wdAmountMax = window.wdBalance.minus( $(this).val() ).dp(window.wdAmountPrec);
@@ -140,13 +151,10 @@ $(document).on('authChecked', function() {
         $('#withdraw-amount').trigger('prevalidated');
     });
     
-    
-    
-    
     // Lock format and precision of amount input
     $('#withdraw-amount').on('input', function () {
-        var regex = new RegExp("^[0-9]*(\\.[0-9]{0," + window.wdAmountPrec + "})?$");
-        var newVal = $(this).val();
+        let regex = new RegExp("^[0-9]*(\\.[0-9]{0," + window.wdAmountPrec + "})?$");
+        let newVal = $(this).val();
         
         // Revert bad format (real visible value)
         if (!regex.test(newVal)) {
@@ -174,13 +182,10 @@ $(document).on('authChecked', function() {
         $(this).val( $(this).data('val') );
     });
     
-    
-    
-    
     // Amount input -> amount range
     $('#withdraw-amount').on('prevalidated', function() {
-        var amount = new BigNumber($(this).data('val'));
-        var perc = 0;
+        let amount = new BigNumber($(this).data('val'));
+        let perc = 0;
         if(!amount.isNaN())
             perc = amount.dividedBy(window.wdAmountMax).multipliedBy(100).toFixed(0);
         $('#withdraw-amount-range').val(perc).trigger('_input');
@@ -188,7 +193,7 @@ $(document).on('authChecked', function() {
     
     // Amount range -> amount input
     $('#withdraw-amount-range').on('input', function() {
-        var amount = window.wdAmountMax.
+        let amount = window.wdAmountMax.
             multipliedBy( $(this).val() ).
             dividedBy(100).
             dp(window.wdAmountPrec).
@@ -198,24 +203,26 @@ $(document).on('authChecked', function() {
                              .val(amount);
     });
     
-    
-    
-    
     // Drop amount to available balance
     $('#withdraw-amount').on('prevalidated', function() {
-        var amount = new BigNumber($(this).data('val'));
+        let amount = new BigNumber($(this).data('val'));
         if(amount.gt(window.wdAmountMax)) {
             $('#withdraw-amount, #withdraw-amount-max').addClass('blink-red');
             setTimeout(function() {
                 $('#withdraw-amount, #withdraw-amount-max').removeClass('blink-red');
                 
-                var max = window.wdAmountMax.toString();
+                let max = window.wdAmountMax.toString();
                 $('#withdraw-amount').data('val', max)
                                     .val(max)
                                     .trigger('prevalidated');
             }, 1000);
         }
     });
+    
+    
+    
+    
+    
     
     
     
@@ -312,6 +319,46 @@ $(document).on('authChecked', function() {
         }, 750);
     });
     
+    // Expand save name
+    $('#withdraw-save').on('change', function() {
+        if (this.checked) {
+            $('#withdraw-save-wrapper').addClass('ui-card-light');
+            $('#withdraw-save-expand').show(); 
+        } else {
+            $('#withdraw-save-expand').hide();
+            $('#withdraw-save-wrapper').removeClass('ui-card-light');
+            $('#withdraw-save-name').val('');
+            window.validAdbkName = false;
+            $('#help-save-name').hide();
+        }
+    });
+    
+    // Hide save controls if already in adbk
+    $('#select-adbk, #withdraw-memo').on('input', function() {
+        let addr = $('#select-adbk').val();
+        let memo = $('#withdraw-memo').val();
+        
+        if($('.select-adbk-item[data-address="' + addr + '"][data-memo="' + memo + '"]').length) {
+            $('#withdraw-save-wrapper').hide();
+            $('#withdraw-save').prop('checked', false).trigger('change');
+        }
+        else {
+            $('#withdraw-save-wrapper').show();
+        }
+    });
+    
+    // Validate save name
+    $('#withdraw-save-name').on('input', function() {
+	    if(validateAdbkName($(this).val())) {
+		    window.validAdbkName = true;
+		    $('#help-save-name').hide();
+	    }
+	    else {
+		    window.validAdbkName = false;
+		    $('#help-save-name').show();
+	    }
+    });
+    
     
     
     
@@ -400,45 +447,7 @@ $(document).on('authChecked', function() {
     
     
     
-    // Expand save name
-    $('#withdraw-save').on('change', function() {
-        if (this.checked) {
-            $('#withdraw-save-wrapper').addClass('ui-card-light');
-            $('#withdraw-save-expand').show(); 
-        } else {
-            $('#withdraw-save-expand').hide();
-            $('#withdraw-save-wrapper').removeClass('ui-card-light');
-            $('#withdraw-save-name').val('');
-            window.validAdbkName = false;
-            $('#help-save-name').hide();
-        }
-    });
     
-    // Hide save controls if already in adbk
-    $('#select-adbk, #withdraw-memo').on('input', function() {
-        var addr = $('#select-adbk').val();
-        var memo = $('#withdraw-memo').val();
-        
-        if($('.select-adbk-item[data-address="' + addr + '"][data-memo="' + memo + '"]').length) {
-            $('#withdraw-save-wrapper').hide();
-            $('#withdraw-save').prop('checked', false).trigger('change');
-        }
-        else {
-            $('#withdraw-save-wrapper').show();
-        }
-    });
-    
-    // Validate save name
-    $('#withdraw-save-name').on('input', function() {
-	    if(validateAdbkName($(this).val())) {
-		    window.validAdbkName = true;
-		    $('#help-save-name').hide();
-	    }
-	    else {
-		    window.validAdbkName = false;
-		    $('#help-save-name').show();
-	    }
-    });
     
     var txHistoryData = {
         api_key: window.apiKey,
@@ -451,7 +460,7 @@ $(document).on('newWalletTransaction', function() {
     if(typeof(window.latestWithdrawalXid) === 'undefied')
         return;
     
-    var newItem = $('.tx-history-item[data-xid="' + window.latestWithdrawalXid + '"]');
+    let newItem = $('.tx-history-item[data-xid="' + window.latestWithdrawalXid + '"]');
     if(newItem.length)
         mobileTxDetails(newItem);
 });

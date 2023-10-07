@@ -35,7 +35,7 @@ function onNetSelected(symbol) {
     
     api(
         'GET',
-        '/wallet/v2/withdrawal/' + window.selectCoin.key + '/' + symbol
+        '/wallet/v2/io/withdrawal/' + symbol + '/' + window.selectCoin.key
     ).then(function(data) {
 
         

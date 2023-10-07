@@ -9,7 +9,7 @@ function onNetSelected(symbol) {
     
     api(
         'GET',
-        '/wallet/v2/io/deposit/' + window.selectCoin.key + '/' + symbol
+        '/wallet/v2/io/deposit/' + symbol + '/' + window.selectCoin.key
     ).then(
         function(data) {
             // Confirmations target

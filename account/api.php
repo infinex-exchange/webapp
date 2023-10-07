@@ -24,7 +24,7 @@
             
             <div class="row p-2">
                 <div class="col-auto my-auto">
-                    <button type="button" class="btn btn-primary btn-sm" onClick="showAddAKPrompt()">New API key</a>
+                    <button type="button" class="btn btn-primary btn-sm" onClick="addApiKey()">New API key</a>
                 </div>
             </div>
             

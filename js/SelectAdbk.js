@@ -3,7 +3,7 @@ class SelectAdbk extends Select {
         super(
             target,
             endpoint,
-            'addressbook',
+            'addresses',
             'Select address...',
             true,
             onChange

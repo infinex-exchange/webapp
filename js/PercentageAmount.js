@@ -12,7 +12,7 @@ class PercentageAmount {
         this.reset(prec, maxAmount);
         
         // Input -> slider
-        this.input.onChange = function(val) {
+        this.input.onChange(function(val) {
             if(th.maxAmount === null)
                 return;
             

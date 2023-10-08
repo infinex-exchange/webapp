@@ -12,7 +12,7 @@ class PercentageAmount {
         this.reset(prec, maxAmount);
         
         // Input -> slider
-        this.input.addOnChangeAny(function(val) {
+        this.input.onChange = function(val) {
             if(th.maxAmount === null)
                 return;
             
@@ -64,19 +64,5 @@ class PercentageAmount {
         this.input.reset(prec);
         
         this.slider.val('0');
-    }
-    
-    render(data) {
-        return `
-            <div class="selector-item row p-1 hoverable" data-id="${data.symbol}" data-val="${data.name}">
-                <div class="col-auto my-auto text-center" style="width: 32px">
-                    <img width="24px" height="24px" src="${data.iconUrl}">
-                </div>
-                <div class="col my-auto">
-                    <strong>${data.symbol}</strong>
-                    <span class="secondary">${data.name}</span>
-                </div>
-            </div>
-        `;
     }
 }

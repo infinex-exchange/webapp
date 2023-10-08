@@ -88,6 +88,9 @@ class Select {
             
             $('.selector-dropdown').not(thisDropdown).hide();
             $('.selector-arrow').not(thisArrow).removeClass('flip');
+            
+            if($(event.target).hasClass('.selector-search'))
+                return;
         
             thisDropdown.toggle();
             thisArrow.toggleClass('flip');

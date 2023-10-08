@@ -1,8 +1,8 @@
 class DecimalInput {
-    constructor(input, prec = 0) {
+    constructor(input, prec = 0, cbRecalc = null) {
         this.input = input;
         this.cbOnChange = new Array();
-        this.cbRecalc = new Array();
+        this.cbRecalc = cbRecalc;
         
         this.reset(prec);
         
@@ -43,9 +43,8 @@ class DecimalInput {
     
     set(val, recalc = true) {
         // Perform all calculations
-        if(recalc)
-            for(const callback of this.cbRecalc)
-                val = callback(val);
+        if(recalc && this.cbRecalc)
+                val = this.cbRecalc(val);
         
         this.valReal = val;
             
@@ -58,10 +57,6 @@ class DecimalInput {
     
     onChange(callback) {
         this.cbOnChange.push(callback);
-    }
-    
-    addRecalc(callback) {
-        this.cbRecalc.push(callback);
     }
     
     updateVTS() {

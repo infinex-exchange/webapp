@@ -113,6 +113,9 @@ class Select {
             this.div.find('.selector-input').on('input', function() {
                 th.div.find('.selector-dropdown').hide();
                 th.div.find('.selector-arrow').removeClass('flip');
+                
+                if(th.onChange)
+                    th.onChange(null, $(this).val(), null);
             });
     }
     

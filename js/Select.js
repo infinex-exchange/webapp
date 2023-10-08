@@ -89,7 +89,7 @@ class Select {
             $('.selector-dropdown').not(thisDropdown).hide();
             $('.selector-arrow').not(thisArrow).removeClass('flip');
             
-            if($(event.target).hasClass('.selector-search'))
+            if($(e.target).is( th.div.find('.selector-search') ))
                 return;
         
             thisDropdown.toggle();
@@ -102,12 +102,7 @@ class Select {
         if(canSearch)
             this.scr.bindSearch(this.div.find('.selector-search'));
         
-        $('html').on('click', function(e) {
-            if($(e.target).is( th.div.find('.selector-search') )) {
-                e.preventDefault();
-                return;
-            }
-            
+        $('html').on('click', function() {
             th.div.find('.selector-dropdown').hide();
             th.div.find('.selector-arrow').removeClass('flip');
         });

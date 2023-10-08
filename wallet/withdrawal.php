@@ -128,7 +128,7 @@
                         
                         <div class="col-12 col-lg-6 py-2 order-lg-3 mt-auto">
                             <span class="range-value" for="withdraw-amount-range" suffix="%"></span>
-                            <input id="withdraw-amount-range" type="range" class="form-range" min="0" max="100" step="1" value="0">
+                            <input id="withdraw-amount-range" type="range" class="form-range">
                         </div>
                         
                         <div class="col-12 col-lg-6 py-2 order-lg-2">

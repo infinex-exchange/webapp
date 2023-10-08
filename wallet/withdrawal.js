@@ -155,73 +155,8 @@ $(document).on('authChecked', function() {
         $('#withdraw-amount').trigger('prevalidated');
     });
     
-    // Lock format and precision of amount input
-    $('#withdraw-amount').on('input', function () {
-        let regex = new RegExp("^[0-9]*(\\.[0-9]{0," + window.wdAmountPrec + "})?$");
-        let newVal = $(this).val();
-        
-        // Revert bad format (real visible value)
-        if (!regex.test(newVal)) {
-            $(this).val( $(this).data('val') );
-        }
-        
-        // Drop . on last position (data-val only)
-        else if(newVal.slice(-1) == '.') {
-            $(this).data('val', newVal.substring(0, newVal.length - 1));
-        }
-        
-        // Change . to 0. on first position (data-val only)
-        else if(newVal.startsWith('.')) {
-            $(this).data('val', '0' + newVal);
-        }
-        
-        // Save data-val when everythink ok
-        else $(this).data('val', newVal);
     
-        $(this).trigger('prevalidated');
-    });
     
-    // Move data-val to real visible value
-    $('#withdraw-amount').on('focusout', function() {
-        $(this).val( $(this).data('val') );
-    });
-    
-    // Amount input -> amount range
-    $('#withdraw-amount').on('prevalidated', function() {
-        let amount = new BigNumber($(this).data('val'));
-        let perc = 0;
-        if(!amount.isNaN())
-            perc = amount.dividedBy(window.wdAmountMax).multipliedBy(100).toFixed(0);
-        $('#withdraw-amount-range').val(perc).trigger('_input');
-    });
-    
-    // Amount range -> amount input
-    $('#withdraw-amount-range').on('input', function() {
-        let amount = window.wdAmountMax.
-            multipliedBy( $(this).val() ).
-            dividedBy(100).
-            dp(window.wdAmountPrec).
-            toString();
-        
-        $('#withdraw-amount').data('val', amount)
-                             .val(amount);
-    });
-    
-    // Drop amount to available balance
-    $('#withdraw-amount').on('prevalidated', function() {
-        let amount = new BigNumber($(this).data('val'));
-        if(amount.gt(window.wdAmountMax)) {
-            $('#withdraw-amount, #withdraw-amount-max').addClass('blink-red');
-            setTimeout(function() {
-                $('#withdraw-amount, #withdraw-amount-max').removeClass('blink-red');
-                
-                let max = window.wdAmountMax.toString();
-                $('#withdraw-amount').data('val', max)
-                                    .val(max)
-                                    .trigger('prevalidated');
-            }, 1000);
-        }
-    });
     
     // Expand save name
     $('#withdraw-save').on('change', function() {

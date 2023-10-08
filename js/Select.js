@@ -8,7 +8,8 @@ class Select {
         onChange = null,
         autoSelect = false,
         autoSelectSingle = false,
-        nullVal = null
+        nullVal = null,
+        canType = false
     ) {
         let th = this;
         
@@ -31,11 +32,12 @@ class Select {
                 </div>
             </div>
         ` : '';
+        let inputRo = canType ? '' : 'readonly';
         target.replaceWith(`
             <div class="selector-wrapper" id="${randomId}">
                 <form>
                     <div class="selector-inner">
-                        <input readonly type="text" placeholder="${placeholder}" class="form-control selector-input">
+                        <input ${inputRo} type="text" placeholder="${placeholder}" class="form-control selector-input">
                         <i class="fa-solid fa-angle-down flippable selector-arrow"></i>
                     </div>
                 </form>
@@ -90,7 +92,7 @@ class Select {
             thisDropdown.toggle();
             thisArrow.toggleClass('flip');
         
-            if(thisArrow.hasClass('flip'))
+            if(!canType && thisArrow.hasClass('flip'))
                 th.div.find('.selector-search').focus();
         });
         
@@ -106,6 +108,12 @@ class Select {
             th.div.find('.selector-dropdown').hide();
             th.div.find('.selector-arrow').removeClass('flip');
         });
+        
+        if(canType)
+            this.div.find('.selector-input').on('input', function() {
+                th.div.find('.selector-dropdown').hide();
+                th.div.find('.selector-arrow').removeClass('flip');
+            });
     }
     
     afterAdd(item, obj) {

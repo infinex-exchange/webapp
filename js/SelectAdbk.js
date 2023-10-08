@@ -4,9 +4,13 @@ class SelectAdbk extends Select {
             target,
             endpoint,
             'addresses',
-            'Select address...',
+            'Paste address or select from address book...',
             true,
-            onChange
+            onChange,
+            false,
+            false,
+            null,
+            true
         );
     }
     
@@ -26,7 +30,7 @@ class SelectAdbk extends Select {
         }
         
         return `
-            <div class="selector-item row p-1 hoverable" data-id="${data.adbkid}" data-val="${data.name}">
+            <div class="selector-item row p-1 hoverable" data-id="${data.adbkid}" data-val="${data.address}">
                 <div class="col-12">
                     <h5 class="secondary">${data.name}</h5>
                     ${data.address}

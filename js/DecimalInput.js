@@ -1,8 +1,9 @@
 class DecimalInput {
-    constructor(input, prec = 0, cbRecalc = null) {
+    constructor(input, prec = 0) {
         this.input = input;
-        this.cbOnChange = new Array();
-        this.cbRecalc = cbRecalc;
+        this.cbOnChangeChained = new Array();
+        this.cbOnChangeUnchained = new Array();
+        this.chain = false;
         
         this.reset(prec);
         
@@ -29,7 +30,7 @@ class DecimalInput {
             }
             
             // Set real value
-            th.set(valCandidate);
+            th.set(valCandidate, true);
         });
         
         this.input.on('focusout', function() {
@@ -41,28 +42,37 @@ class DecimalInput {
         return this.valReal;
     }
     
-    set(val, recalc = true) {
-        // Perform all calculations
-        if(recalc && this.cbRecalc)
-                val = this.cbRecalc(val);
+    set(val, chained) {
+        if(chained) {
+            if(this.chain)
+                throw 'DecimalInput infinite chain reaction ! ! !';
+            this.chain = true;
+            for(const callback of this.cbOnChangeChained)
+                callback(val);
+            this.chain = false;
+        }
         
         this.valReal = val;
             
         if(this.input.not(':focus'))
             this.updateVTS();
         
-        for(const callback of this.cbOnChange)
+        for(const callback of this.cbOnChangeUnchained)
             callback(val);
     }
     
-    onChange(callback) {
-        this.cbOnChange.push(callback);
+    onChange(callback, chained) {
+        if(chained)
+            this.cbOnChangeChained.push(callback);
+        else
+            this.cbOnChangeUnchained.push(callback);
     }
     
     updateVTS() {
         // Set visible and typing safe value to real value
-        th.valTypingSafe = th.valReal;
-        $(this).val(th.valReal);
+        let str = th.valReal ? th.valReal = '';
+        th.valTypingSafe = str;
+        $(this).val(str);
     }
     
     reset(prec = null) {

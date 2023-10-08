@@ -1,12 +1,8 @@
 class DecimalInput {
-    constructor(input, prec = 0, onChange = null, recalc = null) {
+    constructor(input, prec = 0) {
         this.input = input;
         this.cbOnChange = new Array();
-        if(onChange)
-            this.cbOnChange.push(onChange);
         this.cbRecalc = new Array();
-        if(recalc)
-            this.cbRecalc.push(recalc);
         
         this.reset(prec);
         

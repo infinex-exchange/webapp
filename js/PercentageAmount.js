@@ -40,7 +40,7 @@ class PercentageAmount {
             
             amount = amount.dp(th.prec).toString();
             
-            th.input.set(amount, false);
+            th.input.set(amount, true);
         });
     
         // Drop amount to available balance

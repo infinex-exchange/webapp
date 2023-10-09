@@ -86,7 +86,7 @@ class DecimalInput {
         this.input.val(str);
         
         for(const callback of this.cbOnUpdateVisible)
-            callback(this.realVal);
+            callback(this.valReal);
     }
     
     reset(prec = null) {

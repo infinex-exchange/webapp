@@ -17,6 +17,7 @@ function onCoinSelected(symbol) {
         function(data) {
             window.bnAvbl = new BigNumber(data.avbl);
             window.paAmount.setPrec(data.defaultPrec);
+            console.log('case 1');
             window.paAmount.setRange(null, window.bnAvbl);
             
             window.selectNet.reset('/wallet/v2/io/networks?asset=' + symbol);
@@ -78,6 +79,7 @@ function onNetSelected(symbol) {
         }
         
         // Setup amount input
+        console.log('case 2');
         window.inpAmount.setPrec(data.prec);
         window.paAmount.setRange(data.minAmount);
         
@@ -223,6 +225,7 @@ $(document).on('authChecked', function() {
     window.inpFee.onChange(
         function(val) {
             let newMax = window.bnAvbl.minus(val);
+            console.log('case 3');
             window.paAmount.setRange(null, newMax);
             $('#withdraw-amount-max').html(
                 darkBalance(newMax.toString(), window.paAmount.prec)

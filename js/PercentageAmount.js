@@ -118,7 +118,7 @@ class PercentageAmount {
         if(val && this.maxAmount.gt(this.minAmount)) {
             let amount = new BigNumber(val);
             perc = amount;
-            if(this.rescalePerc)
+            if(th.rescalePerc)
                 perc = perc.minus(this.minAmount)
                            .dividedBy(this.maxAmount.minus(this.minAmount));
             else

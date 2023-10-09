@@ -32,7 +32,7 @@ function prettyBalance(amount, prec) {
 function darkBalance(amount, prec) {
     let bn = new BigNumber(amount);
     let strAmountInPrec = bn.toFixed(prec);
-    let html = strAmountInPrec + '<span style="opacity: 20%">'
+    let html = strAmountInPrec + '<span style="opacity: 10%">'
     html += amount.substring(strAmountInPrec.length);
     html += '</span>';
     return html;

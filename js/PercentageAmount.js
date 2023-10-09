@@ -15,7 +15,7 @@ class PercentageAmount {
         // Input -> slider
         this.input.onChange(
             function(val) {
-                
+                th.updateSlider(val);
             },
             false
         );

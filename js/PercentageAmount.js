@@ -85,7 +85,7 @@ class PercentageAmount {
             console.log('update visible to: ')
             th.input.input.removeClass('text-red');
             
-            updateSlider(val);
+            th.updateSlider(val);
         });
     }
     

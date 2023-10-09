@@ -71,7 +71,7 @@ class PercentageAmount {
         this.prec = prec;
         this.maxAmount = maxAmount;
         
-        this.input.reset(prec);
+        this.input.reset();
         
         this.slider.val('0');
     }

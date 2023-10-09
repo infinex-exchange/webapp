@@ -22,7 +22,7 @@ function onCoinSelected(symbol) {
         '/wallet/v2/balances/' + symbol
     ).then(
         function(data) {
-            window.bnRawBalance = new BigNumber(data.avbl);
+            window.paAmount.reset(data.defaultPrec, new BigNumber(data.avbl));
             $('#withdraw-step2').show();
         }
     );
@@ -72,11 +72,8 @@ function onNetSelected(symbol) {
             $('#withdraw-contract-wrapper').addClass('d-none');
         }
         
-        // Reset percentage amount
-        window.paAmount.reset(
-            data.prec,
-            window.bnRawBalance
-        );
+        // Reset decimal input
+        window.inpAmount.reset(data.prec);
         
         // Fees
         /*window.wdFeeMinOrig = data.feeMin;

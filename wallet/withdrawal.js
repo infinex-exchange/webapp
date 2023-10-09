@@ -22,13 +22,6 @@ function onCoinSelected(symbol) {
             window.selectNet.reset('/wallet/v2/io/networks?asset=' + symbol);
             
             $('#withdraw-step2').show();
-            
-            $('#withdraw-balance').html(
-                darkBalance(
-                    data.avbl,
-                    window.paAmount.prec
-                )
-            );
         }
     );
     
@@ -80,6 +73,9 @@ function onNetSelected(symbol) {
         // Setup amount input
         window.inpAmount.setPrec(data.prec);
         window.paAmount.setRange(data.minAmount);
+        
+        // Min amount
+        $('#withdraw-amount-min').html(data.minAmount);
         
         // Setup fee input
         let feePrec = getFeePrec(data.feeMin, data.feeMax);

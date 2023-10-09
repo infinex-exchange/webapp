@@ -57,7 +57,7 @@
                             </div>
                             <div class="px-2">
                                 Looks like our connection to this network is not working properly.<br>
-                                You can make a deposit right now, but the funds will appear in your account with a delay.
+                                Funds may be credited with a delay.
                             </div>
                         </div>
                     </div>

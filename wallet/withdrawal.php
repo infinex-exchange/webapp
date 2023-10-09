@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="px-2">
                                     Looks like our connection to this network is not working properly.<br>
-                                    You can request a withdrawal as normal, but it will be processed with delay.
+                                    Withdrawal may be executed with a delay.
                                 </div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="px-2">
                                     This is the deposit address of another Infinex user.<br>
-                                    Withdrawal will be processed internally and you will not pay any fee.
+                                    Withdrawal will be processed internally and you won't pay any fee.
                                 </div>
                             </div>
                         </div>
@@ -143,13 +143,13 @@
                         </div>
                         
                         <div class="col-12 col-lg-6 py-2 order-lg-5 my-auto">
-                            <span class="secondary">Available:</span>
+                            <span class="secondary">Min amount:</span>
                                 <span class="float-end">
-                                <span id="withdraw-balance"></span>
+                                <span id="withdraw-amount-min"></span>
                                 <span class="asset-symbol"></span>
                             </span>
                             <br>
-                            <span class="secondary">After pay fee:</span>
+                            <span class="secondary">Max amount:</span>
                             <span class="float-end">
                                 <span id="withdraw-amount-max"></span>
                                 <span class="asset-symbol"></span>

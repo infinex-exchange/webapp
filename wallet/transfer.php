@@ -4,9 +4,11 @@
         <?php include(__DIR__.'/../inc/head.php'); ?>
         <script src="/js/Select.js?<?php echo filemtime(__DIR__.'/../js/Select.js'); ?>"></script>
         <script src="/js/SelectCoin.js?<?php echo filemtime(__DIR__.'/../js/SelectCoin.js'); ?>"></script>
+        <script src="/js/SelectNet.js?<?php echo filemtime(__DIR__.'/../js/SelectNet.js'); ?>"></script>
+        <script src="/js/SelectAdbk.js?<?php echo filemtime(__DIR__.'/../js/SelectAdbk.js'); ?>"></script>
+        <script src="/js/DecimalInput.js?<?php echo filemtime(__DIR__.'/../js/DecimalInput.js'); ?>"></script>
+        <script src="/js/PercentageAmount.js?<?php echo filemtime(__DIR__.'/../js/PercentageAmount.js'); ?>"></script>
         <script src="/wallet/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
-        <!-- TODO legacy code -->
-        <script src="/js/ajax_scroll.js?<?php echo filemtime(__DIR__.'/../js/ajax_scroll.js'); ?>"></script>
         <title>Internal transfer | Infinex</title>
     </head>
     <body>
@@ -67,10 +69,16 @@
                         
                         <div class="col-12 col-lg-6 py-2 order-lg-5 my-auto">
                             <span class="secondary">Available:</span>
-                            <span class="float-end" id="transfer-balance"></span>
+                                <span class="float-end">
+                                <span id="transfer-balance"></span>
+                                <span class="asset-symbol"></span>
+                            </span>
                             <br>
                             <span class="secondary">Fee:</span>
-                            <span class="float-end">0</span>
+                            <span class="float-end">
+                                0
+                                <span class="asset-symbol"></span>
+                            </span>
                         </div>
                         
                         <div class="col-12 col-lg-6 py-2 order-lg-6 my-auto">
@@ -79,22 +87,6 @@
                     </div>
                         
                 </form>
-                
-                <div class="row py-2">
-                    <div class="col-12">
-                        <div class="alert alert-danger d-flex align-items-center my-2" role="alert">
-                            <div class="px-2">
-                                <i class="fa-solid fa-spell-check fa-2x"></i>
-                            </div>
-                            <div class="px-2">
-                                Make sure the recipient's e-mail address is correct!<br>
-                                Transfers to invalid e-mail addresses will also be made to make it impossible to use this form
-                                to verify that someone else has an account on Infinex.<br>
-                                In case of a mistake, it is possible to recover the funds by contacting the support.
-                            </div>
-                        </div>
-                    </div>    
-                </div>
             </div>
         
         <!-- / Main column -->

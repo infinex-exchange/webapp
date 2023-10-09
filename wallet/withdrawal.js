@@ -19,8 +19,12 @@ function onCoinSelected(symbol) {
             window.selectNet.reset('/wallet/v2/io/networks?asset=' + symbol);
             
             $('#withdraw-step2').show();
+            
+            $('#withdraw-balance').html(data.avbl);
         }
     );
+    
+    $('.asset-symbol').html(symbol);
 }
 
 function onNetSelected(symbol) {
@@ -32,9 +36,7 @@ function onNetSelected(symbol) {
         'GET',
         '/wallet/v2/io/withdrawal/' + symbol + '/' + window.selectCoin.key
     ).then(function(data) {
-
-        
-        // Memo
+        // Memo name
         if(data.memoName) {
             $('#withdraw-memo-name').html(data.memoName + ':');
             $('#withdraw-memo-wrapper').removeClass('d-none');
@@ -59,7 +61,7 @@ function onNetSelected(symbol) {
             $('#withdraw-operating-warning').removeClass('d-none');
             
         // Contract
-        if(typeof(data.contract) !== 'undefined') {
+        if(data.contract) {
             $('#withdraw-contract').html(data.contract);
             $('#withdraw-contract-wrapper').removeClass('d-none');
         }

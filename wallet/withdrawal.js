@@ -115,7 +115,11 @@ $(document).on('authChecked', function() {
     window.inpFee = new DecimalInput( $('#withdraw-fee') );
     window.paFee = new PercentageAmount(
         window.inpFee,
-        $('#withdraw-fee-range')
+        $('#withdraw-fee-range'),
+        null,
+        null,
+        null,
+        true
     );
         
     let pathArray = window.location.pathname.split('/');

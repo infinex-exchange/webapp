@@ -25,7 +25,7 @@ class DecimalInput {
             let valCandidate = valVisible == '' ? null : valVisible;
             if(valCandidate) {
                 if(valCandidate.slice(-1) == '.')
-                    valCandidate = valCandidate.substring(0, valCandidate.length - 1));
+                    valCandidate = valCandidate.substring(0, valCandidate.length - 1);
                 else if(valCandidate.startsWith('.'))
                     valCandidate = '0' + valCandidate;
             }

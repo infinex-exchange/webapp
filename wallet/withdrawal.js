@@ -322,11 +322,6 @@ $(document).on('authChecked', function() {
         if(adbkSave)
             data.adbkSaveName = $('#withdraw-save-name').val();
         
-        console.log(data);
-        $('#withdraw-step3, #withdraw-step2').hide();
-        selectCoin.reset();
-        return;
-        
         api2fa(
             'POST',
             '/wallet/v2/transactions',
@@ -334,16 +329,13 @@ $(document).on('authChecked', function() {
         ).then(function(resp) {
             $('#withdraw-step3, #withdraw-step2').hide();
             selectCoin.reset();
+            
+            // TODO legacy code under this line
             window.latestWithdrawalXid = data.xid;
             updateTxHistory();
         });
     });
-    
-    
-    
-    
-    
-    
+
     var txHistoryData = {
         api_key: window.apiKey,
         type: 'WITHDRAWAL'

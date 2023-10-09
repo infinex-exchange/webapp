@@ -82,9 +82,7 @@ class PercentageAmount {
             true
         );
         this.input.onUpdateVisible(function(val) {
-            console.log('update visible to: ')
             th.input.input.removeClass('text-red');
-            
             th.updateSlider(val);
         });
     }
@@ -115,14 +113,14 @@ class PercentageAmount {
         
         let perc = '0';
         
-        if(val && th.maxAmount.gt(th.minAmount)) {
+        if(val && this.maxAmount.gt(this.minAmount)) {
             let amount = new BigNumber(val);
             perc = amount;
-            if(th.rescalePerc)
-                perc = perc.minus(th.minAmount)
-                           .dividedBy(th.maxAmount.minus(th.minAmount));
+            if(this.rescalePerc)
+                perc = perc.minus(this.minAmount)
+                           .dividedBy(this.maxAmount.minus(this.minAmount));
             else
-                perc = perc.dividedBy(th.maxAmount);
+                perc = perc.dividedBy(this.maxAmount);
             perc = perc.multipliedBy(100).toFixed(0);
         }
     

@@ -40,7 +40,7 @@ class PercentageAmount {
             
             amount = amount.dp(th.prec).toString();
             
-            th.input.set(amount, true, true);
+            th.input.set(amount, false);
         });
         this.slider.on('change', function() {
             th.input.set(th.input.get(), true);

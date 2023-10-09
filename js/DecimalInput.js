@@ -78,13 +78,13 @@ class DecimalInput {
     
     updateVTS() {
         // Set visible and typing safe value to real value
-        let str = th.valReal ? th.valReal : '';
+        let str = this.valReal ? this.valReal : '';
         
-        th.valTypingSafe = str;
-        $(this).val(str);
+        this.valTypingSafe = str;
+        this.input.val(str);
         
         for(const callback of this.cbOnUpdateVisible)
-            callback(th.realVal);
+            callback(this.realVal);
     }
     
     reset(prec = null) {

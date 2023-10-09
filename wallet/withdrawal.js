@@ -1,3 +1,6 @@
+window.timeoutTypingAddress = null;
+window.timeoutTypingMemo = null;
+
 function getFeePrec(feeMin, feeMax) {
     let feeMinDec = new BigNumber(feeMin);
     let feeMaxDec = new BigNumber(feeMax);
@@ -85,6 +88,10 @@ function onNetSelected(symbol) {
         window.paFee.setRange(data.feeMin, data.feeMax);
         window.paFee.set(50);
         
+        // Store fees to revert from internal transfer 0, 0
+        window.origFeeMin = data.feeMin;
+        window.origFeeMax = data.feeMax;
+        
         $('#withdraw-step3').show();
         $('html, body').animate({
             scrollTop: $("#withdraw-step3").offset().top
@@ -99,6 +106,14 @@ function onAdbkSelected(key, val, data) {
         // Typed address
         $('#withdraw-save-wrapper').show();
         memo = null;
+        
+        clearTimeout(window.timeoutTypingAddress);
+        window.timeoutTypingAddress = setTimeout(
+            function() {
+                validateAddress(val)
+            },
+            750
+        )
     }
     else {
         // Selected address
@@ -107,6 +122,66 @@ function onAdbkSelected(key, val, data) {
     }
     
     $('#withdraw-memo').val(memo ? memo : '');
+}
+
+function validateAddress(address) {
+    window.validAddress = false;
+    
+    api(
+        'POST',
+        '/wallet/v2/io/withdrawal/' + window.selectNet.key,
+        {
+            address: address
+        }
+    ).then(function(data) {
+        window.validAddress = data.validAddress;
+        if(data.internal) {
+            window.paFee.setRange(0, 0);
+            $('#withdraw-internal-notice').removeClass('d-none');
+        }
+        else {
+            window.paFee.setRange(window.origFeeMin, window.origFeeMax);
+            $('#withdraw-internal-notice').addClass('d-none');
+        }
+    });
+}
+
+function validateMemo(memo) {
+    if($('#withdraw-memo').val() == '') {
+        window.validMemo = false;
+        $('#help-memo').hide();
+        return;
+    }
+    
+    $.ajax({
+        url: config.apiUrl + '/wallet/withdraw/validate',
+        type: 'POST',
+        data: JSON.stringify({
+            api_key: window.apiKey,
+            asset: $('#select-coin').val(),
+            network: $('#select-net').data('network'),
+            memo: $('#withdraw-memo').val()
+        }),
+        contentType: "application/json",
+        dataType: "json",
+    })
+    .retry(config.retry)
+    .done(function (data) {
+        if(!data.success) {
+            msgBox(data.error);
+        }
+        else if(!data.valid_memo) {
+          window.validMemo = false;
+            $('#help-memo').show();
+        }
+        else {
+          window.validMemo = true;
+            $('#help-memo').hide();
+        }
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+        msgBoxNoConn(false);
+    });
 }
 
 $(document).on('authChecked', function() {
@@ -169,15 +244,7 @@ $(document).on('authChecked', function() {
             }
         );
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
     // Expand save name
     $('#withdraw-save').on('change', function() {
         if (this.checked) {
@@ -189,20 +256,6 @@ $(document).on('authChecked', function() {
             $('#withdraw-save-name').val('');
             window.validAdbkName = false;
             $('#help-save-name').hide();
-        }
-    });
-    
-    // Hide save controls if already in adbk
-    $('#select-adbk, #withdraw-memo').on('input', function() {
-        let addr = $('#select-adbk').val();
-        let memo = $('#withdraw-memo').val();
-        
-        if($('.select-adbk-item[data-address="' + addr + '"][data-memo="' + memo + '"]').length) {
-            $('#withdraw-save-wrapper').hide();
-            $('#withdraw-save').prop('checked', false).trigger('change');
-        }
-        else {
-            $('#withdraw-save-wrapper').show();
         }
     });
     
@@ -218,105 +271,27 @@ $(document).on('authChecked', function() {
 	    }
     });
     
-    
-    
-    
-    
-    
-    
-    
-    
-    // Validate address
-    $('#select-adbk').on('input', function() {
-        if(typeof(window.addrTypingTimeout) !== 'undefined')
-            clearTimeout(window.addrTypingTimeout);
-        window.addrTypingTimeout = setTimeout(function() {
-            
-            $.ajax({
-                url: config.apiUrl + '/wallet/withdraw/validate',
-                type: 'POST',
-                data: JSON.stringify({
-                    api_key: window.apiKey,
-                    asset: $('#select-coin').val(),
-                    network: $('#select-net').data('network'),
-                    address: $('#select-adbk').val()
-                }),
-                contentType: "application/json",
-                dataType: "json",
-            })
-            .retry(config.retry)
-            .done(function (data) {
-                if(!data.success) {
-                    msgBox(data.error);
-                }
-                else if(!data.valid_address) {
-	                window.validAddress = false;
-                    $('#help-address').show();
-                }
-                else {
-	                window.validAddress = true;
-                    $('#help-address').hide();
-                }
-                
-                if(window.validAddress && data.internal) {
-                    updateFees('0', '0');
-                    $('#withdraw-internal-notice').removeClass('d-none');
-                }
-                else {
-                    updateFees(window.wdFeeMinOrig, window.wdFeeMaxOrig);
-                    $('#withdraw-internal-notice').addClass('d-none');
-                }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                msgBoxNoConn(false);
-            });
-            
-        }, 750);
-    });
-    
     // Validate memo
     $('#withdraw-memo').on('input', function() {
-        if(typeof(window.memoTypingTimeout) !== 'undefined')
-            clearTimeout(window.memoTypingTimeout);
-        window.memoTypingTimeout = setTimeout(function() {
-            if($('#withdraw-memo').val() == '') {
-                window.validMemo = false;
-                $('#help-memo').hide();
-                return;
-            }
-            
-            $.ajax({
-                url: config.apiUrl + '/wallet/withdraw/validate',
-                type: 'POST',
-                data: JSON.stringify({
-                    api_key: window.apiKey,
-                    asset: $('#select-coin').val(),
-                    network: $('#select-net').data('network'),
-                    memo: $('#withdraw-memo').val()
-                }),
-                contentType: "application/json",
-                dataType: "json",
-            })
-            .retry(config.retry)
-            .done(function (data) {
-                if(!data.success) {
-                    msgBox(data.error);
-                }
-                else if(!data.valid_memo) {
-	                window.validMemo = false;
-                    $('#help-memo').show();
-                }
-                else {
-	                window.validMemo = true;
-                    $('#help-memo').hide();
-                }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                msgBoxNoConn(false);
-            });
-            
-        }, 750);
+        clearTimeout(window.timeoutTypingMemo);
+        window.timeoutTypingMemo = setTimeout(
+            function() {
+                validateMemo( $('#withdraw-memo').val() );
+            },
+            750
+        );
     });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // Submit withdraw
     $('#withdraw-form, #2fa-form').on('submit', function(event) {

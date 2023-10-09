@@ -92,6 +92,11 @@ function onNetSelected(symbol) {
         window.origFeeMin = data.feeMin;
         window.origFeeMax = data.feeMax;
         
+        // Reset form
+        window.validAddress = false;
+        window.validMemo = true;
+        $('#withdraw-save').prop('checked', false);
+        
         $('#withdraw-step3').show();
         $('html, body').animate({
             scrollTop: $("#withdraw-step3").offset().top
@@ -135,7 +140,13 @@ function validateAddress(address) {
         }
     ).then(function(data) {
         window.validAddress = data.validAddress;
-        if(window.debuginternal) {
+        
+        if(data.validAddress)
+            $('#help-address').hide();
+        else
+            $('#help-address').show();
+        
+        if(data.internal) {
             window.paFee.setRange(0, 0);
             $('#withdraw-internal-notice').removeClass('d-none');
         }
@@ -147,40 +158,27 @@ function validateAddress(address) {
 }
 
 function validateMemo(memo) {
-    if($('#withdraw-memo').val() == '') {
-        window.validMemo = false;
+    if(memo == '') {
+        window.validMemo = true;
         $('#help-memo').hide();
         return;
     }
     
-    $.ajax({
-        url: config.apiUrl + '/wallet/withdraw/validate',
-        type: 'POST',
-        data: JSON.stringify({
-            api_key: window.apiKey,
-            asset: $('#select-coin').val(),
-            network: $('#select-net').data('network'),
-            memo: $('#withdraw-memo').val()
-        }),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(!data.success) {
-            msgBox(data.error);
+    window.validMemo = false;
+    
+    api(
+        'POST',
+        '/wallet/v2/io/withdrawal/' + window.selectNet.key,
+        {
+            memo: memo
         }
-        else if(!data.valid_memo) {
-          window.validMemo = false;
-            $('#help-memo').show();
-        }
-        else {
-          window.validMemo = true;
+    ).then(function(data) {
+        window.validMemo = data.validMemo;
+        
+        if(data.validMemo)
             $('#help-memo').hide();
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn(false);
+        else
+            $('#help-memo').show();
     });
 }
 
@@ -248,6 +246,7 @@ $(document).on('authChecked', function() {
  
     // Expand save name
     $('#withdraw-save').on('change', function() {
+        alert(1);
         if (this.checked) {
             $('#withdraw-save-wrapper').addClass('ui-card-light');
             $('#withdraw-save-expand').show(); 
@@ -283,20 +282,8 @@ $(document).on('authChecked', function() {
         );
     });
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // Submit withdraw
-    $('#withdraw-form, #2fa-form').on('submit', function(event) {
-        // Prevent standard submit
+    // Submit withdrawal
+    $('#withdraw-form').on('submit', function(event) {
         event.preventDefault();
         
         // Validate data

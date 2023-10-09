@@ -222,8 +222,10 @@ $(document).on('authChecked', function() {
     );
     window.inpFee.onChange(
         function(val) {
-            if(val === null)
+            if(val === null) {
+                window.inpFee.set(0, true);
                 return;
+            }
             
             let newMax = window.bnAvbl.minus(val);
             console.log('case 3 ' + val);

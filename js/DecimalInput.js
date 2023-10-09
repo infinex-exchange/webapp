@@ -13,6 +13,9 @@ class DecimalInput {
         this.reset();
         
         this.input.on('input', function () {
+            if(th.prec === null)
+                return;
+            
             let regex = new RegExp("^[0-9]*(\\.[0-9]{0," + th.prec + "})?$");
             let valVisible = $(this).val();
             

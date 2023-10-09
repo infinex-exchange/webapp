@@ -114,7 +114,7 @@ class PercentageAmount {
         this.slider.val('0').trigger('_input');
     }
     
-    setRange(minAmount, maxAmount) {
+    setRange(minAmount, maxAmount = null) {
         if(this.minAmount !== null)
             this.minAmount = new BigNumber(minAmount);
         if(this.maxAmount !== null)

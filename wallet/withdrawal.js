@@ -323,6 +323,7 @@ $(document).on('authChecked', function() {
             data.adbkSaveName = $('#withdraw-save-name').val();
         
         console.log(data);
+        $('#withdraw-step3, #withdraw-step2').hide();
         selectCoin.reset();
         return;
         
@@ -331,6 +332,7 @@ $(document).on('authChecked', function() {
             '/wallet/v2/transactions',
             data
         ).then(function(resp) {
+            $('#withdraw-step3, #withdraw-step2').hide();
             selectCoin.reset();
             window.latestWithdrawalXid = data.xid;
             updateTxHistory();

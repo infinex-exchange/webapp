@@ -22,7 +22,7 @@ function onCoinSelected(symbol) {
         '/wallet/v2/balances/' + symbol
     ).then(
         function(data) {
-            window.wdRawBalance = new BigNumber(data.avbl);
+            window.bnRawBalance = new BigNumber(data.avbl);
             $('#withdraw-step2').show();
         }
     );
@@ -40,7 +40,6 @@ function onNetSelected(symbol) {
 
         
         // Memo
-        
         if(data.memoName) {
             $('#withdraw-memo-name').html(data.memoName + ':');
             $('#withdraw-memo-wrapper').removeClass('d-none');
@@ -73,15 +72,11 @@ function onNetSelected(symbol) {
             $('#withdraw-contract-wrapper').addClass('d-none');
         }
         
-        // Min amount
-        $('#withdraw-min-amount').html(data.minAmount);
-        
-        // Precision
-        window.wdAmountPrec = data.prec;
-        
-        // Round raw balance to this precision
-        window.wdBalance = window.wdRawBalance.dp(data.prec, BigNumber.ROUND_DOWN);
-        $('#withdraw-balance').html(window.wdBalance.toString());
+        // Reset percentage amount
+        window.paAmount.reset(
+            data.prec,
+            window.bnRawBalance
+        );
         
         // Fees
         window.wdFeeMinOrig = data.feeMin;
@@ -120,6 +115,12 @@ $(document).on('authChecked', function() {
         $('#select-adbk'),
         null,
         onAdbkSelected
+    );
+    
+    window.inpAmount = new DecimalInput( $('#withdraw-amount') );
+    window.paAmount = new PercentageAmount(
+        window.inpAmount,
+        $('#withdraw-amount-range')
     );
         
     let pathArray = window.location.pathname.split('/');

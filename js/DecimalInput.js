@@ -3,6 +3,7 @@ class DecimalInput {
         this.input = input;
         this.cbOnChangeChained = new Array();
         this.cbOnChangeUnchained = new Array();
+        this.cbOnUpdateVisible = new Array();
         this.chain = false;
         
         this.reset(prec);
@@ -53,6 +54,9 @@ class DecimalInput {
         }
         
         this.valReal = val;
+        
+        if(this.chain)
+            return;
             
         if(this.input.not(':focus'))
             this.updateVTS();
@@ -68,11 +72,19 @@ class DecimalInput {
             this.cbOnChangeUnchained.push(callback);
     }
     
+    onUpdateVisible(callback) {
+        this.cbOnUpdateVisible.push(callback);
+    }
+    
     updateVTS() {
         // Set visible and typing safe value to real value
         let str = th.valReal ? th.valReal = '';
+        
         th.valTypingSafe = str;
         $(this).val(str);
+        
+        for(const callback of this.cbOnUpdateVisible)
+            callback(th.realVal);
     }
     
     reset(prec = null) {

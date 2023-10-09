@@ -12,19 +12,22 @@ class PercentageAmount {
         this.reset(prec, maxAmount);
         
         // Input -> slider
-        this.input.onChange(function(val) {
-            if(th.maxAmount === null)
-                return;
+        this.input.onChange(
+            function(val) {
+                if(th.maxAmount === null)
+                    return;
             
-            let perc = '0';
+                let perc = '0';
             
-            if(val) {
-                let amount = new BigNumber(val);
-                perc = amount.dividedBy(th.maxAmount).multipliedBy(100).toFixed(0);
-            }
+                if(val) {
+                    let amount = new BigNumber(val);
+                    perc = amount.dividedBy(th.maxAmount).multipliedBy(100).toFixed(0);
+                }
             
-            th.slider.val(perc).trigger('_input');
-        });
+                th.slider.val(perc).trigger('_input');
+            },
+            false
+        );
     
         // Slider -> input
         this.slider.on('input', function() {
@@ -40,21 +43,28 @@ class PercentageAmount {
             th.input.set(amount, true);
         });
     
-    // Drop amount to available balance
-    $('#withdraw-amount').on('prevalidated', function() {
-        let amount = new BigNumber($(this).data('val'));
-        if(amount.gt(window.wdAmountMax)) {
-            $('#withdraw-amount, #withdraw-amount-max').addClass('blink-red');
-            setTimeout(function() {
-                $('#withdraw-amount, #withdraw-amount-max').removeClass('blink-red');
+        // Drop amount to available balance
+        this.input.onChange(
+            function(val) {
+                if(th.maxAmount === null)
+                    return;
                 
-                let max = window.wdAmountMax.toString();
-                $('#withdraw-amount').data('val', max)
-                                    .val(max)
-                                    .trigger('prevalidated');
-            }, 1000);
-        }
-    });
+                let bnVal = new BigNumber(val);
+                if(bnVal.gt(th.maxAmount))
+                    th.input.set(
+                        th.maxAmount
+                          .dp(th.prec, BigNumber.ROUND_DOWN)
+                          .toString(),
+                        false
+                    );
+            
+                th.input.input.addClass('text-red');
+            },
+            true
+        );
+        this.input.onUpdateVisible(function() {
+            th.input.input.removeClass('text-red');
+        });
     }
     
     reset(prec, maxAmount) {

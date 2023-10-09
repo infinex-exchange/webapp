@@ -121,6 +121,7 @@ class PercentageAmount {
     }
     
     setRange(minAmount, maxAmount = null) {
+        console.log('New range: ' + minAmount + ' ' + maxAmount);
         if(minAmount !== null)
             this.minAmount = new BigNumber(minAmount);
         if(maxAmount !== null)

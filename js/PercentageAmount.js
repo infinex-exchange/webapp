@@ -19,7 +19,7 @@ class PercentageAmount {
             
                 let perc = '0';
             
-                if(val) {
+                if(val && th.maxAmount.gt(th.minAmount)) {
                     let amount = new BigNumber(val);
                     perc = amount
                         .minus(th.minAmount)

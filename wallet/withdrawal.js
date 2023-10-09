@@ -133,6 +133,11 @@ function onAdbkSelected(key, val, data) {
 function validateAddress(address) {
     window.validAddress = false;
     
+    if(address === null) {
+        $('#help-address').hide();
+        return;
+    }
+    
     api(
         'POST',
         '/wallet/v2/io/withdrawal/' + window.selectNet.key,
@@ -288,80 +293,48 @@ $(document).on('authChecked', function() {
     $('#withdraw-form').on('submit', function(event) {
         event.preventDefault();
         
-        // Validate data
-        var address = $('#select-adbk').val();
-        if(address == '') {
-            msgBox('Missing address');
+        let adbkSave = $('#withdraw-save').prop('checked');
+        
+        if(
+            !window.validAddress ||
+            !window.validMemo ||
+            (adbkSave && !window.validAdbkName ||
+            window.inpAmount.get() === null
+        ) {
+            msgBox('Fill the form correctly');
             return;
         }
         
-        var amount = new BigNumber($('#withdraw-amount').data('val'));
-        if(amount.isNaN() || amount.isZero()) {
-            msgBox('Missing amount');
-            return;
-        }
         
-        var fee = new BigNumber($('#withdraw-fee').val());
+        let data = {
+            type: 'WITHDRAWAL',
+            asset: window.selectCoin.key,
+            network: window.selectNet.key,
+            address: window.selectAdbk.val,
+            amount: window.inpAmount.get(),
+            fee: window.inpFee.get(),
+            memo: memo
+        };
         
-        var adbkSave = $('#withdraw-save').prop('checked');
-        var adbkName = $('#withdraw-save-name').val();
-        if(adbkSave && adbkName == '') {
-	        msgBox('Missing saved address name');
-	        return;
-        }
-        
-        var data = new Object();
-        data['api_key'] = window.apiKey;
-        data['asset'] = $('#select-coin').val();
-        data['network'] = $('#select-net').data('network');
-        data['address'] = address;
-        data['amount'] = amount.toFixed(window.wdAmountPrec);
-        data['fee'] = fee.toFixed(window.wdAmountPrec);
-        
-        var memo = $('#withdraw-memo').val();
+        let memo = $('#withdraw-memo').val();
         if(memo != '')
-            data['memo'] = memo;
-            
-        var tfa = $('#2fa-code').val();
-        if(tfa != '')
-            data['code_2fa'] = tfa;
+            data.memo = memo;
         
         if(adbkSave)
-	        data['adbk_name'] = adbkName;
+            data.adbkSaveName = $('#withdraw-save-name').val();
         
-        if(!window.validAddress ||
-           (memo != '' && !window.validMemo) ||
-           (adbkSave && !window.validAdbkName))
-        {
-	        msgBox('Fill the form correctly');
-	        return;
-        }
-            
-        // Post
-        $.ajax({
-            url: config.apiUrl + '/wallet/withdraw',
-            type: 'POST',
-            data: JSON.stringify(data),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                $('#withdraw-step2').hide();
-                $('#withdraw-step3').hide();
-                window.latestWithdrawalXid = data.xid;
-                updateTxHistory();
-            }
-            else if(data.need_2fa) {
-                start2fa(data.provider_2fa);
-            }
-            else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
+        console.log(data);
+        selectCoin.reset();
+        return;
+        
+        api2fa(
+            'POST',
+            '/wallet/v2/transactions',
+            data
+        ).then(function(resp) {
+            selectCoin.reset();
+            window.latestWithdrawalXid = data.xid;
+            updateTxHistory();
         });
     });
     

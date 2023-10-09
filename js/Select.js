@@ -18,7 +18,7 @@ class Select {
         this.autoSelectSingle = autoSelectSingle;
         
         this.key = null;
-        this.value = null;
+        this.val = null;
         this.data = null;
         
         let randomId = 'sel-' + Math.random().toString(36).slice(2);
@@ -112,8 +112,12 @@ class Select {
                 th.div.find('.selector-dropdown').hide();
                 th.div.find('.selector-arrow').removeClass('flip');
                 
+                th.key = null;
+                th.val = $(this).val() == '' ? null : $(this).val();
+                th.data = null;
+                
                 if(th.onChange)
-                    th.onChange(null, $(this).val(), null);
+                    th.onChange(null, th.val, null);
             });
     }
     

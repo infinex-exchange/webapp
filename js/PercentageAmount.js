@@ -66,7 +66,7 @@ class PercentageAmount {
         // Drop amount to available balance
         this.input.onChange(
             function(val) {
-                if(th.prec === null || th.maxAmount == null)
+                if(th.prec === null || th.maxAmount === null || val === null)
                     return;
                     
                 if(th.minAmount.gt(th.maxAmount)) {
@@ -121,7 +121,6 @@ class PercentageAmount {
     }
     
     setRange(minAmount, maxAmount = null) {
-        console.log(this.input.input.attr('id') + ' New range: ' + minAmount + ' ' + maxAmount);
         if(minAmount !== null)
             this.minAmount = new BigNumber(minAmount);
         if(maxAmount !== null)

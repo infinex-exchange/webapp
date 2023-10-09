@@ -58,7 +58,7 @@ class DecimalInput {
                 throw 'DecimalInput infinite chain reaction ! ! !';
             this.chain = true;
             for(const callback of this.cbOnChangeChained)
-                callback(this.realVal);
+                callback(this.valReal);
             this.chain = false;
         }
         

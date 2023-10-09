@@ -42,9 +42,6 @@ class PercentageAmount {
             
             th.input.set(amount, false);
         });
-        this.slider.on('change', function() {
-            th.input.set(th.input.get(), true);
-        });
     
         // Drop amount to available balance
         this.input.onChange(

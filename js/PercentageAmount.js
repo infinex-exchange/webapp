@@ -1,6 +1,6 @@
 class PercentageAmount {
     constructor(input, slider, prec = null, maxAmount = null) {
-        th = this;
+        let th = this;
         
         this.input = input;
         this.slider = slider;

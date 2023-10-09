@@ -124,6 +124,6 @@ class PercentageAmount {
             perc = perc.multipliedBy(100).toFixed(0);
         }
     
-        th.slider.val(perc).trigger('_input');
+        this.slider.val(perc).trigger('_input');
     }
 }

@@ -46,6 +46,7 @@ class PercentageAmount {
         // Drop amount to available balance
         this.input.onChange(
             function(val) {
+                console.log('chained change');
                 if(th.maxAmount === null)
                     return;
                 

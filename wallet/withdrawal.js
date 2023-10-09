@@ -298,7 +298,7 @@ $(document).on('authChecked', function() {
         if(
             !window.validAddress ||
             !window.validMemo ||
-            (adbkSave && !window.validAdbkName ||
+            (adbkSave && !window.validAdbkName) ||
             window.inpAmount.get() === null
         ) {
             msgBox('Fill the form correctly');

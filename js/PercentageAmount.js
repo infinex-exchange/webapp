@@ -58,6 +58,7 @@ class PercentageAmount {
                 
                 if(th.minAmount.gt(th.maxAmount)) {
                     th.input.set(null, false);
+                    th.input.input.addClass('text-red');
                     return;
                 }
                 

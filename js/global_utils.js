@@ -29,6 +29,15 @@ function prettyBalance(amount, prec) {
         return bn.toString();
 }
 
+function darkBalance(amount, prec) {
+    let bn = new BigNumber(amount);
+    let strAmountInPrec = bn.toFixed(prec);
+    let html = strAmountInPrec + '<span class="secondary">'
+    html += amount.substring(strAmountInPrec.length);
+    html += '</span>';
+    return html;
+}
+
 $(document).ready(function() {
     // Dropdown on hover
     $('.dropdown-on-hover').hover(

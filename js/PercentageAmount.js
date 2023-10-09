@@ -63,19 +63,21 @@ class PercentageAmount {
             
             th.input.set(amount, true);
         });
+        
+        // Handle not null
+        this.input.onChange(
+            function(val) {
+                if(val === null && th.notNull)
+                    th.set('0', false);
+            },
+            true
+        );
     
         // Drop amount to available balance
         this.input.onChange(
             function(val) {
-                if(th.prec === null || th.maxAmount === null)
+                if(th.prec === null || th.maxAmount === null || val === null)
                     return;
-                
-                if(val === null) {
-                    if(th.notNull)
-                        val = '0';
-                    else
-                        return;
-                }
                     
                 if(th.minAmount.gt(th.maxAmount)) {
                     th.input.set(null, false);

@@ -224,7 +224,6 @@ $(document).on('authChecked', function() {
     window.inpFee.onChange(
         function(val) {
             let newMax = window.bnAvbl.minus(val);
-            console.log('case 3 ' + val);
             window.paAmount.setRange(null, newMax);
             $('#withdraw-amount-max').html(
                 darkBalance(newMax.toString(), window.paAmount.prec)

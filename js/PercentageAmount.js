@@ -43,10 +43,9 @@ class PercentageAmount {
                 .minus(th.minAmount)
                 .multipliedBy( $(this).val() )
                 .dividedBy(100)
-            );
-            console.log(amount);
-            /*.dp(th.prec)
-            .toString();*/
+            )
+            .dp(th.prec)
+            .toString();
             
             th.input.set(amount, true);
         });
@@ -83,7 +82,7 @@ class PercentageAmount {
         this.minAmount = new BigNumber(
             minAmount === null ? 0 : minAmount
         );
-        this.maxAmount = new BigNumber(maxAmount);
+        this.maxAmount = maxAmount === null ? null : new BigNumber(maxAmount);
         
         this.input.reset();
         

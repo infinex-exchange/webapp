@@ -74,7 +74,7 @@ function onNetSelected(symbol) {
         
         // Reset decimal input
         window.inpAmount.reset(data.prec);
-        window.apAmount.setRange(data.minAmount);
+        window.paAmount.setRange(data.minAmount);
         
         // Fees
         /*window.wdFeeMinOrig = data.feeMin;

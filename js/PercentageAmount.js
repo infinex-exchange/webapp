@@ -15,7 +15,7 @@ class PercentageAmount {
         // Input -> slider
         this.input.onChange(
             function(val) {
-                
+                th.updateSlider(val);
             },
             false
         );
@@ -82,9 +82,7 @@ class PercentageAmount {
             true
         );
         this.input.onUpdateVisible(function(val) {
-            console.log('update visible to: ')
             th.input.input.removeClass('text-red');
-            
             th.updateSlider(val);
         });
     }

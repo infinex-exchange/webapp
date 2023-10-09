@@ -81,7 +81,7 @@ class PercentageAmount {
             },
             true
         );
-        this.input.onUpdateVisible(function() {
+        this.input.onUpdateVisible(function(val) {
             th.input.input.removeClass('text-red');
             
             if(th.maxAmount === null)

@@ -135,7 +135,7 @@ function validateAddress(address) {
         }
     ).then(function(data) {
         window.validAddress = data.validAddress;
-        if(data.internal) {
+        if(window.debuginternal) {
             window.paFee.setRange(0, 0);
             $('#withdraw-internal-notice').removeClass('d-none');
         }

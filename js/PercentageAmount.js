@@ -56,6 +56,11 @@ class PercentageAmount {
                 if(th.maxAmount === null)
                     return;
                 
+                if(th.minAmount.gt(th.maxAmount)) {
+                    th.input.set(null, false);
+                    return;
+                }
+                
                 let bnVal = new BigNumber(val);
                 if(bnVal.gt(th.maxAmount)) {
                     th.input.set(

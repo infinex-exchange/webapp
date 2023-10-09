@@ -68,15 +68,9 @@
                         </div>
                         
                         <div class="col-12 col-lg-6 py-2 order-lg-5 my-auto">
-                            <span class="secondary">Available:</span>
-                                <span class="float-end">
-                                <span id="transfer-balance"></span>
-                                <span class="asset-symbol"></span>
-                            </span>
-                            <br>
-                            <span class="secondary">Fee:</span>
+                            <span class="secondary">Available balance:</span>
                             <span class="float-end">
-                                0
+                                <span id="transfer-balance"></span>
                                 <span class="asset-symbol"></span>
                             </span>
                         </div>

@@ -1,5 +1,7 @@
 class DecimalInput {
     constructor(input, prec = 0) {
+        let th = this;
+        
         this.input = input;
         this.cbOnChangeChained = new Array();
         this.cbOnChangeUnchained = new Array();

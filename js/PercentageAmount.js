@@ -1,5 +1,5 @@
 class PercentageAmount {
-    constructor(input, slider, prec = null, maxAmount = null) {
+    constructor(input, slider, prec = null, minAmount = null, maxAmount = null) {
         let th = this;
         
         this.input = input;
@@ -9,7 +9,7 @@ class PercentageAmount {
                    .attr('max', '100')
                    .attr('step', '1');
         
-        this.reset(prec, maxAmount);
+        this.reset(prec, minAmount, maxAmount);
         
         // Input -> slider
         this.input.onChange(
@@ -21,7 +21,11 @@ class PercentageAmount {
             
                 if(val) {
                     let amount = new BigNumber(val);
-                    perc = amount.dividedBy(th.maxAmount).multipliedBy(100).toFixed(0);
+                    perc = amount
+                        .minus(th.minAmount)
+                        .dividedBy(th.maxAmount.minus(th.minAmount))
+                        .multipliedBy(100)
+                        .toFixed(0);
                 }
             
                 th.slider.val(perc).trigger('_input');
@@ -34,11 +38,14 @@ class PercentageAmount {
             if(th.maxAmount === null)
                 return;
             
-            let amount = th.maxAmount
+            let amount = th.minAmount.plus(
+                th.maxAmount
+                .minus(th.minAmount)
                 .multipliedBy( $(this).val() )
                 .dividedBy(100)
-                .dp(th.prec)
-                .toString();
+            )
+            .dp(th.prec)
+            .toString();
             
             th.input.set(amount, true);
         });
@@ -70,12 +77,23 @@ class PercentageAmount {
         });
     }
     
-    reset(prec, maxAmount) {
+    reset(prec, minAmount, maxAmount) {
         this.prec = prec;
-        this.maxAmount = maxAmount;
+        this.minAmount = new BigNumber(
+            minAmount === null ? 0 : minAmount
+        );
+        this.maxAmount = new BigNumber(maxAmount);
         
         this.input.reset();
         
         this.slider.val('0');
+    }
+    
+    setRange(minAmount, maxAmount) {
+        if(this.minAmount !== null)
+            this.minAmount = new BigNumber(minAmount);
+        if(this.maxAmount !== null)
+            this.maxAmount = new BigNumber(maxAmount);
+        this.input.set(this.input.get(), true);
     }
 }

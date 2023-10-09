@@ -1,4 +1,4 @@
-function updateFees(feeMin, feeMax) {
+function getFeePrec(feeMin, feeMax) {
     let feeMinDec = new BigNumber(feeMin);
     let feeMaxDec = new BigNumber(feeMax);
     let dp = Math.max(feeMinDec.dp(), feeMaxDec.dp());
@@ -22,7 +22,7 @@ function onCoinSelected(symbol) {
         '/wallet/v2/balances/' + symbol
     ).then(
         function(data) {
-            window.paAmount.reset(data.defaultPrec, new BigNumber(data.avbl));
+            window.paAmount.reset(data.defaultPrec, data.avbl);
             $('#withdraw-step2').show();
         }
     );

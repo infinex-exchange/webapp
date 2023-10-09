@@ -312,8 +312,7 @@ $(document).on('authChecked', function() {
             network: window.selectNet.key,
             address: window.selectAdbk.val,
             amount: window.inpAmount.get(),
-            fee: window.inpFee.get(),
-            memo: memo
+            fee: window.inpFee.get()
         };
         
         let memo = $('#withdraw-memo').val();

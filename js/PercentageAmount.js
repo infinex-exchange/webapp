@@ -1,9 +1,10 @@
 class PercentageAmount {
-    constructor(input, slider, prec = null, minAmount = null, maxAmount = null) {
+    constructor(input, slider, prec = null, minAmount = null, maxAmount = null, rescalePerc = false) {
         let th = this;
         
         this.input = input;
         this.slider = slider;
+        this.rescalePerc = rescalePerc;
         
         this.slider.attr('min', '0')
                    .attr('max', '100')
@@ -21,11 +22,13 @@ class PercentageAmount {
             
                 if(val && th.maxAmount.gt(th.minAmount)) {
                     let amount = new BigNumber(val);
-                    perc = amount
-                        .minus(th.minAmount)
-                        .dividedBy(th.maxAmount.minus(th.minAmount))
-                        .multipliedBy(100)
-                        .toFixed(0);
+                    perc = amount;
+                    if(th.rescalePerc)
+                        perc = perc.minus(th.minAmount)
+                                   .dividedBy(th.maxAmount.minus(th.minAmount));
+                    else
+                        perc = perc.dividedBy(th.maxAmount);
+                    perc = perc.multipliedBy(100).toFixed(0);
                 }
             
                 th.slider.val(perc).trigger('_input');
@@ -38,14 +41,19 @@ class PercentageAmount {
             if(th.maxAmount === null)
                 return;
             
-            let amount = th.minAmount.plus(
-                th.maxAmount
-                .minus(th.minAmount)
-                .multipliedBy( $(this).val() )
-                .dividedBy(100)
-            )
-            .dp(th.prec)
-            .toString();
+            if(th.rescalePerc)
+                let amount = th.minAmount.plus(
+                    th.maxAmount
+                    .minus(th.minAmount)
+                    .multipliedBy( $(this).val() )
+                    .dividedBy(100)
+                );
+            else
+                let amount = th.maxAmount
+                    .multipliedBy( $(this).val() )
+                    .dividedBy(100);
+            
+            amount = amount.dp(th.prec).toString();
             
             th.input.set(amount, true);
         });

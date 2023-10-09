@@ -22,7 +22,7 @@ function onCoinSelected(symbol) {
             
             $('#withdraw-balance').html(
                 darkBalance(
-                    window.bnAvbl,
+                    data.avbl,
                     window.paAmount.prec
                 )
             );

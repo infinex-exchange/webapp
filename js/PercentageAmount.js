@@ -42,7 +42,7 @@ class PercentageAmount {
     
         // Slider -> input
         this.slider.on('input', function() {
-            f(th.prec === null || th.maxAmount == null)
+            if(th.prec === null || th.maxAmount == null)
                 return;
                     
             let amount;
@@ -66,7 +66,7 @@ class PercentageAmount {
         // Drop amount to available balance
         this.input.onChange(
             function(val) {
-                f(th.prec === null || th.maxAmount == null)
+                if(th.prec === null || th.maxAmount == null)
                     return;
                     
                 if(th.minAmount.gt(th.maxAmount)) {

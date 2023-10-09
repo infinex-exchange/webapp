@@ -68,7 +68,7 @@ class PercentageAmount {
         this.input.onChange(
             function(val) {
                 if(val === null && th.notNull)
-                    this.input.set('0', false);
+                    th.input.set('0', false);
             },
             true
         );

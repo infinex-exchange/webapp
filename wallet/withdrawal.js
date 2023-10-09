@@ -75,6 +75,7 @@ function onNetSelected(symbol) {
         window.inpFee.setPrec(feePrec);
         window.paFee.setPrec(feePrec);
         window.paFee.setRange(data.feeMin, data.feeMax);
+        window.paFee.set(50);
         
         $('#withdraw-step3').show();
         $('html, body').animate({

@@ -106,6 +106,10 @@ class PercentageAmount {
         });
     }
     
+    set(perc) {
+        this.slider.val(perc).trigger('input');
+    }
+    
     reset() {
         this.input.reset();
         this.slider.val('0').trigger('_input');

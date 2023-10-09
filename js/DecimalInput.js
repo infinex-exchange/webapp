@@ -45,7 +45,7 @@ class DecimalInput {
         return this.valReal;
     }
     
-    set(val, chained) {
+    set(val, chained, emulateFocus = false) {
         this.valReal = val;
         
         if(chained) {
@@ -60,7 +60,7 @@ class DecimalInput {
         if(this.chain)
             return;
             
-        if(! this.input.is(':focus'))
+        if(! this.input.is(':focus') && !emulateFocus)
             this.updateVTS();
         
         for(const callback of this.cbOnChangeUnchained)

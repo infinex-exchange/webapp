@@ -7,8 +7,6 @@ function getFeePrec(feeMin, feeMax) {
 function onCoinSelected(symbol) {
     $('#withdraw-step2, #withdraw-step3').hide();
     
-    window.selectNet.reset('/wallet/v2/io/networks?asset=' + symbol);
-    
     api(
         'GET',
         '/wallet/v2/balances/' + symbol
@@ -17,6 +15,8 @@ function onCoinSelected(symbol) {
             window.bnAvbl = new BigNumber(data.avbl);
             window.paAmount.setPrec(data.defaultPrec);
             window.paAmount.setRange(null, window.bnAvbl);
+            
+            window.selectNet.reset('/wallet/v2/io/networks?asset=' + symbol);
             
             $('#withdraw-step2').show();
         }

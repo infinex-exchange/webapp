@@ -67,6 +67,16 @@ class PercentageAmount {
                     
                     th.input.input.addClass('text-red');
                 }
+                else if(bnVal.lt(th.minAmount)) {
+                    th.input.set(
+                        th.minAmount
+                          .dp(th.prec, BigNumber.ROUND_UP)
+                          .toString(),
+                        false
+                    );
+                    
+                    th.input.input.addClass('text-red');
+                }
                 else
                     th.input.input.removeClass('text-red');
             },

@@ -92,7 +92,15 @@ function onNetSelected(symbol) {
     });
 }
 
-function onAdbkSelected() {
+function onAdbkSelected(key, val, data) {
+    if(key === null) {
+        // Typed address
+        $('#withdraw-save-wrapper').show();
+    }
+    else {
+        // Selected address
+        $('#withdraw-save-wrapper').hide();
+    }
 }
 
 $(document).on('authChecked', function() {

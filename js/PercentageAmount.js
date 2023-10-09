@@ -108,7 +108,7 @@ class PercentageAmount {
     }
     
     updateSlider(val) {
-        if(th.maxAmount === null)
+        if(this.maxAmount === null)
             return;
         
         let perc = '0';

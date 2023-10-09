@@ -79,9 +79,9 @@ function onNetSelected(symbol) {
         );
         
         // Fees
-        window.wdFeeMinOrig = data.feeMin;
+        /*window.wdFeeMinOrig = data.feeMin;
         window.wdFeeMaxOrig = data.feeMax;
-        updateFees(data.feeMin, data.feeMax);
+        updateFees(data.feeMin, data.feeMax);*/
         
         $('#withdraw-step3').show();
         $('html, body').animate({

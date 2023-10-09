@@ -57,9 +57,9 @@ class PercentageAmount {
                           .toString(),
                         false
                     );
+                    
+                    th.input.input.addClass('text-red');
                 }
-            
-                th.input.input.addClass('text-red');
             },
             true
         );

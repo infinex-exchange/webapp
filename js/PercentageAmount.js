@@ -110,22 +110,22 @@ class PercentageAmount {
     }
     
     updateSlider(val) {
-        if(this.maxAmount === null)
+        if(th.maxAmount === null)
             return;
         
         let perc = '0';
         
-        if(val && this.maxAmount.gt(this.minAmount)) {
+        if(val && th.maxAmount.gt(th.minAmount)) {
             let amount = new BigNumber(val);
             perc = amount;
             if(th.rescalePerc)
-                perc = perc.minus(this.minAmount)
-                           .dividedBy(this.maxAmount.minus(this.minAmount));
+                perc = perc.minus(th.minAmount)
+                           .dividedBy(th.maxAmount.minus(th.minAmount));
             else
-                perc = perc.dividedBy(this.maxAmount);
+                perc = perc.dividedBy(th.maxAmount);
             perc = perc.multipliedBy(100).toFixed(0);
         }
     
-        this.slider.val(perc).trigger('_input');
+        th.slider.val(perc).trigger('_input');
     }
 }

@@ -1,134 +1,64 @@
-$(document).ready(function() {
-    window.renderingStagesTarget = 2;
+function onCoinSelected(symbol) {
+    $('#transfer-step2').hide();
     
-    $('#select-coin').on('dataLoaded', function() {
-        $(document).trigger('renderingStage');
-    });
+    api(
+        'GET',
+        '/wallet/v2/balances/' + symbol
+    ).then(
+        function(data) {
+            // Setup amount input
+            window.inpAmount.setPrec(data.defaultPrec);
+            window.paAmount.setPrec(data.defaultPrec);
+            window.paAmount.setRange(0, data.avbl);
+            
+            // Min amount
+            $('#withdraw-amount-min').html(data.minAmount);
+            
+            // TODO: reset form, the same in withdrawal.js
+            window.validAddress = false;
+            window.validMemo = true;
+            $('#withdraw-memo').val('');
+            $('#withdraw-save').prop('checked', false).trigger('change');
+            $('#transfer-form').get(0).reset();
+            $('small[id^="help-"]').hide();
+            $('#transfer-amount').data('val', '').val('').trigger('prevalidated');
+            
+            $('#withdraw-step2').show();
+        }
+    );
     
-    // Download balance and init net selector when coin selected
-    $('#select-coin').on('change', function() {
-        $('#transfer-step2').hide();
-        var asset = $('#select-coin').val();
+    $('.asset-symbol').html(symbol);
+}
+
+$(document).on('authChecked', function() {
+    if(!window.loggedIn)
+        return;
+    
+    window.selectCoin = new SelectCoin(
+        $('#select-coin'),
+        '/wallet/v2/assets',
+        onCoinSelected
+    );
+    
+    window.inpAmount = new DecimalInput( $('#withdraw-amount') );
+    window.paAmount = new PercentageAmount(
+        window.inpAmount,
+        $('#withdraw-amount-range')
+    );
         
-         $.ajax({
-            url: config.apiUrl + '/wallet/balances_ex',
-            type: 'POST',
-            data: JSON.stringify({
-                api_key: window.apiKey,
-                symbols: [ asset ]
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                // Reset validation variables
-                window.validAddress = false;
-                window.validMemo = false;
-                
-                // Reset form
-                $('#transfer-form').get(0).reset();
-                $('small[id^="help-"]').hide();
-                $('#transfer-amount').data('val', '').val('').trigger('prevalidated');
-                
-                // Precision
-                window.transferAmountPrec = data.balances[asset].max_prec;
-                
-                // Round raw balance to this precision
-                window.transferBalance = new BigNumber(data.balances[asset].avbl);
-                window.transferBalance = window.transferBalance.dp(window.transferAmountPrec, BigNumber.ROUND_DOWN);
-                $('#transfer-balance').html(window.transferBalance.toString());
-                
-                $('#transfer-step2').show();
-            } else {
-                msgBox(data.error);
+    let pathArray = window.location.pathname.split('/');
+    let pathLast = pathArray[pathArray.length - 1];
+    if(pathLast != 'withdrawal' && pathLast != '') {
+        let symbol = pathLast.toUpperCase();
+        api(
+            'GET',
+            '/wallet/v2/assets/' + symbol
+        ).then(
+            function(data) {
+                window.selectCoin.setCustom(data);
             }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
-        });
-    });
-    
-    
-    
-     
-    // Lock format and precision of amount input
-    $('#transfer-amount').on('input', function () {
-        var regex = new RegExp("^[0-9]*(\\.[0-9]{0," + window.transferAmountPrec + "})?$");
-        var newVal = $(this).val();
-        
-        // Revert bad format (real visible value)
-        if (!regex.test(newVal)) {
-            $(this).val( $(this).data('val') );
-        }
-        
-        // Drop . on last position (data-val only)
-        else if(newVal.slice(-1) == '.') {
-            $(this).data('val', newVal.substring(0, newVal.length - 1));
-        }
-        
-        // Change . to 0. on first position (data-val only)
-        else if(newVal.startsWith('.')) {
-            $(this).data('val', '0' + newVal);
-        }
-        
-        // Save data-val when everythink ok
-        else $(this).data('val', newVal);
-    
-        $(this).trigger('prevalidated');
-    });
-    
-    // Move data-val to real visible value
-    $('#transfer-amount').on('focusout', function() {
-        $(this).val( $(this).data('val') );
-    });
-    
-    
-    
-    
-    // Amount input -> amount range
-    $('#transfer-amount').on('prevalidated', function() {
-        var amount = new BigNumber($(this).data('val'));
-        var perc = 0;
-        if(!amount.isNaN())
-            perc = amount.dividedBy(window.transferBalance).multipliedBy(100).toFixed(0);
-        $('#transfer-amount-range').val(perc).trigger('_input');
-    });
-    
-    // Amount range -> amount input
-    $('#transfer-amount-range').on('input', function() {
-        var amount = window.transferBalance.
-            multipliedBy( $(this).val() ).
-            dividedBy(100).
-            dp(window.transferAmountPrec).
-            toString();
-        
-        $('#transfer-amount').data('val', amount)
-                             .val(amount);
-    });
-    
-    
-    
-    
-    // Drop amount to available balance
-    $('#transfer-amount').on('prevalidated', function() {
-        var amount = new BigNumber($(this).data('val'));
-        if(amount.gt(window.transferBalance)) {
-            $('#transfer-amount, #transfer-balance').addClass('blink-red');
-            setTimeout(function() {
-                $('#transfer-amount, #transfer-balance').removeClass('blink-red');
-                
-                var max = window.transferBalance.toString();
-                $('#transfer-amount').data('val', max)
-                                    .val(max)
-                                    .trigger('prevalidated');
-            }, 1000);
-        }
-    });
-    
-    
-    
+        );
+    }
     
     // Validate address
     $('#transfer-address').on('input', function() {
@@ -154,93 +84,58 @@ $(document).ready(function() {
         }
     });
     
-    
-    
-    
-    // Submit withdraw
-    $('#transfer-form, #2fa-form').on('submit', function(event) {
-        // Prevent standard submit
+    // Submit withdrawal
+    $('#withdraw-form').on('submit', function(event) {
         event.preventDefault();
         
-        // Validate data
-        var address = $('#transfer-address').val();
-        if(address == '') {
-            msgBox('Missing address');
+        let adbkSave = $('#withdraw-save').prop('checked');
+        
+        if(
+            !window.validAddress ||
+            !window.validMemo ||
+            (adbkSave && !window.validAdbkName) ||
+            window.inpAmount.get() === null
+        ) {
+            msgBox('Fill the form correctly');
             return;
         }
         
-        var amount = new BigNumber($('#transfer-amount').data('val'));
-        if(amount.isNaN() || amount.isZero()) {
-            msgBox('Missing amount');
-            return;
-        }
         
-        var data = new Object();
-        data['api_key'] = window.apiKey;
-        data['asset'] = $('#select-coin').val();
-        data['address'] = address;
-        data['amount'] = amount.toFixed(window.transferAmountPrec);
+        let data = {
+            type: 'WITHDRAWAL',
+            asset: window.selectCoin.key,
+            network: window.selectNet.key,
+            address: window.selectAdbk.val,
+            amount: window.inpAmount.get(),
+            fee: window.inpFee.get()
+        };
         
-        var memo = $('#transfer-memo').val();
+        let memo = $('#withdraw-memo').val();
         if(memo != '')
-            data['memo'] = memo;
+            data.memo = memo;
         
-        var tfa = $('#2fa-code').val();
-        if(tfa != '')
-            data['code_2fa'] = tfa;
+        if(adbkSave)
+            data.adbkSaveName = $('#withdraw-save-name').val();
         
-        if(!window.validAddress ||
-           (memo != '' && !window.validMemo))
-        {
-	        msgBox('Fill the form correctly');
-	        return;
-        }
+        api2fa(
+            'POST',
+            '/wallet/v2/transactions',
+            data
+        ).then(function(resp) {
+            $('#withdraw-step3, #withdraw-step2').hide();
+            selectCoin.reset();
             
-        // Post
-        $.ajax({
-            url: config.apiUrl + '/wallet/transfer',
-            type: 'POST',
-            data: JSON.stringify(data),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                $('#transfer-step2').hide();
-                window.latestTransferXid = data.xid;
-                updateTxHistory();
-            }
-            else if(data.need_2fa) {
-                start2fa(data.provider_2fa);
-            }
-            else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false);
+            // TODO legacy code under this line
+            window.latestWithdrawalXid = data.xid;
+            updateTxHistory();
         });
     });
-    
-    initSelectCoin();
-});
 
-$(document).on('authChecked', function() {
-    if(window.loggedIn) {
-        var txHistoryData = {
+    var txHistoryData = {
             api_key: window.apiKey,
             type: ['TRANSFER_IN', 'TRANSFER_OUT']
         };
         initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true);
-        
-        var pathArray = window.location.pathname.split('/');
-        var pathLast = pathArray[pathArray.length - 1];
-        if(pathLast != 'transfer' && pathLast != '') {
-            var symbol = pathLast.toUpperCase();
-            $('#select-coin').val(symbol).trigger('change');
-        }
-    }
 });
 
 $(document).on('newWalletTransaction', function() {

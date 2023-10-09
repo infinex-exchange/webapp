@@ -95,6 +95,7 @@ function onNetSelected(symbol) {
         // Reset form
         window.validAddress = false;
         window.validMemo = true;
+        $('#withdraw-memo').val('');
         $('#withdraw-save').prop('checked', false).trigger('change');
         
         $('#withdraw-step3').show();
@@ -246,7 +247,6 @@ $(document).on('authChecked', function() {
  
     // Expand save name
     $('#withdraw-save').on('change', function() {
-        alert(1);
         if (this.checked) {
             $('#withdraw-save-wrapper').addClass('ui-card-light');
             $('#withdraw-save-expand').show(); 

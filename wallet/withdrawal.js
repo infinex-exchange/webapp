@@ -95,7 +95,7 @@ function onNetSelected(symbol) {
         // Reset form
         window.validAddress = false;
         window.validMemo = true;
-        $('#withdraw-save').prop('checked', false);
+        $('#withdraw-save').prop('checked', false).trigger('change');
         
         $('#withdraw-step3').show();
         $('html, body').animate({

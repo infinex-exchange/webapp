@@ -78,7 +78,7 @@ class DecimalInput {
     
     updateVTS() {
         // Set visible and typing safe value to real value
-        let str = th.valReal ? th.valReal = '';
+        let str = th.valReal ? th.valReal : '';
         
         th.valTypingSafe = str;
         $(this).val(str);

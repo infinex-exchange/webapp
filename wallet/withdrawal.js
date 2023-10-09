@@ -22,7 +22,7 @@ function onCoinSelected(symbol) {
         '/wallet/v2/balances/' + symbol
     ).then(
         function(data) {
-            window.paAmount.reset(data.defaultPrec, '2000', data.avbl);
+            window.paAmount.reset(data.defaultPrec, '1000', data.avbl);
             $('#withdraw-step2').show();
         }
     );

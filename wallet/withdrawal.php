@@ -146,14 +146,12 @@
                             <span class="secondary">Available:</span>
                                 <span class="float-end">
                                 <span id="withdraw-balance"></span>
-                                &nbsp;
                                 <span class="asset-symbol"></span>
                             </span>
                             <br>
                             <span class="secondary">After pay fee:</span>
                             <span class="float-end">
                                 <span id="withdraw-amount-max"></span>
-                                &nbsp;
                                 <span class="asset-symbol"></span>
                             </span>
                         </div>

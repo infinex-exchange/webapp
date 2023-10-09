@@ -128,7 +128,9 @@ $(document).on('authChecked', function() {
     );
     window.inpFee.onChange(
         function(val) {
-            window.paAmount.setRange(null, window.bnAvbl.minus(val));
+            let newMax = window.bnAvbl.minus(val);
+            window.paAmount.setRange(null, newMax);
+            $('#withdraw-amount-max').html(newMax.toString());
         },
         true
     );

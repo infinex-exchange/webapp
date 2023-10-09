@@ -1,23 +1,24 @@
 class PercentageAmount {
-    constructor(input, slider, prec = null, minAmount = null, maxAmount = null, rescalePerc = false) {
+    constructor(input, slider, rescalePerc = false) {
         let th = this;
         
         this.input = input;
         this.slider = slider;
         this.rescalePerc = rescalePerc;
         
+        this.prec = null;
+        this.minAmount = new BigNumber(0);
+        this.maxAmount = null;
+        
         this.slider.attr('min', '0')
                    .attr('max', '100')
                    .attr('step', '1');
         
-        this.reset(prec, minAmount, maxAmount);
+        this.reset();
         
         // Input -> slider
         this.input.onChange(
             function(val) {
-                if(th.maxAmount === null)
-                    return;
-                
                 let perc = '0';
                 
                 if(val && th.maxAmount.gt(th.minAmount)) {
@@ -38,9 +39,6 @@ class PercentageAmount {
     
         // Slider -> input
         this.slider.on('input', function() {
-            if(th.maxAmount === null)
-                return;
-            
             let amount;
             if(th.rescalePerc)
                 amount = th.minAmount.plus(
@@ -62,9 +60,6 @@ class PercentageAmount {
         // Drop amount to available balance
         this.input.onChange(
             function(val) {
-                if(th.maxAmount === null)
-                    return;
-                
                 if(th.minAmount.gt(th.maxAmount)) {
                     th.input.set(null, false);
                     th.input.input.addClass('text-red');
@@ -102,16 +97,14 @@ class PercentageAmount {
         });
     }
     
-    reset(prec, minAmount, maxAmount) {
-        this.prec = prec;
-        this.minAmount = new BigNumber(
-            minAmount === null ? 0 : minAmount
-        );
-        this.maxAmount = maxAmount === null ? null : new BigNumber(maxAmount);
-        
+    reset() {
         this.input.reset();
-        
         this.slider.val('0').trigger('_input');
+    }
+    
+    setPrec(prec) {
+        this.prec = prec;
+        this.reset();
     }
     
     setRange(minAmount, maxAmount = null) {

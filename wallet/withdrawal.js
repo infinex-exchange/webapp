@@ -14,7 +14,9 @@ function onCoinSelected(symbol) {
         '/wallet/v2/balances/' + symbol
     ).then(
         function(data) {
-            window.paAmount.reset(data.defaultPrec, null, data.avbl);
+            window.paAmount.setPrec(data.defaultPrec);
+            window.paAmount.setRange(null, data.avbl);
+            
             $('#withdraw-step2').show();
         }
     );
@@ -65,12 +67,14 @@ function onNetSelected(symbol) {
         }
         
         // Setup amount input
-        window.inpAmount.reset(data.prec);
+        window.inpAmount.setPrec(data.prec);
         window.paAmount.setRange(data.minAmount);
         
         // Setup fee input
-        window.inpFee.reset(data.prec);
-        window.paFee.reset(getFeePrec(data.feeMin, data.feeMax), data.feeMin, data.feeMax);
+        let feePrec = getFeePrec(data.feeMin, data.feeMax);
+        window.inpFee.setPrec(feePrec);
+        window.paFee.setPrec(feePrec);
+        window.paFee.setRange(data.feeMin, data.feeMax);
         
         $('#withdraw-step3').show();
         $('html, body').animate({
@@ -116,9 +120,6 @@ $(document).on('authChecked', function() {
     window.paFee = new PercentageAmount(
         window.inpFee,
         $('#withdraw-fee-range'),
-        null,
-        null,
-        null,
         true
     );
         

@@ -1,14 +1,16 @@
 class DecimalInput {
-    constructor(input, prec = 0) {
+    constructor(input) {
         let th = this;
         
         this.input = input;
+        
         this.cbOnChangeChained = new Array();
         this.cbOnChangeUnchained = new Array();
         this.cbOnUpdateVisible = new Array();
         this.chain = false;
+        this.prec = null;
         
-        this.reset(prec);
+        this.reset();
         
         this.input.on('input', function () {
             let regex = new RegExp("^[0-9]*(\\.[0-9]{0," + th.prec + "})?$");
@@ -89,9 +91,12 @@ class DecimalInput {
             callback(this.valReal);
     }
     
+    setPrec(prec) {
+        this.prec = prec;
+        this.reset();
+    }
+    
     reset(prec = null) {
-        if(prec !== null)
-            this.prec = prec;
         this.input.val('');
         this.valTypingSafe = '';
         this.valReal = null;

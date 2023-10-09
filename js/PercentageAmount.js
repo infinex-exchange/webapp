@@ -41,15 +41,16 @@ class PercentageAmount {
             if(th.maxAmount === null)
                 return;
             
+            let amount;
             if(th.rescalePerc)
-                let amount = th.minAmount.plus(
+                amount = th.minAmount.plus(
                     th.maxAmount
                     .minus(th.minAmount)
                     .multipliedBy( $(this).val() )
                     .dividedBy(100)
                 );
             else
-                let amount = th.maxAmount
+                amount = th.maxAmount
                     .multipliedBy( $(this).val() )
                     .dividedBy(100);
             

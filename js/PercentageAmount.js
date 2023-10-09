@@ -43,9 +43,10 @@ class PercentageAmount {
                 .minus(th.minAmount)
                 .multipliedBy( $(this).val() )
                 .dividedBy(100)
-            )
-            .dp(th.prec)
-            .toString();
+            );
+            console.log(amount);
+            /*.dp(th.prec)
+            .toString();*/
             
             th.input.set(amount, true);
         });

@@ -51,7 +51,6 @@ class PercentageAmount {
                 
                 let bnVal = new BigNumber(val);
                 if(bnVal.gt(th.maxAmount)) {
-                    console.log('gt');
                     th.input.set(
                         th.maxAmount
                           .dp(th.prec, BigNumber.ROUND_DOWN)

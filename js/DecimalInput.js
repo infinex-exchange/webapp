@@ -46,6 +46,7 @@ class DecimalInput {
     }
     
     set(val, chained) {
+        console.log('set ' + val + ' ' + chained);
         if(chained) {
             if(this.chain)
                 throw 'DecimalInput infinite chain reaction ! ! !';

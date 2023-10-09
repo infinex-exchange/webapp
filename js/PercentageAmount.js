@@ -76,6 +76,7 @@ class PercentageAmount {
         // Drop amount to available balance
         this.input.onChange(
             function(val) {
+                console.log(val);
                 if(th.prec === null || th.maxAmount === null || val === null)
                     return;
                     

@@ -64,7 +64,7 @@ class DecimalInput {
             this.updateVTS();
         
         for(const callback of this.cbOnChangeUnchained)
-            callback(val);
+            callback(valReal);
     }
     
     onChange(callback, chained) {

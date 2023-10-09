@@ -60,6 +60,8 @@ class PercentageAmount {
                     
                     th.input.input.addClass('text-red');
                 }
+                else
+                    th.input.input.removeClass('text-red');
             },
             true
         );

@@ -97,7 +97,7 @@ class PercentageAmount {
             },
             true
         );
-        this.input.onUpdateVisible(function(val) {
+        this.input.onUpdateVisible(function() {
             th.input.input.removeClass('text-red');
         });
     }

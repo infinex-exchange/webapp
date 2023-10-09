@@ -22,7 +22,7 @@ function onCoinSelected(symbol) {
         '/wallet/v2/balances/' + symbol
     ).then(
         function(data) {
-            window.paAmount.reset(data.defaultPrec, '1000', data.avbl);
+            window.paAmount.reset(data.defaultPrec, null, data.avbl);
             $('#withdraw-step2').show();
         }
     );
@@ -74,6 +74,7 @@ function onNetSelected(symbol) {
         
         // Reset decimal input
         window.inpAmount.reset(data.prec);
+        window.apAmount.setRange(data.minAmount);
         
         // Fees
         /*window.wdFeeMinOrig = data.feeMin;

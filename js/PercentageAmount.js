@@ -111,7 +111,7 @@ class PercentageAmount {
         
         this.input.reset();
         
-        this.slider.val('0');
+        this.slider.val('0').trigger('_input');
     }
     
     setRange(minAmount, maxAmount) {

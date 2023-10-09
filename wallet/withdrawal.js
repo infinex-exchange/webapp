@@ -222,6 +222,7 @@ $(document).on('authChecked', function() {
     );
     window.inpFee.onChange(
         function(val) {
+            console.log('val changed to ' + val);
             if(val === null) {
                 window.inpFee.set(0, false);
                 return;

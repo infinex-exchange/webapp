@@ -131,7 +131,7 @@ $(document).on('authChecked', function() {
             let newMax = window.bnAvbl.minus(val);
             window.paAmount.setRange(null, newMax);
             $('#withdraw-amount-max').html(
-                darkAmount(newMax.toString(), window.paAmount.prec)
+                darkBalance(newMax.toString(), window.paAmount.prec)
             );
         },
         true

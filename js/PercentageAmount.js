@@ -1,10 +1,11 @@
 class PercentageAmount {
-    constructor(input, slider, rescalePerc = false) {
+    constructor(input, slider, rescalePerc = false, notNull = false) {
         let th = this;
         
         this.input = input;
         this.slider = slider;
         this.rescalePerc = rescalePerc;
+        this.notNull = notNull;
         
         this.prec = null;
         this.minAmount = new BigNumber(0);
@@ -66,8 +67,15 @@ class PercentageAmount {
         // Drop amount to available balance
         this.input.onChange(
             function(val) {
-                if(th.prec === null || th.maxAmount === null || val === null)
+                if(th.prec === null || th.maxAmount === null)
                     return;
+                
+                if(val === null) {
+                    if(th.notNull)
+                        val = '0';
+                    else
+                        return;
+                }
                     
                 if(th.minAmount.gt(th.maxAmount)) {
                     th.input.set(null, false);

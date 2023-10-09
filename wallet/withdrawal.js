@@ -218,16 +218,11 @@ $(document).on('authChecked', function() {
     window.paFee = new PercentageAmount(
         window.inpFee,
         $('#withdraw-fee-range'),
+        true,
         true
     );
     window.inpFee.onChange(
         function(val) {
-            console.log('val changed to ' + val);
-            if(val === null) {
-                window.inpFee.set('0', false);
-                return;
-            }
-            
             let newMax = window.bnAvbl.minus(val);
             console.log('case 3 ' + val);
             window.paAmount.setRange(null, newMax);

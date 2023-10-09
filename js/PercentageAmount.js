@@ -115,9 +115,9 @@ class PercentageAmount {
     }
     
     setRange(minAmount, maxAmount = null) {
-        if(this.minAmount !== null)
+        if(minAmount !== null)
             this.minAmount = new BigNumber(minAmount);
-        if(this.maxAmount !== null)
+        if(maxAmount !== null)
             this.maxAmount = new BigNumber(maxAmount);
         this.input.set(this.input.get(), true);
     }

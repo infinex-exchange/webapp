@@ -93,14 +93,20 @@ function onNetSelected(symbol) {
 }
 
 function onAdbkSelected(key, val, data) {
+    let memo;
+    
     if(key === null) {
         // Typed address
         $('#withdraw-save-wrapper').show();
+        memo = null;
     }
     else {
         // Selected address
         $('#withdraw-save-wrapper').hide();
+        memo = data.memo;
     }
+    
+    $('#withdraw-memo').val(memo ? memo : '');
 }
 
 $(document).on('authChecked', function() {

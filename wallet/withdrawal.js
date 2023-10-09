@@ -14,8 +14,9 @@ function onCoinSelected(symbol) {
         '/wallet/v2/balances/' + symbol
     ).then(
         function(data) {
+            window.bnAvbl = new BigNumber(data.avbl);
             window.paAmount.setPrec(data.defaultPrec);
-            window.paAmount.setRange(null, data.avbl);
+            window.paAmount.setRange(null, window.bnAvbl);
             
             $('#withdraw-step2').show();
         }
@@ -121,6 +122,12 @@ $(document).on('authChecked', function() {
     window.paFee = new PercentageAmount(
         window.inpFee,
         $('#withdraw-fee-range'),
+        true
+    );
+    window.inpFee.onChange(
+        function(val) {
+            window.paAmount.setRange(null, window.bnAvbl.minus(val));
+        },
         true
     );
         

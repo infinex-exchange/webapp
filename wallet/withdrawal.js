@@ -75,6 +75,7 @@ function onNetSelected(symbol) {
         // Reset decimal input
         window.inpAmount.reset(data.prec);
         window.paAmount.setRange(data.minAmount);
+        console.log('minAmount = ' + data.minAmount);
         
         // Fees
         /*window.wdFeeMinOrig = data.feeMin;

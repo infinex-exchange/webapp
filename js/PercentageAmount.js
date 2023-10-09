@@ -15,23 +15,7 @@ class PercentageAmount {
         // Input -> slider
         this.input.onChange(
             function(val) {
-                if(th.maxAmount === null)
-                    return;
-            
-                let perc = '0';
-            
-                if(val && th.maxAmount.gt(th.minAmount)) {
-                    let amount = new BigNumber(val);
-                    perc = amount;
-                    if(th.rescalePerc)
-                        perc = perc.minus(th.minAmount)
-                                   .dividedBy(th.maxAmount.minus(th.minAmount));
-                    else
-                        perc = perc.dividedBy(th.maxAmount);
-                    perc = perc.multipliedBy(100).toFixed(0);
-                }
-            
-                th.slider.val(perc).trigger('_input');
+                
             },
             false
         );
@@ -99,6 +83,24 @@ class PercentageAmount {
         );
         this.input.onUpdateVisible(function() {
             th.input.input.removeClass('text-red');
+            
+            if(th.maxAmount === null)
+                return;
+        
+            let perc = '0';
+        
+            if(val && th.maxAmount.gt(th.minAmount)) {
+                let amount = new BigNumber(val);
+                perc = amount;
+                if(th.rescalePerc)
+                    perc = perc.minus(th.minAmount)
+                               .dividedBy(th.maxAmount.minus(th.minAmount));
+                else
+                    perc = perc.dividedBy(th.maxAmount);
+                perc = perc.multipliedBy(100).toFixed(0);
+            }
+        
+            th.slider.val(perc).trigger('_input');
         });
     }
     

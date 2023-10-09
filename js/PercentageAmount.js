@@ -15,7 +15,6 @@ class PercentageAmount {
         // Input -> slider
         this.input.onChange(
             function(val) {
-                console.log('unchained to ' + val);
                 if(th.maxAmount === null)
                     return;
             
@@ -63,7 +62,6 @@ class PercentageAmount {
         // Drop amount to available balance
         this.input.onChange(
             function(val) {
-                console.log('chained to ' + val);
                 if(th.maxAmount === null)
                     return;
                 

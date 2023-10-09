@@ -1,15 +1,7 @@
 function getFeePrec(feeMin, feeMax) {
     let feeMinDec = new BigNumber(feeMin);
     let feeMaxDec = new BigNumber(feeMax);
-    let dp = Math.max(feeMinDec.dp(), feeMaxDec.dp());
-    let feeStep = new BigNumber(10);
-    feeStep = feeStep.pow(-dp).dp(dp).toString();
-    
-    $('#withdraw-fee-range').attr('min', feeMin)
-                            .attr('max', feeMax)
-                            .attr('step', feeStep)
-                            .val(feeMin)
-                            .trigger('input');
+    return Math.max(feeMinDec.dp(), feeMaxDec.dp());
 }
 
 function onCoinSelected(symbol) {
@@ -72,15 +64,13 @@ function onNetSelected(symbol) {
             $('#withdraw-contract-wrapper').addClass('d-none');
         }
         
-        // Reset decimal input
+        // Setup amount input
         window.inpAmount.reset(data.prec);
         window.paAmount.setRange(data.minAmount);
-        console.log('minAmount = ' + data.minAmount);
         
-        // Fees
-        /*window.wdFeeMinOrig = data.feeMin;
-        window.wdFeeMaxOrig = data.feeMax;
-        updateFees(data.feeMin, data.feeMax);*/
+        // Setup fee input
+        window.inpFee.reset(data.prec);
+        window.paFee.reset(getFeePrec(data.feeMin, data.feeMax), data.feeMin, data.feeMax);
         
         $('#withdraw-step3').show();
         $('html, body').animate({
@@ -120,6 +110,12 @@ $(document).on('authChecked', function() {
     window.paAmount = new PercentageAmount(
         window.inpAmount,
         $('#withdraw-amount-range')
+    );
+    
+    window.inpFee = new DecimalInput( $('#withdraw-fee') );
+    window.paFee = new PercentageAmount(
+        window.inpFee,
+        $('#withdraw-fee-range')
     );
         
     let pathArray = window.location.pathname.split('/');

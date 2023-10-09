@@ -135,11 +135,11 @@
                         
                         <div class="col-12 col-lg-6 py-2 order-lg-2">
                             <label for="withdraw-fee">Fee:</label>
-                            <input type="text" class="form-control" id="withdraw-fee" readonly>
+                            <input type="text" class="form-control" id="withdraw-fee">
                         </div>
                         
                         <div class="col-12 col-lg-6 py-2 order-lg-4 mt-auto">
-                            <input id="withdraw-fee-range" type="range" class="form-range" min="0" max="1" step="1" value="0">
+                            <input id="withdraw-fee-range" type="range" class="form-range">
                         </div>
                         
                         <div class="col-12 col-lg-6 py-2 order-lg-5 my-auto">

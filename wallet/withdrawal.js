@@ -20,7 +20,12 @@ function onCoinSelected(symbol) {
             
             $('#withdraw-step2').show();
             
-            $('#withdraw-balance').html(data.avbl);
+            $('#withdraw-balance').html(
+                darkBalance(
+                    window.bnAvbl,
+                    window.paAmount.prec
+                )
+            );
         }
     );
     

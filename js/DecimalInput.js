@@ -60,10 +60,8 @@ class DecimalInput {
         if(this.chain)
             return;
             
-        if(this.input.not(':focus')) {
-            console.log('update vts');
+        if(! this.input.is(':focus'))
             this.updateVTS();
-        }
         
         for(const callback of this.cbOnChangeUnchained)
             callback(val);

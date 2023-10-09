@@ -46,18 +46,19 @@ class PercentageAmount {
         // Drop amount to available balance
         this.input.onChange(
             function(val) {
-                console.log('chained change');
                 if(th.maxAmount === null)
                     return;
                 
                 let bnVal = new BigNumber(val);
-                if(bnVal.gt(th.maxAmount))
+                if(bnVal.gt(th.maxAmount)) {
+                    console.log('gt');
                     th.input.set(
                         th.maxAmount
                           .dp(th.prec, BigNumber.ROUND_DOWN)
                           .toString(),
                         false
                     );
+                }
             
                 th.input.input.addClass('text-red');
             },

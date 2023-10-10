@@ -39,36 +39,25 @@ function removeApiKey(keyid) {
 }
 
 function addApiKey() {
-    $('#api-key-description-form').unbind('submit');
-    $('#api-key-description-form').submit(function(event) {
-        event.preventDefault();
-        
-        let description = $('#api-key-description').val();
-        
-        if(!validateApiKeyDescription(description)) {
-            msgBox('Please fill in the form correctly');
-            return;
-        }
-        
+    window.fvAddEdit.onSubmit(function(data) {
         $('#modal-ak-desc-prompt').modal('hide');
         
         api(
             'POST',
             '/account/v2/api-keys',
-            {
-                description: description
-            }
-        ).then(function(data) {
+            data
+        ).then(function(resp) {
             window.apiKeysScr.append({
-                keyid: data.keyid,
-                apiKey: data.apiKey,
-                description: description
+                keyid: resp.keyid,
+                apiKey: resp.apiKey,
+                description: data.description
             });
         });
+        
+        return true;
     });
+    window.fvAddEdit.reset();
     
-    $('#api-key-description').val('');
-    $('#help-api-key-description').hide();
     $('#modal-ak-desc-prompt').modal('show');
 }
 
@@ -77,36 +66,25 @@ function editApiKey(keyid) {
     let oldDescription = old.data('description');
     let oldApiKey = old.data('api-key');
     
-    $('#api-key-description-form').unbind('submit');
-    $('#api-key-description-form').submit(function(event) {
-        event.preventDefault();
-        
-        var description = $('#api-key-description').val();
-        
-        if(!validateApiKeyDescription(description)) {
-            msgBox('Please fill in the form correctly');
-            return;
-        }
-        
+    window.fvAddEdit.onSubmit(function(data) {
         $('#modal-ak-desc-prompt').modal('hide');
         
         api(
             'PATCH',
             '/account/v2/api-keys/' + keyid,
-            {
-                description: description
-            }
+            data
         ).then(function() {
             window.apiKeysScr.replace(keyid, {
                 keyid: keyid,
                 apiKey: oldApiKey,
-                description: description
+                description: data.description
             });
         });
+        
+        return true;
     });
     
-    $('#api-key-description').val(oldDescription);
-    $('#help-api-key-description').hide();
+    $('#api-key-description').val(oldDescription).trigger('input');
     $('#modal-ak-desc-prompt').modal('show');
 }
 
@@ -133,12 +111,16 @@ $(document).on('authChecked', function() {
     if(!window.loggedIn)
         return;
         
-    $('#api-key-description').on('input', function() {
-        if(validateApiKeyDescription($(this).val()))
-            $('#help-api-key-description').hide();
-        else
-            $('#help-api-key-description').show();
-    });
+    window.fvAddEdit = new FormValidator(
+        $('api-key-description-form'),
+        null
+    );
+    window.fvAddEdit.text(
+        'description',
+        $('#api-key-description'),
+        true,
+        validateApiKeyDescription
+    );
     
     window.apiKeysScr = new InfiniteScrollOffsetPg(
         '/account/v2/api-keys',

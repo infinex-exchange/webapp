@@ -104,7 +104,6 @@
                     <div class="form-group">
                         <label for="api-key-description">Name:</label>
                         <input type="text" class="form-control" id="api-key-description">
-                        <small id="help-api-key-description" class="form-text" style="display: none">Invalid name</small>
                     </div>
                 </div>
                 <div class="modal-footer">

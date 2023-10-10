@@ -4,6 +4,7 @@ class FormValidator {
         
         this.form = form;
         this.fields = {};
+        this.cbOnSubmit = onSubmit;
         
         this.form.on('submit', function(event) {
             event.preventDefault();
@@ -32,7 +33,7 @@ class FormValidator {
                     data[key] = th.fields[key].input.get();
             }
             
-            if(foundError || ! onSubmit(data))
+            if(foundError || ! th.cbOnSubmit(data))
                 msgBox('Please fill the form correctly');
         });
     }
@@ -115,6 +116,10 @@ class FormValidator {
             
             this.setValid(key, true);
         }
+    }
+    
+    onSubmit(callback) {
+        this.cbOnSubmit = callback;
     }
     
     validate(key, value, validator) {

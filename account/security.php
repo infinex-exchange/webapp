@@ -93,7 +93,7 @@
                             <button type="button" class="btn btn-primary btn-sm" id="che-cancel">Cancel</button>
                         </div>
                     </div>
-                    <form id="form-che-step2" class="d-grid gap-3">
+                    <form id="form-che-step2" class="d-grid gap-3 pt-3">
                         <div class="form-group">
                             <label for="che-code">Verification code:</label>
                             <div class="input-group">

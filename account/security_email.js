@@ -2,14 +2,14 @@ function cheStep1() {
     $('#che-submit-btn').prop('disabled', true);
     $('#che-code-get').prop('disabled', false);
     $('#che-pending').addClass('d-none').removeClass('d-flex');
-    $('.che-step1').show();
-    $('#che-form')[0].reset();
+    window.fvChe.reset();
+    $('#form-che-step1').show();
 }
 
 function cheStep2(newEmail) {
     $('#che-submit-btn').prop('disabled', false);
     $('#che-code-get').prop('disabled', true);
-    $('.che-step1').hide();
+    $('#form-che-step1').hide();
     $('#che-pending-email').html(newEmail);
     $('#che-pending').addClass('d-flex').removeClass('d-none');
 }
@@ -18,68 +18,61 @@ $(document).on('authChecked', function() {
     if(!window.loggedIn)
         return;
     
-    $('#che-email').on('input', function() {
-        if(validateEmail($(this).val()))
-            $('#help-che-email').hide();
-        else
-            $('#help-che-email').show();
-    });
-    
-    $('#che-password').on('input', function() {
-        if(validatePassword($(this).val()))
-            $('#help-che-password').hide();
-        else
-            $('#help-che-password').show();
-    });
-    
-    $('#che-code').on('input', function() {
-        if(validateVeriCode($(this).val()))
-            $('#help-che-code').hide();
-        else
-            $('#help-che-code').show();
-    });
-    
-    $('#che-form').submit(function(event) {
-        event.preventDefault();
-        
-        let code = $('#che-code').val();
-        
-        if(!validateVeriCode(code)) {
-            msgBox('Fill the form correctly');
-            return;
+    window.fvStep1 = new FormValidator(
+        $('#form-che-step1'),
+        function(data) {
+            api(
+                'PUT',
+                '/account/v2/email',
+                data
+            ).then(function() {
+                cheStep2(data.email);
+            });
+            
+            return true;
         }
-        
-        api(
-            'PATCH',
-            '/account/v2/email',
-            {
-                code: code
-            }
-        ).then(function() {
-            msgBox('Your e-mail address has been changed', 'Success');
-            cheStep1();
-        });
-    });
+    );
+    window.fvStep1.text(
+        'email',
+        $('#che-email'),
+        true,
+        validateEmail,
+        'Incorrect e-mail format'
+    );
+    window.fvStep1.text(
+        'password',
+        $('#che-password'),
+        true,
+        validatePassword,
+        'The password must be at least 8 characters long and contain one lowercase letter, ' +
+        'one uppercase letter, and one digit'
+    );
+    
+    window.fvStep2 = new FormValidator(
+        $('#form-che-step2'),
+        function(data) {
+            api(
+                'PATCH',
+                '/account/v2/email',
+                data
+            ).then(function() {
+                msgBox('Your e-mail address has been changed', 'Success');
+                cheStep1();
+            });
+            
+            return true;
+        }
+    );
+    window.fvStep2.text(
+        'code',
+        $('#che-code'),
+        true,
+        validateVeriCode,
+        'Code must be 6 digits long'
+    );
     
     $('#che-code-get').click(function() {
-        let email = $('#che-email').val();
-        let pass = $('#che-password').val();
-        
-        if(!validateEmail(email) || !validatePassword(pass)) {
-            msgBox('Fill the form correctly');
-            return;
-        }
-        
-        api(
-            'PUT',
-            '/account/v2/email',
-            {
-                password: pass,
-                email: email
-            }
-        ).then(function() {
-            cheStep2(email);
-        });
+        $('#form-che-step1').submit();
     });
     
     $('#che-cancel').click(function() {

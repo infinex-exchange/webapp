@@ -52,23 +52,14 @@
                         <div class="form-group">
                             <label for="chp-old">Old password:</label>
                             <input type="password" class="form-control" id="chp-old">
-                            <small id="help-chp-old" class="form-text" style="display: none">
-                                The password must be at least 8 characters long and contain
-                                one lowercase letter, one uppercase letter, and one digit
-                            </small>
                         </div>
                         <div class="form-group">
                             <label for="chp-new">New password:</label>
                             <input type="password" class="form-control" id="chp-new">
-                            <small id="help-chp-new" class="form-text" style="display: none">
-                                The password must be at least 8 characters long and contain
-                                one lowercase letter, one uppercase letter, and one digit
-                            </small>
                         </div>
                         <div class="form-group">
                             <label for="chp-new2">Confirm password:</label>
                             <input type="password" class="form-control" id="chp-new2">
-                            <small id="help-chp-new2" class="form-text" style="display: none">Passwords does not match</small>
                         </div>
                         <button type="submit" class="btn btn-primary">Change password</button>
                     </form>
@@ -83,17 +74,10 @@
                         <div class="form-group che-step1">
                             <label for="che-email">New e-mail:</label>
                             <input type="text" class="form-control" id="che-email">
-                            <small id="help-che-email" class="form-text" style="display: none">
-                                Incorrect e-mail format
-                            </small>
                         </div>
                         <div class="form-group che-step1">
                             <label for="che-password">Current password:</label>
                             <input type="password" class="form-control" id="che-password">
-                            <small id="help-che-password" class="form-text" style="display: none">
-                                The password must be at least 8 characters long and contain
-                                one lowercase letter, one uppercase letter, and one digit
-                            </small>
                         </div>
                         <div id="che-pending" class="alert alert-secondary align-items-center" role="alert">
                             <div class="px-2">
@@ -113,9 +97,6 @@
                                 <input type="text" class="form-control" id="che-code">
                                 <button type="button" id="che-code-get" class="btn btn-primary">Get</button>
                             </div>
-                            <small id="help-che-code" class="form-text" style="display: none">
-                                8 characters, only alphanumeric
-                            </small>
                         </div>
                         <button id="che-submit-btn" type="submit" class="btn btn-primary">Change e-mail</button>
                     </form>

@@ -191,6 +191,8 @@ class FormValidator {
     
     setValid(key, valid) {
         this.fields[key].valid = valid;
+        console.log(key);
+        console.log(this.fields[key].invalidHintElem);
         this.fields[key].invalidHintElem.toggle(!valid);
     }
     

@@ -104,7 +104,7 @@ class FormValidator {
                 console.log('onchange ' + key + ' to ' + val);
                 th.setNotEmpty(key, val !== null);
             },
-            false
+            true
         );
     }
     

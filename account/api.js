@@ -112,7 +112,7 @@ $(document).on('authChecked', function() {
         return;
         
     window.fvAddEdit = new FormValidator(
-        $('api-key-description-form'),
+        $('#api-key-description-form'),
         null
     );
     window.fvAddEdit.text(

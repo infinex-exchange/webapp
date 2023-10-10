@@ -3,13 +3,13 @@ function cheStep1() {
     $('#che-code-get').prop('disabled', false);
     $('#che-pending').addClass('d-none').removeClass('d-flex');
     window.fvStep1.reset();
-    $('#form-che-step1').show();
+    $('#form-che-step1').removeClass('d-none');
 }
 
 function cheStep2(newEmail) {
     $('#che-submit-btn').prop('disabled', false);
     $('#che-code-get').prop('disabled', true);
-    $('#form-che-step1').hide();
+    $('#form-che-step1').addClass('d-none');
     $('#che-pending-email').html(newEmail);
     $('#che-pending').addClass('d-flex').removeClass('d-none');
 }

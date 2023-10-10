@@ -29,9 +29,9 @@ class FormValidator {
                     if(val == '') val = null;
                     data[key] = val;
                 }
-                else if(this.fields[key].type == 'decimal')
+                else if(th.fields[key].type == 'decimal')
                     data[key] = th.fields[key].input.get();
-                else if(this.fields[key].type == 'select')
+                else if(th.fields[key].type == 'select')
                     data[key] = th.fields[key].input.val;
             }
             

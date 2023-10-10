@@ -258,7 +258,6 @@
                     <div class="form-group">
                         <label for="reflink-description">Name:</label>
                         <input type="text" class="form-control" id="reflink-description">
-                        <small id="help-reflink-description" class="form-text" style="display: none">Invalid name</small>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -94,29 +94,17 @@ function removeReflink(refid) {
 }
 
 function addReflink() {
-    $('#reflink-description-form').unbind('submit');
-    $('#reflink-description-form').submit(function(event) {
-        event.preventDefault();
-        
-        let description = $('#reflink-description').val();
-        
-        if(!validateReflinkDescription(description)) {
-            msgBox('Please fill in the form correctly');
-            return;
-        }
-        
+    window.fvAddEdit.onSubmit(function(data) {
         $('#modal-reflink-desc-prompt').modal('hide');
         
         api(
             'POST',
             '/affiliate/v2/reflinks',
-            {
-                description: description
-            }
-        ).then(function(data) {
+            data
+        ).then(function(resp) {
             window.reflinksScr.append({
-                refid: data.refid,
-                description: description,
+                refid: resp.refid,
+                description: data.description,
                 members: {
                     1: 0,
                     2: 0,
@@ -125,10 +113,11 @@ function addReflink() {
                 }
             });
         });
+        
+        return true;
     });
+    window.fvAddEdit.reset();
     
-    $('#reflink-description').val('');
-    $('#help-reflink-description').hide();
     $('#modal-reflink-desc-prompt').modal('show');
 }
 
@@ -136,29 +125,17 @@ function editReflink(refid) {
     let old = window.reflinksScr.get(refid);
     let oldDescription = old.data('description');
     
-    $('#reflink-description-form').unbind('submit');
-    $('#reflink-description-form').submit(function(event) {
-        event.preventDefault();
-        
-        let description = $('#reflink-description').val();
-        
-        if(!validateReflinkDescription(description)) {
-            msgBox('Please fill in the form correctly');
-            return;
-        }
-        
+    window.fvAddEdit.onSubmit(function(data) {
         $('#modal-reflink-desc-prompt').modal('hide');
         
         api(
             'PATCH',
             '/affiliate/v2/reflinks/' + refid,
-            {
-                description: description
-            }
+            data
         ).then(function() {
             window.reflinksScr.replace(refid, {
                 refid: refid,
-                description: description,
+                description: data.description,
                 members: {
                     1: old.data('members-1'),
                     2: old.data('members-2'),
@@ -167,10 +144,11 @@ function editReflink(refid) {
                 }
             });
         });
+        
+        return true;
     });
     
-    $('#reflink-description').val(oldDescription);
-    $('#help-reflink-description').hide();
+    $('#reflink-description').val(oldDescription).trigger('input');
     $('#modal-reflink-desc-prompt').modal('show');
 }
 
@@ -212,12 +190,16 @@ $(document).on('authChecked', function() {
     if(!window.loggedIn)
         return;
     
-    $('#reflink-description').on('input', function() {
-        if(validateReflinkDescription($(this).val()))
-            $('#help-reflink-description').hide();
-        else
-            $('#help-reflink-description').show();
-    });
+    window.fvAddEdit = new FormValidator(
+        $('#reflink-description-form'),
+        null
+    );
+    window.fvAddEdit.text(
+        'description',
+        $('reflink-description'),
+        true,
+        validateReflinkDescription
+    );
     
     window.refCoin = '';
     

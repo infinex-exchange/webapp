@@ -40,35 +40,16 @@ class FormValidator {
     text(key, input, required, validator, hintText = null, valTimeout = 0) {
         let th = this;
         
-        let requiredHintElem = null;
-        if(required) {
-            input.after(`
-                <small class="hint-required form-text" style="display: none" data-for="${key}">
-                    This field cannot be empty
-                </small>
-            `);
-            requiredHintElem = this.form.find(`.hint-required[data-for="${key}"]`);
-        }
-        
-        if(!hintText)
-            hintText = 'Invalid format';
-        input.after(`
-            <small class="hint-invalid form-text" style="display: none" data-for="${key}">
-                ${hintText}
-            </small>
-        `);
-        let invalidHintElem = this.form.find(`.hint-invalid[data-for="${key}"]`);
-        
         this.fields[key] = {
             type: 'text',
             input: input,
             
             required: required,
             notEmpty: false,
-            requiredHintElem: requiredHintElem,
+            requiredHintElem: this.createReqHint(this.form, input, required),
             
             valid: true,
-            invalidHintElem: invalidHintElem,
+            invalidHintElem: this.createInvHint(this.form, input, hintText),
             typingTimeout: null
         };
         
@@ -102,15 +83,7 @@ class FormValidator {
     decimal(key, input, required) {
         let th = this;
         
-        let requiredHintElem = null;
-        if(required) {
-            input.input.after(`
-                <small class="hint-required form-text" style="display: none" data-for="${key}">
-                    This field cannot be empty
-                </small>
-            `);
-            requiredHintElem = this.form.find(`.hint-required[data-for="${key}"]`);
-        }
+        let hints = this.createHints(this.form, input.input, required);
         
         this.fields[key] = {
             type: 'decimal',
@@ -118,7 +91,7 @@ class FormValidator {
             
             required: required,
             notEmpty: false,
-            requiredHintElem: requiredHintElem,
+            requiredHintElem: this.createReqHint(this.form, input.input, required),
             
             valid: true
         }
@@ -169,5 +142,33 @@ class FormValidator {
     setValid(key, valid) {
         this.fields[key].valid = valid;
         this.fields[key].invalidHintElem.toggle(!valid);
+    }
+    
+    createReqHint(form, input, required) {
+        if(!required)
+            return null;
+        
+        let after = input.closest('.input-group');
+        if(! after.length) after = input;
+        after.after(`
+            <small class="hint-required form-text" style="display: none" data-for="${key}">
+                This field cannot be empty
+            </small>
+        `);
+        return form.find(`.hint-required[data-for="${key}"]`);
+    }
+    
+    createInvHint(form, input, hintText) {
+        if(!hintText)
+            hintText = 'Invalid format';
+        
+        let after = input.closest('.input-group');
+        if(! after.length) after = input;
+        after.after(`
+            <small class="hint-invalid form-text" style="display: none" data-for="${key}">
+                ${hintText}
+            </small>
+        `);
+        return form.find(`.hint-invalid[data-for="${key}"]`);
     }
 }

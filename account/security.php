@@ -79,6 +79,7 @@
                             <label for="che-password">Current password:</label>
                             <input type="password" class="form-control" id="che-password">
                         </div>
+                        <button type="submit" class="d-none"></button>
                     </form>
                     <div id="che-pending" class="alert alert-secondary align-items-center" role="alert">
                         <div class="px-2">

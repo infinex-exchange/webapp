@@ -154,13 +154,13 @@ class Form {
     }
     
     setNotEmpty(key, notEmpty) {
-        th.fields[key].notEmpty = notEmpty;
-        if(th.fields[key].required)
-            th.fields[key].requiredHintElem.toggle(!notEmpty);
+        this.fields[key].notEmpty = notEmpty;
+        if(this.fields[key].required)
+            this.fields[key].requiredHintElem.toggle(!notEmpty);
     }
     
     setValid(key, valid) {
-        th.fields[key].valid = valid;
-        th.fields[key].invalidHintElem.toggle(!valid);
+        this.fields[key].valid = valid;
+        this.fields[key].invalidHintElem.toggle(!valid);
     }
 }

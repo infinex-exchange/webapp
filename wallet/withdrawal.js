@@ -88,6 +88,11 @@ function onNetSelected(symbol) {
         window.fvWithdrawal.reset();
         window.paFee.set(50);
         $('#withdraw-save').attr('checked', false).trigger('change');
+        
+        $('#withdraw-step3').show();
+        $('html, body').animate({
+            scrollTop: $("#withdraw-step3").offset().top
+        }, 1000);
     });
 }
 

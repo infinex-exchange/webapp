@@ -176,4 +176,8 @@ class Select {
         if(this.autoSelectSingle && items.length == 1)
             this.autoSelect = true;
     }
+    
+    onChange(callback) {
+        this.cbOnChange.push(callback);
+    }
 }

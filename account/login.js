@@ -6,8 +6,8 @@ $(document).ready(function() {
             alert(data);
         }
     );
-    formLogin.text('email', $('#login-email'), true, validateEmail);
-    formLogin.text('password', $('#login-password'), true, validatePassword);
+    fvLogin.text('email', $('#login-email'), true, validateEmail);
+    fvLogin.text('password', $('#login-password'), true, validatePassword);
     /*$('#login-form').submit(function(event) {
         event.preventDefault();
         

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    let formLogin = new Form(
+    formLogin = new Form(
         $('#login-form'),
         function(data) {
             console.log(data);

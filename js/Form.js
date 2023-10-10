@@ -50,7 +50,7 @@ class Form {
                     This field cannot be empty
                 </small>
             `);
-            let requiredHintElem = this.form.find(`.hint-required[data-for="${key}"]`);
+            requiredHintElem = this.form.find(`.hint-required[data-for="${key}"]`);
         }
         
         if(!hintText)
@@ -104,6 +104,16 @@ class Form {
     
     decimal(key, input, required) {
         let th = this;
+        
+        let requiredHintElem = null;
+        if(required) {
+            input.input.after(`
+                <small class="hint-required form-text" style="display: none" data-for="${key}">
+                    This field cannot be empty
+                </small>
+            `);
+            requiredHintElem = this.form.find(`.hint-required[data-for="${key}"]`);
+        }
         
         this.fields[key] = {
             type: 'decimal',

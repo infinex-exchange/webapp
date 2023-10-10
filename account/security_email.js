@@ -21,6 +21,8 @@ $(document).on('authChecked', function() {
     window.fvStep1 = new FormValidator(
         $('#form-che-step1'),
         function(data) {
+            data.email = data.email.toLowerCase();
+            
             api(
                 'PUT',
                 '/account/v2/email',

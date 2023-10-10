@@ -1,4 +1,4 @@
-class Form {
+class FormValidator {
     constructor(form, onSubmit) {
         let th = this;
         
@@ -23,8 +23,11 @@ class Form {
                     continue;
                 }
                 
-                if(th.fields[key].type == 'text')
-                    data[key] = th.fields[key].input.val();
+                if(th.fields[key].type == 'text') {
+                    let val = th.fields[key].input.val();
+                    if(val == '') val = null;
+                    data[key] = val;
+                }
                 else if(this.fields[key].type == 'decimal')
                     data[key] = th.fields[key].input.get();
             }
@@ -38,10 +41,8 @@ class Form {
         });
     }
     
-    text(key, required, validator, hintText = null, valTimeout = 0) {
+    text(key, input, required, validator, hintText = null, valTimeout = 0) {
         let th = this;
-        
-        let input = this.form.find(`input[name="${key}"]`);
         
         let requiredHintElem = null;
         if(required) {

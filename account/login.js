@@ -1,13 +1,13 @@
 $(document).ready(function() {
-    formLogin = new Form(
+    fvLogin = new FormValidator(
         $('#login-form'),
         function(data) {
             console.log(data);
             alert(data);
         }
     );
-    formLogin.text('email', true, validateEmail);
-    formLogin.text('password', true, validatePassword);
+    formLogin.text('email', $('#login-email'), true, validateEmail);
+    formLogin.text('password', $('#login-password'), true, validatePassword);
     /*$('#login-form').submit(function(event) {
         event.preventDefault();
         

@@ -25,11 +25,11 @@
             <form id="login-form" class="d-grid gap-3">
                 <div class="form-group">
                     <label for="login-email">Email:</label>
-                    <input type="email" class="form-control" id="login-email" name="email">
+                    <input type="email" class="form-control" id="login-email">
                 </div>
                 <div class="form-group">
                     <label for="login-password">Password:</label>
-                    <input type="password" class="form-control" id="login-password" name="password">
+                    <input type="password" class="form-control" id="login-password">
                 </div>
                 <div class="form-group mx-auto pretty p-switch p-bigger">
                     <input type="checkbox" id="login-remember">

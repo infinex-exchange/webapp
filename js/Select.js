@@ -145,7 +145,7 @@ class Select {
         
         this.div.find('.selector-input').val(this.val);
         
-        for(const callback of th.cbOnChange)
+        for(const callback of this.cbOnChange)
             callback(this.key, this.val, this.data);
     }
     
@@ -158,7 +158,7 @@ class Select {
         
         this.div.find('.selector-input').val(this.val);
         
-        for(const callback of th.cbOnChange)
+        for(const callback of this.cbOnChange)
             callback(this.key, this.val, this.data);
     }
     

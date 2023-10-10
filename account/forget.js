@@ -44,6 +44,8 @@ $(document).ready(function() {
                     '/account/login'
                 );
             });
+            
+            return true;
         }
     );
     window.fvStep2.text(

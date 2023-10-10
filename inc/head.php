@@ -33,6 +33,7 @@ include(__DIR__.'/../vendor/bignumber.html');
 <script src="/js/InfiniteScroll.js?<?php echo filemtime(__DIR__.'/../js/InfiniteScroll.js'); ?>"></script>
 <script src="/js/InfiniteScrollOffsetPg.js?<?php echo filemtime(__DIR__.'/../js/InfiniteScrollOffsetPg.js'); ?>"></script>
 <script src="/js/InfiniteScrollCursorPg.js?<?php echo filemtime(__DIR__.'/../js/InfiniteScrollCursorPg.js'); ?>"></script>
+<script src="/js/Form.js?<?php echo filemtime(__DIR__.'/../js/Form.js'); ?>"></script>
 
 <!-- Twitter card -->
 <?php if(!defined('OVERWRITE_TWITTER_CARD')) { ?>

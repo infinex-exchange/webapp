@@ -32,12 +32,8 @@ class FormValidator {
                     data[key] = th.fields[key].input.get();
             }
             
-            if(foundError) {
+            if(foundError || ! onSubmit(data))
                 msgBox('Please fill the form correctly');
-                return;
-            }
-            
-            onSubmit(data);
         });
     }
     

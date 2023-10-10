@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    fvLogin = new FormValidator(
+    window.fvLogin = new FormValidator(
         $('#login-form'),
         function(data) {
             data.email = data.email.toLowerCase();
@@ -25,8 +25,23 @@ $(document).ready(function() {
                     redirectUrl = window.location.origin + back;
                 window.location.replace(redirectUrl);
             });
+            
+            return true;
         }
     );
-    fvLogin.text('email', $('#login-email'), true, validateEmail);
-    fvLogin.text('password', $('#login-password'), true, validatePassword);
+    window.fvLogin.text(
+        'email',
+        $('#login-email'),
+        true,
+        validateEmail,
+        'Incorrect e-mail format'
+    );
+    window.fvLogin.text(
+        'password',
+        $('#login-password'),
+        true,
+        validatePassword,
+        'The password must be at least 8 characters long and contain one lowercase letter, ' +
+        'one uppercase letter, and one digit'
+    );
 });

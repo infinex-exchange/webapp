@@ -11,90 +11,84 @@ function refreshCaptcha(email) {
 }
 
 $(document).ready(function() {
-    $('#reg-email').on('input', function() {
-        if(validateEmail($(this).val()))
-            $('#help-email').hide();
-        else
-            $('#help-email').show();
-    });
+    window.fvStep1 = new FormValidator(
+        $('#reg-form-step1'),
+        function(data) {
+            data.email = data.email.toLowerCase();
+            delete data.password2;
+            window.step1Data = data;
+            
+            refreshCaptcha(data.email).then(function() {
+                $('#reg-form-step1-wrapper').hide();
+                $('#reg-form-step2-wrapper').show();
+            });
+            
+            return true;
+        }
+    );
+    window.fvStep1.text(
+        'email',
+        $('#reg-email'),
+        true,
+        validateEmail,
+        'Incorrect e-mail format'
+    );
+    window.fvStep1.text(
+        'password',
+        $('#reg-password'),
+        true,
+        function(val) {
+            $('#reg-password2').trigger('input');
+            return validatePassword(val);
+        },
+        'The password must be at least 8 characters long and contain one lowercase letter, ' +
+        'one uppercase letter, and one digit'
+    );
+    window.fvStep1.text(
+        'password2',
+        $('#reg-password2'),
+        true,
+        function(val) {
+            return val == $('#reg-password').val();
+        },
+        'Passwords does not match'
+    );
     
-    $('#reg-password').on('input', function() {
-        if(validatePassword($(this).val()))
-            $('#help-password').hide();
-        else
-            $('#help-password').show();
-    });
-    
-    $('#reg-password, #reg-password2').on('input', function() {
-        if($('#reg-password').val() == $('#reg-password2').val())
-            $('#help-password2').hide();
-        else
-            $('#help-password2').show();        
-    });
-    
-    $('#reg-captcha').on('input', function() {
-        if(validateCaptchaResp($(this).val()))
-            $('#help-captcha').hide();
-        else
-            $('#help-captcha').show();
-    });
+    window.fvStep2 = new FormValidator(
+        $('#reg-form-step2'),
+        function(data) {
+            data = { ...data, ...window.step1Data };
+            data['captchaChallenge'] = window.captchaChallenge;
+            
+            // Refid
+            if(localStorage.getItem('refid') !== null) {
+                let expires = localStorage.getItem('refid_expires');
+                let date = new Date();
+                if(date <= expires)
+                    data['refid'] = parseInt(localStorage.getItem('refid'));
+            }
+            
+            api(
+                'POST',
+                '/account/v2/signup',
+                data
+            ).then(function(data) {
+                window.location.replace('/account/verify?email=' + encodeURI(email));
+            });
+            
+            return true;
+        }
+    );
+    window.fvStep2.text(
+        'captchaResponse',
+        $('#reg-captcha'),
+        true,
+        validateCaptchaResp,
+        'Captcha must be 4 characters long, case is ignored, no zeros and "O" letters'
+    );
     
     $('#reg-captcha-change').click(function() {
-        refreshCaptcha($('#reg-email').val());
-    });
-    
-    $('#reg-form-step1').submit(function(event) {
-        event.preventDefault();
-        
-        let email = $('#reg-email').val();
-        let password = $('#reg-password').val();
-        let password2 = $('#reg-password2').val();
-        
-        if(!validateEmail(email) || !validatePassword(password) || password != password2) {
-            msgBox('Fill the form correctly');
-            return;
-        }
-        
-        refreshCaptcha(email).then(function() {
-            $('#reg-form-step1-wrapper').hide();
-            $('#reg-form-step2-wrapper').show();
-        });
-    });
-    
-    $('#reg-form-step2').submit(function(event) {
-        event.preventDefault();
-        
-        let email = $('#reg-email').val();
-        let password = $('#reg-password').val();
-        let captchaResponse = $('#reg-captcha').val();
-        
-        if(!validateCaptchaResp(captchaResponse)) {
-            msgBox('Fill the form correctly');
-            return;
-        }
-        
-        let data = {
-            email: email,
-            password: password,
-            captchaChallenge: window.captchaChallenge,
-            captchaResponse: captchaResponse
-        };
-        
-        // Refid
-        if(localStorage.getItem('refid') !== null) {
-            let expires = localStorage.getItem('refid_expires');
-            let date = new Date();
-            if(date <= expires)
-                data['refid'] = parseInt(localStorage.getItem('refid'));
-        }
-        
-        api(
-            'POST',
-            '/account/v2/signup',
-            data
-        ).then(function(data) {
-            window.location.replace('/account/verify?email=' + encodeURI(email));
-        });
+        refreshCaptcha(window.step1Data.email);
     });
     
     $('#reg-form-step2-wrapper').hide();

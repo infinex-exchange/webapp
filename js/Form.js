@@ -11,22 +11,22 @@ class Form {
             let foundError = false;
             let data = {};
             
-            for(key in this.fields) {
-                if(this.fields[key].required && !this.fields[key].notEmpty) {
-                    this.fields[key].requiredHintElem.show();
+            for(key in th.fields) {
+                if(th.fields[key].required && !th.fields[key].notEmpty) {
+                    th.fields[key].requiredHintElem.show();
                     foundError = true;
                     continue;
                 }
                 
-                if(! this.fields[key].valid) {
+                if(! th.fields[key].valid) {
                     foundError = true;
                     continue;
                 }
                 
-                if(this.fields[key].type == 'text')
-                    data[key] = this.fields[key].input.val();
+                if(th.fields[key].type == 'text')
+                    data[key] = th.fields[key].input.val();
                 else if(this.fields[key].type == 'decimal')
-                    data[key] = this.fields[key].input.get();
+                    data[key] = th.fields[key].input.get();
             }
             
             if(foundError) {

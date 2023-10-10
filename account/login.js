@@ -1,5 +1,14 @@
 $(document).ready(function() {
-    $('#login-form').submit(function(event) {
+    let formLogin = new Form(
+        $('#login-form'),
+        function(data) {
+            console.log(data);
+            alert(data);
+        }
+    );
+    formLogin.text('email', true, validateEmail);
+    formLogin.text('password', true, validatePassword);
+    /*$('#login-form').submit(function(event) {
         event.preventDefault();
         
         let email = $('#login-email').val().toLowerCase();
@@ -37,5 +46,5 @@ $(document).ready(function() {
                 redirectUrl = window.location.origin + back;
             window.location.replace(redirectUrl);
         });
-    }); 
+    });*/ 
 });

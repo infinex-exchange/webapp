@@ -46,10 +46,10 @@ class FormValidator {
             
             required: required,
             notEmpty: false,
-            requiredHintElem: this.createReqHint(this.form, input, required),
+            requiredHintElem: this.createReqHint(this.form, input, key, required),
             
             valid: true,
-            invalidHintElem: this.createInvHint(this.form, input, hintText),
+            invalidHintElem: this.createInvHint(this.form, input, key, hintText),
             typingTimeout: null
         };
         
@@ -83,15 +83,13 @@ class FormValidator {
     decimal(key, input, required) {
         let th = this;
         
-        let hints = this.createHints(this.form, input.input, required);
-        
         this.fields[key] = {
             type: 'decimal',
             input: input,
             
             required: required,
             notEmpty: false,
-            requiredHintElem: this.createReqHint(this.form, input.input, required),
+            requiredHintElem: this.createReqHint(this.form, input.input, key, required),
             
             valid: true
         }
@@ -144,7 +142,7 @@ class FormValidator {
         this.fields[key].invalidHintElem.toggle(!valid);
     }
     
-    createReqHint(form, input, required) {
+    createReqHint(form, input, key, required) {
         if(!required)
             return null;
         
@@ -158,7 +156,7 @@ class FormValidator {
         return form.find(`.hint-required[data-for="${key}"]`);
     }
     
-    createInvHint(form, input, hintText) {
+    createInvHint(form, input, key, hintText) {
         if(!hintText)
             hintText = 'Invalid format';
         

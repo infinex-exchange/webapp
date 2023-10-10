@@ -51,15 +51,11 @@ class DecimalInput {
     }
     
     set(val, chained) {
-        if(chained && this.chain) {
-            throw 'DecimalInput infinite chain reaction ! ! !';
-        
-        if(this.valReal == val)
-            return;
-        
         this.valReal = val;
         
-        if(chained)
+        if(chained) {
+            if(this.chain)
+                throw 'DecimalInput infinite chain reaction ! ! !';
             this.chain = true;
             for(const callback of this.cbOnChangeChained)
                 callback(this.valReal);

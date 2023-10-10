@@ -11,7 +11,7 @@ class Form {
             let foundError = false;
             let data = {};
             
-            for(key in th.fields) {
+            for(const key in th.fields) {
                 if(th.fields[key].required && !th.fields[key].notEmpty) {
                     th.fields[key].requiredHintElem.show();
                     foundError = true;
@@ -135,7 +135,7 @@ class Form {
     }
     
     reset() {
-        for(key in this.fields) {
+        for(const key in this.fields) {
             if(this.fields[key].type == 'text')
                 this.fields[key].input.val('');
             else if(this.fields[key].type == 'decimal')

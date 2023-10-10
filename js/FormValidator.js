@@ -94,7 +94,9 @@ class FormValidator {
             notEmpty: false,
             requiredHintElem: this.createReqHint(this.form, input.input, key),
             
-            valid: true
+            valid: true,
+            invalidHintElem: this.createInvHint(this.form, input.input, key, null),
+            typingTimeout: null
         }
         
         input.onChange(
@@ -191,8 +193,6 @@ class FormValidator {
     
     setValid(key, valid) {
         this.fields[key].valid = valid;
-        console.log(key);
-        console.log(this.fields[key].invalidHintElem);
         this.fields[key].invalidHintElem.toggle(!valid);
     }
     

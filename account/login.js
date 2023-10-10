@@ -13,7 +13,7 @@ $(document).ready(function() {
                 sessionStorage.setItem('apiKey', resp.apiKey);
                 sessionStorage.setItem('userName', data.email);
             
-                if(remember) {
+                if(data.remember) {
                     localStorage.setItem('_apiKey', resp.apiKey);
                     localStorage.setItem('_userName', data.email);
                 }

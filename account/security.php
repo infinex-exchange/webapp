@@ -70,27 +70,29 @@
                         <h3>Change e-mail</h3>
                     </div>  
                     
-                    <form id="che-form" class="d-grid gap-3">
-                        <div class="form-group che-step1">
+                    <form id="form-che-step1" class="d-grid gap-3">
+                        <div class="form-group">
                             <label for="che-email">New e-mail:</label>
                             <input type="text" class="form-control" id="che-email">
                         </div>
-                        <div class="form-group che-step1">
+                        <div class="form-group">
                             <label for="che-password">Current password:</label>
                             <input type="password" class="form-control" id="che-password">
                         </div>
-                        <div id="che-pending" class="alert alert-secondary align-items-center" role="alert">
-                            <div class="px-2">
-                                <i class="fa-solid fa-hourglass fa-2x"></i>
-                            </div>
-                            <div class="px-2">
-                                Pending e-mail change to:<br>
-                                <strong id="che-pending-email"></strong>
-                            </div>
-                            <div class="ms-auto px-2">
-                                <button type="button" class="btn btn-primary btn-sm" id="che-cancel">Cancel</button>
-                            </div>
+                    </form>
+                    <div id="che-pending" class="alert alert-secondary align-items-center" role="alert">
+                        <div class="px-2">
+                            <i class="fa-solid fa-hourglass fa-2x"></i>
                         </div>
+                        <div class="px-2">
+                            Pending e-mail change to:<br>
+                            <strong id="che-pending-email"></strong>
+                        </div>
+                        <div class="ms-auto px-2">
+                            <button type="button" class="btn btn-primary btn-sm" id="che-cancel">Cancel</button>
+                        </div>
+                    </div>
+                    <form id="form-che-step2" class="d-grid gap-3">
                         <div class="form-group">
                             <label for="che-code">Verification code:</label>
                             <div class="input-group">

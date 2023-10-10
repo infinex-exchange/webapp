@@ -1,85 +1,78 @@
 window.renderingStagesTarget = 1;
 
 $(document).ready(function() {
-    $('#forget-email').on('input', function() {
-        if(validateEmail($(this).val()))
-            $('#help-email').hide();
-        else
-            $('#help-email').show();
-    });
-    
-    $('#forget-code').on('input', function() {
-        if(validateVeriCode($(this).val()))
-            $('#help-code').hide();
-        else
-            $('#help-code').show();
-    });
-    
-    $('#forget-password').on('input', function() {
-        if(validatePassword($(this).val()))
-            $('#help-password').hide();
-        else
-            $('#help-password').show();
-    });
-    
-    $('#forget-password, #forget-password2').on('input', function() {
-        if($('#forget-password').val() == $('#forget-password2').val())
-            $('#help-password2').hide();
-        else
-            $('#help-password2').show();        
-    });
-    
-    $('#forget-form-step1').submit(function(event) {
-        event.preventDefault();
-        
-        let email = $(this).find('#forget-email').val();
-        
-        if(!validateEmail(email)) {
-            msgBox('Fill the form correctly');
-            return;
+    window.fvStep1 = new FormValidator(
+        $('#forget-form-step1'),
+        function(data) {
+            data.email = data.email.toLowerCase();
+            window.step1Data = data;
+            
+            api(
+                'DELETE',
+                '/account/v2/password',
+                data
+            ).then(function() {
+                $('#forget-form-step1-wrapper').hide();
+                $('#forget-form-step2-wrapper').show();
+            });
+            
+            return true;
         }
-        
-        api(
-            'DELETE',
-            '/account/v2/password',
-            {
-                email: email
-            }
-        ).then(function() {
-            $('#forget-form-step1-wrapper').hide();
-            $('#forget-form-step2-wrapper').show();
-        });
-    });
+    );
+    window.fvStep1.text(
+        'email',
+        $('#forget-email'),
+        true,
+        validateEmail,
+        'Incorrect e-mail format'
+    );
     
-    $('#forget-form-step2').submit(function(event) {
-        event.preventDefault();
-        
-        let email = $('#forget-email').val();
-        let code = $('#forget-code').val();
-        let password = $('#forget-password').val();
-        let password2 = $('#forget-password2').val();
-        
-        if(!validateVeriCode(code) || !validatePassword(password) || password != password2) {
-            msgBox('Fill the form correctly');
-            return;
+    window.fvStep2 = new FormValidator(
+        $('#forget-form-step2'),
+        function(data) {
+            delete data.password2;
+            data = { ...data, ...window.step1Data };
+            
+            api(
+                'PATCH',
+                '/account/v2/password',
+                data
+            ).then(function() {
+                msgBox(
+                    'Your password was changed. Login now',
+                    'Success',
+                    '/account/login'
+                );
+            });
         }
-        
-        api(
-            'PATCH',
-            '/account/v2/password',
-            {
-                email: email,
-                code: code,
-                password: password
-            }
-        ).then(function() {
-            msgBox(
-                'Your password was changed. Login now',
-                'Success',
-                '/account/login'
-            );
-        });
-    });
+    );
+    window.fvStep2.text(
+        'code',
+        $('#forget-code'),
+        true,
+        validateVeriCode,
+        'Code must be 6 digits long'
+    );
+    window.fvStep2.text(
+        'password',
+        $('#forget-password'),
+        true,
+        function(val) {
+            $('#forget-password2').trigger('input');
+            return validatePassword(val);
+        },
+        'The password must be at least 8 characters long and contain one lowercase letter, ' +
+        'one uppercase letter, and one digit'
+    );
+    window.fvStep2.text(
+        'password2',
+        $('#forget-password2'),
+        true,
+        function(val) {
+            return val == $('#forget-password').val();
+        },
+        'Passwords does not match'
+    );
     
     let urlParams = new URLSearchParams(window.location.search);
     let email = urlParams.get('email');
@@ -94,9 +87,8 @@ $(document).ready(function() {
     
     if(email != null && code != null) {
         $('#forget-form-step1-wrapper').hide();
-        $('#forget-email').val(email);
-        $('#forget-code').val(code);
-        $('#forget-code').trigger('input');
+        window.step1Data = { email: email };
+        $('#forget-code').val(code).trigger('input');
     } else {
         $('#forget-form-step2-wrapper').hide();
     }

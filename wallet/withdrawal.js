@@ -1,6 +1,3 @@
-window.timeoutTypingAddress = null;
-window.timeoutTypingMemo = null;
-
 function getFeePrec(feeMin, feeMax) {
     let feeMinDec = new BigNumber(feeMin);
     let feeMaxDec = new BigNumber(feeMax);
@@ -82,72 +79,39 @@ function onNetSelected(symbol) {
         window.inpFee.setPrec(feePrec);
         window.paFee.setPrec(feePrec);
         window.paFee.setRange(data.feeMin, data.feeMax);
-        window.paFee.set(50);
         
         // Store fees to revert from internal transfer 0, 0
         window.origFeeMin = data.feeMin;
         window.origFeeMax = data.feeMax;
         
         // Reset form
-        window.validAddress = false;
-        window.validMemo = true;
-        $('#withdraw-memo').val('');
-        $('#withdraw-save').prop('checked', false).trigger('change');
-        
-        $('#withdraw-step3').show();
-        $('html, body').animate({
-            scrollTop: $("#withdraw-step3").offset().top
-        }, 1000);
+        window.fvWithdrawal.reset();
+        window.paFee.set(50);
+        $('#withdraw-save').attr('checked', false).trigger('change');
     });
 }
 
 function onAdbkSelected(key, val, data) {
-    let memo;
-    
     if(key === null) {
         // Typed address
-        $('#withdraw-save-wrapper').show();
-        memo = null;
-        
-        clearTimeout(window.timeoutTypingAddress);
-        window.timeoutTypingAddress = setTimeout(
-            function() {
-                validateAddress(val)
-            },
-            750
-        )
+        toggleSaveAs(true);
+        $('#withdraw-memo').val('').trigger('input');
     }
     else {
         // Selected address
-        $('#withdraw-save-wrapper').hide();
-        memo = data.memo;
+        toggleSaveAs(false);
+        $('#withdraw-memo').val(memo); // no need to validate
     }
-    
-    $('#withdraw-memo').val(memo ? memo : '');
 }
 
 function validateAddress(address) {
-    window.validAddress = false;
-    
-    if(address === null) {
-        $('#help-address').hide();
-        return;
-    }
-    
-    api(
+    return api(
         'POST',
         '/wallet/v2/io/withdrawal/' + window.selectNet.key,
         {
             address: address
         }
     ).then(function(data) {
-        window.validAddress = data.validAddress;
-        
-        if(data.validAddress)
-            $('#help-address').hide();
-        else
-            $('#help-address').show();
-        
         if(data.internal) {
             window.paFee.setRange(0, 0);
             $('#withdraw-internal-notice').removeClass('d-none');
@@ -156,31 +120,20 @@ function validateAddress(address) {
             window.paFee.setRange(window.origFeeMin, window.origFeeMax);
             $('#withdraw-internal-notice').addClass('d-none');
         }
+        
+        return data.validAddress;
     });
 }
 
 function validateMemo(memo) {
-    if(memo == '') {
-        window.validMemo = true;
-        $('#help-memo').hide();
-        return;
-    }
-    
-    window.validMemo = false;
-    
-    api(
+    return api(
         'POST',
         '/wallet/v2/io/withdrawal/' + window.selectNet.key,
         {
             memo: memo
         }
     ).then(function(data) {
-        window.validMemo = data.validMemo;
-        
-        if(data.validMemo)
-            $('#help-memo').hide();
-        else
-            $('#help-memo').show();
+        return data.validMemo;
     });
 }
 
@@ -233,6 +186,89 @@ $(document).on('authChecked', function() {
         },
         true
     );
+    
+    window.fvWithdrawal = new FormValidator(
+        $('#withdraw-form'),
+        function(data) {
+            console.log(data);
+            /*
+            let adbkSave = $('#withdraw-save').prop('checked');
+            
+            if(
+                !window.validAddress ||
+                !window.validMemo ||
+                (adbkSave && !window.validAdbkName) ||
+                window.inpAmount.get() === null
+            ) {
+                msgBox('Fill the form correctly');
+                return;
+            }
+            
+            
+            let data = {
+                type: 'WITHDRAWAL',
+                asset: window.selectCoin.key,
+                network: window.selectNet.key,
+                address: window.selectAdbk.val,
+                amount: window.inpAmount.get(),
+                fee: window.inpFee.get()
+            };
+            
+            let memo = $('#withdraw-memo').val();
+            if(memo != '')
+                data.memo = memo;
+            
+            if(adbkSave)
+                data.adbkSaveName = $('#withdraw-save-name').val();
+            
+            api2fa(
+                'POST',
+                '/wallet/v2/transactions',
+                data
+            ).then(function(resp) {
+                $('#withdraw-step3, #withdraw-step2').hide();
+                selectCoin.reset();
+                
+                // TODO legacy code under this line
+                window.latestWithdrawalXid = data.xid;
+                updateTxHistory();
+            });
+            */
+            return true;
+        }
+    );
+    window.fvWithdrawal.select(
+        'address',
+        window.selectAdbk,
+        true,
+        validateAddress,
+        'Address is invalid',
+        750
+    );
+    window.fvWithdrawal.text(
+        'memo',
+        $('#withdraw-memo'),
+        false,
+        validateMemo,
+        'Memo is invalid',
+        750
+    );
+    window.fvWithdrawal.text(
+        'adbkSaveName',
+        $('#withdraw-save-name'),
+        false,
+        validateAdbkName
+    );
+    window.fvWithdrawal.decimal(
+        'amount',
+        window.inpAmount,
+        true
+    );
+    window.fvWithdrawal.decimal(
+        'fee',
+        window.inpFee,
+        true
+    );
         
     let pathArray = window.location.pathname.split('/');
     let pathLast = pathArray[pathArray.length - 1];
@@ -251,85 +287,17 @@ $(document).on('authChecked', function() {
     // Expand save name
     $('#withdraw-save').on('change', function() {
         if (this.checked) {
+            window.fvWithdrawal.setRequired('adbkSaveName', true);
+            
             $('#withdraw-save-wrapper').addClass('ui-card-light');
-            $('#withdraw-save-expand').show(); 
+            $('#withdraw-save-expand').show();
         } else {
             $('#withdraw-save-expand').hide();
             $('#withdraw-save-wrapper').removeClass('ui-card-light');
-            $('#withdraw-save-name').val('');
-            window.validAdbkName = false;
-            $('#help-save-name').hide();
-        }
-    });
-    
-    // Validate save name
-    $('#withdraw-save-name').on('input', function() {
-	    if(validateAdbkName($(this).val())) {
-		    window.validAdbkName = true;
-		    $('#help-save-name').hide();
-	    }
-	    else {
-		    window.validAdbkName = false;
-		    $('#help-save-name').show();
-	    }
-    });
-    
-    // Validate memo
-    $('#withdraw-memo').on('input', function() {
-        clearTimeout(window.timeoutTypingMemo);
-        window.timeoutTypingMemo = setTimeout(
-            function() {
-                validateMemo( $('#withdraw-memo').val() );
-            },
-            750
-        );
-    });
-    
-    // Submit withdrawal
-    $('#withdraw-form').on('submit', function(event) {
-        event.preventDefault();
-        
-        let adbkSave = $('#withdraw-save').prop('checked');
-        
-        if(
-            !window.validAddress ||
-            !window.validMemo ||
-            (adbkSave && !window.validAdbkName) ||
-            window.inpAmount.get() === null
-        ) {
-            msgBox('Fill the form correctly');
-            return;
-        }
-        
-        
-        let data = {
-            type: 'WITHDRAWAL',
-            asset: window.selectCoin.key,
-            network: window.selectNet.key,
-            address: window.selectAdbk.val,
-            amount: window.inpAmount.get(),
-            fee: window.inpFee.get()
-        };
-        
-        let memo = $('#withdraw-memo').val();
-        if(memo != '')
-            data.memo = memo;
-        
-        if(adbkSave)
-            data.adbkSaveName = $('#withdraw-save-name').val();
-        
-        api2fa(
-            'POST',
-            '/wallet/v2/transactions',
-            data
-        ).then(function(resp) {
-            $('#withdraw-step3, #withdraw-step2').hide();
-            selectCoin.reset();
             
-            // TODO legacy code under this line
-            window.latestWithdrawalXid = data.xid;
-            updateTxHistory();
-        });
+            window.fvWithdrawal.setRequired('adbkSaveName', false);
+            $('#withdraw-save-name').val('').trigger('input');
+        }
     });
 
     var txHistoryData = {

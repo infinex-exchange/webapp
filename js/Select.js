@@ -13,7 +13,9 @@ class Select {
     ) {
         let th = this;
         
-        this.onChange = onChange;
+        this.cbOnChange = new Array();
+        if(onChange)
+            this.cbOnChange.push(onChange);
         this.autoSelect = autoSelect;
         this.autoSelectSingle = autoSelectSingle;
         
@@ -116,8 +118,8 @@ class Select {
                 th.val = $(this).val() == '' ? null : $(this).val();
                 th.data = null;
                 
-                if(th.onChange)
-                    th.onChange(null, th.val, null);
+                for(const callback of th.cbOnChange)
+                    callback(null, th.val, null);
             });
     }
     
@@ -143,8 +145,8 @@ class Select {
         
         this.div.find('.selector-input').val(this.val);
         
-        if(this.onChange)
-            this.onChange(this.key, this.val, this.data);
+        for(const callback of th.cbOnChange)
+            callback(this.key, this.val, this.data);
     }
     
     setCustom(obj) {
@@ -156,8 +158,8 @@ class Select {
         
         this.div.find('.selector-input').val(this.val);
         
-        if(this.onChange)
-            this.onChange(this.key, this.val, this.data);
+        for(const callback of th.cbOnChange)
+            callback(this.key, this.val, this.data);
     }
     
     reset(endpoint = '') {

@@ -31,6 +31,8 @@ class FormValidator {
                 }
                 else if(this.fields[key].type == 'decimal')
                     data[key] = th.fields[key].input.get();
+                else if(this.fields[key].type == 'select')
+                    data[key] = th.fields[key].input.val;
             }
             
             if(foundError || ! th.cbOnSubmit(data))
@@ -47,7 +49,7 @@ class FormValidator {
             
             required: required,
             notEmpty: false,
-            requiredHintElem: this.createReqHint(this.form, input, key, required),
+            requiredHintElem: this.createReqHint(this.form, input, key),
             
             valid: true,
             invalidHintElem: this.createInvHint(this.form, input, key, hintText),
@@ -90,7 +92,7 @@ class FormValidator {
             
             required: required,
             notEmpty: false,
-            requiredHintElem: this.createReqHint(this.form, input.input, key, required),
+            requiredHintElem: this.createReqHint(this.form, input.input, key),
             
             valid: true
         }
@@ -103,11 +105,52 @@ class FormValidator {
         );
     }
     
+    select(key, input, required, validator, hintText = null, valTimeout = 0) {
+        let th = this;
+        
+        this.fields[key] = {
+            type: 'select',
+            input: input,
+            
+            required: required,
+            notEmpty: false,
+            requiredHintElem: this.createReqHint(this.form, input.div.find('.selector-input'), key),
+            
+            valid: true,
+            invalidHintElem: this.createInvHint(this.form, input.div.find('.selector-input'), key, hintText),
+            typingTimeout: null
+        };
+        
+        input.onChange(function(selectKey, val, data) {
+            if(!val) {
+                th.setNotEmpty(key, false);
+                th.setValid(key, true);
+            }
+            
+            else {
+                th.setNotEmpty(key, true);
+                
+                if(valTimeout == 0 || selectKey !== null) // immediately validate selected, not typed in
+                    th.validate(key, val, validator);
+                
+                else {
+                    clearTimeout(th.fields[key].typingTimeout);
+                    th.fields[key].typingTimeout = setTimeout(
+                        function() {
+                            th.validate(key, val, validator);
+                        },
+                        valTimeout
+                    );
+                }
+            }
+        });
+    }
+    
     reset() {
         for(const key in this.fields) {
             if(this.fields[key].type == 'text')
                 this.fields[key].input.val('');
-            else if(this.fields[key].type == 'decimal')
+            else if(this.fields[key].type == 'decimal' || this.fields[key].type == 'select')
                 this.fields[key].input.reset();
             
             this.fields[key].notEmpty = false;
@@ -120,6 +163,10 @@ class FormValidator {
     
     onSubmit(callback) {
         this.cbOnSubmit = callback;
+    }
+    
+    setRequired(key, required) {
+        this.fields[key].required = required;
     }
     
     validate(key, value, validator) {
@@ -147,10 +194,7 @@ class FormValidator {
         this.fields[key].invalidHintElem.toggle(!valid);
     }
     
-    createReqHint(form, input, key, required) {
-        if(!required)
-            return null;
-        
+    createReqHint(form, input, key) {
         let after = input.closest('.input-group');
         if(! after.length) after = input;
         after.after(`

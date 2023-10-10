@@ -81,13 +81,11 @@
                         <div class="col-12 col-lg-6 py-2">
                             <label for="select-adbk">Address:</label>
                             <i id="select-adbk"></i>
-                            <small id="help-address" class="form-text" style="display: none">Address is invalid</small>
                         </div>
                         
                         <div class="col-12 col-lg-6 py-2" id="withdraw-memo-wrapper">
                             <label id="withdraw-memo-name" for="withdraw-memo"></label>
                             <input type="text" class="form-control" id="withdraw-memo" placeholder="Optional">
-                            <small id="help-memo" class="form-text" style="display: none">Invalid format</small>
                         </div>
                     </div>
                     
@@ -104,7 +102,6 @@
                         <div class="col-12 col-lg-6 py-2" id="withdraw-save-expand" style="display: none">
                             <label for="withdraw-save-name">Save as:</label>
                             <input type="text" class="form-control" id="withdraw-save-name">
-                            <small id="help-save-name" class="form-text" style="display: none">Invalid name</small>
                         </div>
                     </div>
                     

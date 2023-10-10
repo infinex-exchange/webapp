@@ -2,7 +2,7 @@ function cheStep1() {
     $('#che-submit-btn').prop('disabled', true);
     $('#che-code-get').prop('disabled', false);
     $('#che-pending').addClass('d-none').removeClass('d-flex');
-    window.fvChe.reset();
+    window.fvStep1.reset();
     $('#form-che-step1').show();
 }
 

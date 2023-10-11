@@ -31,7 +31,7 @@ function prettyBalance(amount, prec) {
 
 function darkBalance(amount, prec) {
     let bn = new BigNumber(amount);
-    let strAmountInPrec = bn.toFixed(prec);
+    let strAmountInPrec = bn.toFixed(prec, BigNumber.ROUND_DOWN);
     let html = strAmountInPrec + '<span style="opacity: 45%">'
     html += amount.substring(strAmountInPrec.length);
     html += '</span>';

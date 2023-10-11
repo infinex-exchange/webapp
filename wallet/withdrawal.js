@@ -292,7 +292,6 @@ $(document).on('authChecked', function() {
     // Expand save name
     $('#withdraw-save').on('change', function() {
         window.fvWithdrawal.setRequired('adbkSaveName', this.checked);
-        $('#withdraw-save-name').val('').trigger('input');
         
         if (this.checked) {
             $('#withdraw-save-wrapper').addClass('ui-card-light');
@@ -300,6 +299,7 @@ $(document).on('authChecked', function() {
         } else {
             $('#withdraw-save-expand').hide();
             $('#withdraw-save-wrapper').removeClass('ui-card-light');
+            $('#withdraw-save-name').val('').trigger('input');
         }
     });
 

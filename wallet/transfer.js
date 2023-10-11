@@ -1,6 +1,6 @@
 function getMinAmount(prec) {
     let minAmount = new BigNumber(1);
-    minAmount = minAmount.shift(-prec);
+    minAmount = minAmount.shiftedBy(-prec);
     return minAmount.toFixed(prec);
 }
 

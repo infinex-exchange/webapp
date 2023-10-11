@@ -90,6 +90,7 @@ function onNetSelected(symbol) {
         toggleSaveAs(true, false);
         
         $('#withdraw-step3').show();
+        if($(window).width() > 991) return;
         $('html, body').animate({
             scrollTop: $("#withdraw-step3").offset().top
         }, 1000);

@@ -65,6 +65,7 @@ function onNetSelected(symbol) {
             $('#deposit-min-symbol').html(window.selectCoin.key);
             
             $('#deposit-step3').show();
+            if($(window).width() > 991) return;
             $('html, body').animate({
                 scrollTop: $("#deposit-step3").offset().top
             }, 1000);

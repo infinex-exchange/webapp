@@ -1,3 +1,9 @@
+function getMinAmount(prec) {
+    let minAmount = new BigNumber(1);
+    minAmount = minAmount.shift(-prec);
+    return minAmount.toFixed(prec);
+}
+
 function onCoinSelected(symbol) {
     $('#transfer-step2').hide();
     

@@ -14,12 +14,12 @@ function onCoinSelected(symbol) {
             window.paAmount.setRange(minAmount, data.avbl);
             
             // Min amount
-            $('#withdraw-amount-min').html(data.minAmount);
+            $('#transfer-amount-min').html(data.minAmount);
             
             // Reset form
             window.fvTransfer.reset();
             
-            $('#withdraw-step2').show();
+            $('#transfer-step2').show();
         }
     );
     

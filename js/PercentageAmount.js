@@ -38,7 +38,8 @@ class PercentageAmount {
             
                 th.slider.val(perc).trigger('_input');
             },
-            false
+            false,
+            true
         );
     
         // Slider -> input

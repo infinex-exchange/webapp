@@ -51,6 +51,7 @@ class DecimalInput {
     }
     
     set(val, chained) {
+        let old = this.valReal;
         this.valReal = val;
         
         if(chained) {
@@ -62,7 +63,7 @@ class DecimalInput {
             this.chain = false;
         }
         
-        if(this.chain)
+        if(this.chain || old === val)
             return;
             
         if(! this.input.is(':focus'))

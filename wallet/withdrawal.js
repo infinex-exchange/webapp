@@ -211,36 +211,12 @@ $(document).on('authChecked', function() {
     window.fvWithdrawal = new FormValidator(
         $('#withdraw-form'),
         function(data) {
-            console.log(data);
-            /*
-            let adbkSave = $('#withdraw-save').prop('checked');
-            
-            if(
-                !window.validAddress ||
-                !window.validMemo ||
-                (adbkSave && !window.validAdbkName) ||
-                window.inpAmount.get() === null
-            ) {
-                msgBox('Fill the form correctly');
-                return;
-            }
-            
-            
-            let data = {
+            data = {
+                ...data,
                 type: 'WITHDRAWAL',
                 asset: window.selectCoin.key,
-                network: window.selectNet.key,
-                address: window.selectAdbk.val,
-                amount: window.inpAmount.get(),
-                fee: window.inpFee.get()
+                network: window.selectNet.key
             };
-            
-            let memo = $('#withdraw-memo').val();
-            if(memo != '')
-                data.memo = memo;
-            
-            if(adbkSave)
-                data.adbkSaveName = $('#withdraw-save-name').val();
             
             api2fa(
                 'POST',
@@ -254,7 +230,7 @@ $(document).on('authChecked', function() {
                 window.latestWithdrawalXid = data.xid;
                 updateTxHistory();
             });
-            */
+            
             return true;
         }
     );

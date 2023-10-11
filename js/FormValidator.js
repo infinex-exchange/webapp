@@ -101,7 +101,6 @@ class FormValidator {
         
         input.onChange(
             function(val) {
-                console.log('onchange ' + key + ' to ' + val);
                 th.setNotEmpty(key, val !== null);
             },
             false

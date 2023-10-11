@@ -73,8 +73,6 @@ class DecimalInput {
         for(const callback of this.cbOnChangeUncRepeat)
             callback(this.valReal);
         
-        console.log(this.valReal);
-        console.log(old);
         if(this.valReal === old)
             return;
         

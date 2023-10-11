@@ -105,7 +105,7 @@ function onAdbkSelected(key, val, data) {
     else {
         // Selected address
         toggleSaveAs(false);
-        $('#withdraw-memo').val(memo); // no need to validate
+        $('#withdraw-memo').val(data.memo); // no need to validate
     }
 }
 

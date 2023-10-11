@@ -291,17 +291,15 @@ $(document).on('authChecked', function() {
  
     // Expand save name
     $('#withdraw-save').on('change', function() {
+        window.fvWithdrawal.setRequired('adbkSaveName', this.checked);
+        $('#withdraw-save-name').val('').trigger('input');
+        
         if (this.checked) {
-            window.fvWithdrawal.setRequired('adbkSaveName', true);
-            
             $('#withdraw-save-wrapper').addClass('ui-card-light');
             $('#withdraw-save-expand').show();
         } else {
             $('#withdraw-save-expand').hide();
             $('#withdraw-save-wrapper').removeClass('ui-card-light');
-            
-            window.fvWithdrawal.setRequired('adbkSaveName', false);
-            $('#withdraw-save-name').val('').trigger('input');
         }
     });
 

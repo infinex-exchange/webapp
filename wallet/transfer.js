@@ -77,7 +77,7 @@ $(document).on('authChecked', function() {
     );
     window.fvTransfer.text(
         'memo',
-        $('#withdraw-memo'),
+        $('#transfer-memo'),
         false,
         validateTransferMessage
     );

@@ -13,8 +13,9 @@ function onCoinSelected(symbol) {
             minAmount = minAmount.shiftedBy(-data.defaultPrec);
             window.paAmount.setRange(minAmount, data.avbl);
             
-            // Min amount
-            $('#transfer-amount-min').html(data.minAmount);
+            // Min max amount
+            $('#transfer-amount-min').html(minAmount.toString());
+            $('#transfer-amount-max').html(data.avbl, data.defaultPrec);
             
             // Reset form
             window.fvTransfer.reset();

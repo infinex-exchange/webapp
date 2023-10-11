@@ -69,9 +69,15 @@
                         </div>
                         
                         <div class="col-12 col-lg-6 py-2 order-lg-5 my-auto">
-                            <span class="secondary">Available balance:</span>
+                            <span class="secondary">Min amount:</span>
+                                <span class="float-end">
+                                <span id="transfer-amount-min"></span>
+                                <span class="asset-symbol"></span>
+                            </span>
+                            <br>
+                            <span class="secondary">Max amount:</span>
                             <span class="float-end">
-                                <span id="transfer-balance"></span>
+                                <span id="transfer-amount-max"></span>
                                 <span class="asset-symbol"></span>
                             </span>
                         </div>

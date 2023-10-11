@@ -142,6 +142,21 @@ function validateMemo(memo) {
     });
 }
 
+function toggleSaveAs(visible, expanded = false) {
+    window.fvWithdrawal.setRequired('adbkSaveName', expanded);
+        
+    if (expanded) {
+        $('#withdraw-save-wrapper').addClass('ui-card-light');
+        $('#withdraw-save-expand').show();
+    } else {
+        $('#withdraw-save-expand').hide();
+        $('#withdraw-save-wrapper').removeClass('ui-card-light');
+        $('#withdraw-save-name').val('').trigger('input');
+    }
+    
+    $('#withdraw-save-wrapper').toggle(visible);
+}
+
 $(document).on('authChecked', function() {
     if(!window.loggedIn)
         return;
@@ -291,16 +306,7 @@ $(document).on('authChecked', function() {
  
     // Expand save name
     $('#withdraw-save').on('change', function() {
-        window.fvWithdrawal.setRequired('adbkSaveName', this.checked);
-        
-        if (this.checked) {
-            $('#withdraw-save-wrapper').addClass('ui-card-light');
-            $('#withdraw-save-expand').show();
-        } else {
-            $('#withdraw-save-expand').hide();
-            $('#withdraw-save-wrapper').removeClass('ui-card-light');
-            $('#withdraw-save-name').val('').trigger('input');
-        }
+        toggleSaveAs(true, this.checked);
     });
 
     var txHistoryData = {

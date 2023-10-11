@@ -15,7 +15,7 @@ function onCoinSelected(symbol) {
             
             // Min max amount
             $('#transfer-amount-min').html(minAmount.toString());
-            $('#transfer-amount-max').html(data.avbl, data.defaultPrec);
+            $('#transfer-amount-max').html(darkBalance(data.avbl, data.defaultPrec));
             
             // Reset form
             window.fvTransfer.reset();

@@ -87,7 +87,7 @@ function onNetSelected(symbol) {
         // Reset form
         window.fvWithdrawal.reset();
         window.paFee.set(50);
-        $('#withdraw-save').attr('checked', false).trigger('change');
+        toggleSaveAs(true, false);
         
         $('#withdraw-step3').show();
         $('html, body').animate({
@@ -153,6 +153,7 @@ function toggleSaveAs(visible, expanded = false) {
         $('#withdraw-save-wrapper').removeClass('ui-card-light');
         $('#withdraw-save-name').val('').trigger('input');
     }
+    $('#withdraw-save').prop('checked', expanded);
     
     $('#withdraw-save-wrapper').toggle(visible);
 }

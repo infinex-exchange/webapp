@@ -88,7 +88,7 @@ $(document).on('authChecked', function() {
         
     let pathArray = window.location.pathname.split('/');
     let pathLast = pathArray[pathArray.length - 1];
-    if(pathLast != 'withdrawal' && pathLast != '') {
+    if(pathLast != 'transfer' && pathLast != '') {
         let symbol = pathLast.toUpperCase();
         api(
             'GET',

@@ -8,6 +8,7 @@
         <script src="/js/SelectAdbk.js?<?php echo filemtime(__DIR__.'/../js/SelectAdbk.js'); ?>"></script>
         <script src="/js/DecimalInput.js?<?php echo filemtime(__DIR__.'/../js/DecimalInput.js'); ?>"></script>
         <script src="/js/PercentageAmount.js?<?php echo filemtime(__DIR__.'/../js/PercentageAmount.js'); ?>"></script>
+        <script src="/account/js/validate.js?<?php echo filemtime(__DIR__.'/../account/js/validate.js'); ?>"></script>
         <script src="/wallet/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
         <title>Internal transfer | Infinex</title>
     </head>

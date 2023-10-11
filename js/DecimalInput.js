@@ -6,6 +6,7 @@ class DecimalInput {
         
         this.cbOnChangeChained = new Array();
         this.cbOnChangeUnchained = new Array();
+        this.cbOnChangeUncRepeat = new Array();
         this.cbOnUpdateVisible = new Array();
         this.chain = false;
         this.prec = null;
@@ -63,21 +64,29 @@ class DecimalInput {
             this.chain = false;
         }
         
-        if(this.chain || old === val)
+        if(this.chain)
             return;
             
         if(! this.input.is(':focus'))
             this.updateVTS();
         
+        for(const callback of this.cbOnChangeUncRepeat)
+            callback(this.valReal);
+        
+        if(this.valReal === old)
+            return;
+        
         for(const callback of this.cbOnChangeUnchained)
             callback(this.valReal);
     }
     
-    onChange(callback, chained) {
+    onChange(callback, chained, unchainedRepeat = false) {
         if(chained)
             this.cbOnChangeChained.push(callback);
-        else
+        else if(!unchainedRepeat)
             this.cbOnChangeUnchained.push(callback);
+        else
+            this.cbOnChangeUncRepeat.push(callback);
     }
     
     onUpdateVisible(callback) {

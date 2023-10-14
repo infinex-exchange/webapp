@@ -8,7 +8,7 @@ function renderProvider(provider, data) {
     let configuredColor = data.configured ? 'text-success' : 'text-danger';
     let configuredText = data.configured ? 'Available' : 'Not available';
     let enabledColor = data.enabled ? 'text-success' : 'text-danger';
-    let enabledColor = data.enabled ? 'Active' : 'Not active';
+    let enabledText = data.enabled ? 'Active' : 'Not active';
     
     let buttons = '';
     if(!data.configured)

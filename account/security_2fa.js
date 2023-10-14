@@ -1,6 +1,6 @@
 const mapProviderToIcon = {
     EMAIL: 'fa-solid fa-envelope',
-    GA: 'fa-brands fa-google';
+    GA: 'fa-brands fa-google'
 };
 
 function renderProvider(provider, data) {

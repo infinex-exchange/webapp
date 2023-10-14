@@ -110,68 +110,10 @@
                         <h3>Two factor authentication</h3>
                     </div>  
                     
-                    <div class="row p-2">
-                        <div class="2fa-provider col-12 col-lg-6" data-provider="EMAIL">
-                            <div class="alert alert-secondary d-flex align-items-center" role="alert">
-                                <div class="px-2">
-                                    <i class="fa-solid fa-envelope fa-2x"></i>
-                                </div>
-                                <div class="px-2">
-                                    E-mail codes<br>
-                                    <strong class="status-avbl text-success">Available</strong>
-                                    <strong class="status-not-avbl text-danger">Not available</strong>
-                                    <strong class="status-active text-success">Active</strong>
-                                    <strong class="status-not-active text-danger">Not active</strong>
-                                </div>
-                                <div class="ms-auto px-2">
-                                    <button type="button" class="btn-use btn btn-primary btn-sm">Use</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="2fa-provider col-12 col-lg-6" data-provider="GA">
-                            <div class="alert alert-secondary d-flex align-items-center" role="alert">
-                                <div class="px-2">
-                                    <i class="fa-brands fa-google fa-2x"></i>
-                                </div>
-                                <div class="px-2">
-                                    Google Authenticator<br>
-                                    <strong class="status-avbl text-success">Available</strong>
-                                    <strong class="status-not-avbl text-danger">Not available</strong>
-                                    <strong class="status-active text-success">Active</strong>
-                                    <strong class="status-not-active text-danger">Not active</strong>
-                                </div>
-                                <div class="ms-auto px-2">
-                                    <button type="button" class="btn-configure btn btn-primary btn-sm">Configure</button>
-                                    <button type="button" class="btn-remove btn btn-primary btn-sm">Remove</button>
-                                    <button type="button" class="btn-use btn btn-primary btn-sm">Use</button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row p-2 providers-data">
                     </div>
                     
-                    <div class="row px-2">
-                        <div class="col-12 py-2">
-                            <div class="pretty p-switch p-bigger">
-                                <input type="checkbox" class="2fa-case" data-case="LOGIN" id="case-login">
-                                <div class="state p-primary">
-                                    <label for="case-login">
-                                        Login to account
-                                    </label>
-                                </div>
-                            </div>  
-                        </div>
-
-                        <div class="col-12 py-2">
-                            <div class="pretty p-switch p-bigger">
-                                <input type="checkbox" class="2fa-case" data-case="WITHDRAWAL" id="case-withdraw">
-                                <div class="state p-primary">
-                                    <label for="case-withdraw">
-                                        Withdraw funds
-                                    </label>
-                                </div>
-                            </div>  
-                        </div>
+                    <div class="row px-2 cases-data">
                     </div>
                     
                     <div class="row p-2">

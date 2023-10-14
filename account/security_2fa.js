@@ -1,50 +1,149 @@
+const mapProviderToIcon = {
+    EMAIL: 'fa-solid fa-envelope',
+    GA: 'fa-brands fa-google';
+};
+
+function renderProvider(provider, data) {
+    let icon = mapProviderToIcon[provider];
+    let configuredColor = data.configured ? 'text-success' : 'text-danger';
+    let configuredText = data.configured ? 'Available' : 'Not available';
+    let enabledColor = data.enabled ? 'text-success' : 'text-danger';
+    let enabledColor = data.enabled ? 'Active' : 'Not active';
+    
+    let buttons = '';
+    if(!data.configured)
+        buttons += `
+            <button
+             type="button"
+             class="btn btn-primary btn-sm"
+             onClick="configureProvider('${provider}')"
+            >
+                Configure
+            </button>
+        `;
+    else {
+        buttons += `
+            <button
+             type="button"
+             class="btn btn-primary btn-sm"
+             onClick="removeProvider('${provider}')"
+            >
+                Remove
+            </button>
+        `;
+        
+        if(!data.enabled)
+            buttons += `
+                <button
+                 type="button"
+                 class="btn btn-primary btn-sm"
+                 onClick="useProvider('${provider}')"
+                >
+                    Use
+                </button>
+            `;
+    }
+    
+    return `
+        <div class="col-12 col-lg-6">
+            <div class="alert alert-secondary d-flex align-items-center" role="alert">
+                <div class="px-2">
+                    <i class="${icon} fa-2x"></i>
+                </div>
+                <div class="px-2">
+                    ${data.description}<br>
+                    <strong class="${configuredColor}">${configuredText}</strong>
+                    <strong class="${enabledColor}">${enabledText}</strong>
+                </div>
+                <div class="ms-auto px-2">
+                  ${buttons}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderCase(caseid, data) {
+    return `
+        <div class="col-12 py-2">
+            <div class="pretty p-switch p-bigger">
+                <input
+                 type="checkbox"
+                 class="2fa-case"
+                 data-case="${caseid}"
+                 id="case-${caseid}"
+                 checked="${data.enabled}"
+                >
+                <div class="state p-primary">
+                    <label for="case-${caseid}">
+                        ${data.description}
+                    </label>
+                </div>
+            </div>  
+        </div>
+    `;
+}
+
 function reload2faProviders() {
+    $('#providers-data').empty();
+    
     api(
         'GET',
         '/account/v2/mfa/providers'
     ).then(function(data) {
-        $.each(data.providers, function(k, v) {
-            let div = $('.2fa-provider[data-provider="' + k + '"]');
-            if(v.configured) {
-                div.find('.status-avbl').show();
-                div.find('.status-not-avbl').hide();
-                div.find('.btn-configure').hide();
-                div.find('.btn-remove').show();
-                if(v.enabled) {
-                    div.find('.status-active').show();
-                    div.find('.status-not-active').hide();
-                    div.find('.btn-use').hide();
-                }
-                else {
-                    div.find('.status-active').hide();
-                    div.find('.status-not-active').show();
-                    div.find('.btn-use').show();
-                }
-            }
-            else {
-                div.find('.status-avbl').hide();
-                div.find('.status-not-avbl').show();
-                div.find('.btn-configure').show();
-                div.find('.btn-remove').hide();
-                div.find('.status-active, .status-not-active, .btn-use').hide();
-            }
-        });
+        for(const provider in data.providers)
+            $('#providers-data').append(
+                renderProvider(provider, data.providers[provider])
+            );
         
         $(document).trigger('renderingStage');
     });
 }
 
 function reload2faCases() {
+    $('#cases-data').empty();
+    
     api(
         'GET',
         '/account/v2/mfa/cases'
     ).then(function(data) {
-        $.each(data.cases, function(k, v) {
-            $('.2fa-case[data-case="' + k + '"]').prop('checked', v);
-        });
+        for(const caseid in data.cases)
+            $('#cases-data').append(
+                renderCase(caseid, data.cases[caseid])
+            );
                     
         $(document).trigger('renderingStage');
     });                 
+}
+
+function configureProvider(provider) {
+    api2fa(
+        'PUT',
+        '/account/v2/mfa/providers/' + provider
+    ).then(function(data) {
+        if(provider == 'GA') {
+            window.qrcode.clear();
+            window.qrcode.makeCode(data.url);
+            $('#modal-configure').modal('show');
+            window.location = data.url;
+        }
+        
+        reload2faProviders();
+    });
+}
+
+function removeProvider(provider) {
+    api2fa(
+        'DELETE',
+        '/account/v2/mfa/providers/' + provider
+    ).then(reload2faProviders);
+}
+
+function useProvider(provider) {
+    api2fa(
+        'POST',
+        '/account/v2/mfa/providers/' + provider
+    ).then(reload2faProviders);
 }
 
 $(document).on('authChecked', function() {
@@ -53,44 +152,6 @@ $(document).on('authChecked', function() {
     
     window.qrcode = new QRCode("mc-qrcode", {
         correctLevel : QRCode.CorrectLevel.H
-    });
-                
-    $('.btn-configure').on('click', function() {
-        let provider = $(this).closest('.2fa-provider').data('provider');
-        
-        api2fa(
-            'PUT',
-            '/account/v2/mfa/providers/' + provider
-        ).then(function(data) {
-            if($(window).width() < 992) {
-                window.location = data.url;
-            }
-            else {
-                window.qrcode.clear();
-                window.qrcode.makeCode(data.url);
-                $('#modal-configure').modal('show');
-            }
-            
-            reload2faProviders();
-        });
-    });
-    
-    $('.btn-remove').on('click', function() {
-        let provider = $(this).closest('.2fa-provider').data('provider');
-        
-        api2fa(
-            'DELETE',
-            '/account/v2/mfa/providers/' + provider
-        ).then(reload2faProviders);
-    });
-    
-    $('.btn-use').on('click', function() {
-        let provider = $(this).closest('.2fa-provider').data('provider');
-        
-        api2fa(
-            'POST',
-            '/account/v2/mfa/providers/' + provider
-        ).then(reload2faProviders);
     });
     
     $('.btn-save-cases').on('click', function() {

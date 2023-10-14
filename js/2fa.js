@@ -21,11 +21,7 @@ function api2fa(method, url, data = null, redirectOnError = false) {
                     }
                     
                     if(error.code == 'REQUIRE_2FA') {
-                        let providerExp = error.msg.split(':');
-                        if(providerExp[0] == 'EMAIL')
-                            $('#2fa-provider').html(providerExp[1]);
-                        else
-                            $('#2fa-provider').html('Google Authenticator');
+                        $('#2fa-provider').html(error.msg);
                         
                         $('#2fa-form').unbind('submit').on('submit', function(event) {
                             event.preventDefault();

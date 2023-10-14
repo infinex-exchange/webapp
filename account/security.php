@@ -110,10 +110,10 @@
                         <h3>Two factor authentication</h3>
                     </div>  
                     
-                    <div class="row p-2 providers-data">
+                    <div class="row p-2" id="providers-data">
                     </div>
                     
-                    <div class="row px-2 cases-data">
+                    <div class="row px-2" id="cases-data">
                     </div>
                     
                     <div class="row p-2">

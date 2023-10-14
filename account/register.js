@@ -73,7 +73,7 @@ $(document).ready(function() {
                 '/account/v2/signup',
                 data
             ).then(function(data) {
-                window.location.replace('/account/verify?email=' + encodeURI(email));
+                window.location.replace('/account/verify?email=' + encodeURI(data.email));
             });
             
             return true;

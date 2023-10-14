@@ -64,6 +64,8 @@ function renderProvider(provider, data) {
 }
 
 function renderCase(caseid, data) {
+    let checked = data.enabled ? 'checked' : '';
+    
     return `
         <div class="col-12 py-2">
             <div class="pretty p-switch p-bigger">
@@ -72,7 +74,7 @@ function renderCase(caseid, data) {
                  class="2fa-case"
                  data-case="${caseid}"
                  id="case-${caseid}"
-                 checked="${data.enabled}"
+                 ${checked}
                 >
                 <div class="state p-primary">
                     <label for="case-${caseid}">

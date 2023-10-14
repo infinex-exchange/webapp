@@ -1,7 +1,7 @@
 function reload2faProviders() {
     api(
         'GET',
-        '/account/v2/2fa/providers'
+        '/account/v2/mfa/providers'
     ).then(function(data) {
         $.each(data.providers, function(k, v) {
             let div = $('.2fa-provider[data-provider="' + k + '"]');
@@ -37,7 +37,7 @@ function reload2faProviders() {
 function reload2faCases() {
     api(
         'GET',
-        '/account/v2/2fa/cases'
+        '/account/v2/mfa/cases'
     ).then(function(data) {
         $.each(data.cases, function(k, v) {
             $('.2fa-case[data-case="' + k + '"]').prop('checked', v);
@@ -60,7 +60,7 @@ $(document).on('authChecked', function() {
         
         api2fa(
             'PUT',
-            '/account/v2/2fa/providers/' + provider
+            '/account/v2/mfa/providers/' + provider
         ).then(function(data) {
             if($(window).width() < 992) {
                 window.location = data.url;
@@ -80,7 +80,7 @@ $(document).on('authChecked', function() {
         
         api2fa(
             'DELETE',
-            '/account/v2/2fa/providers/' + provider
+            '/account/v2/mfa/providers/' + provider
         ).then(reload2faProviders);
     });
     
@@ -89,7 +89,7 @@ $(document).on('authChecked', function() {
         
         api2fa(
             'POST',
-            '/account/v2/2fa/providers/' + provider
+            '/account/v2/mfa/providers/' + provider
         ).then(reload2faProviders);
     });
     
@@ -102,7 +102,7 @@ $(document).on('authChecked', function() {
         
         api2fa(
             'PATCH',
-            '/account/v2/2fa/cases',
+            '/account/v2/mfa/cases',
             {
                 cases: cases
             }

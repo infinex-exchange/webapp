@@ -17,8 +17,8 @@ function renderApiKey(data) {
                 </div>
             </div>
             <div class="col-3 d-none d-lg-block my-auto">
-                <button type="button" class="btn btn-primary btn-sm" onClick="editApiKey(${data.keyid})">Rename</a>
-                <button type="button" class="btn btn-primary btn-sm" onClick="removeApiKey(${data.keyid})">Remove</a>
+                <button type="button" class="btn btn-primary btn-sm" onClick="event.stopPropagation(); editApiKey(${data.keyid})">Rename</a>
+                <button type="button" class="btn btn-primary btn-sm" onClick="event.stopPropagation(); removeApiKey(${data.keyid})">Remove</a>
             </div>
         </div>
     `;      

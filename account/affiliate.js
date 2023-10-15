@@ -331,7 +331,7 @@ function renderCharts(div, refid = null) {
 	
 	let url = refid === null
             ? '/affiliate/v2/agg-settlements?limit=12'
-            : '/affiliate/v2/reflinks/' + refid + '/settlements?limit=12';
+            : '/affiliate/v2/settlements?limit=12&refid=' + refid;
     
     api(
         'GET',
@@ -450,7 +450,7 @@ function showRewards(refid, afseid) {
     
     api(
         'GET',
-        '/affiliate/v2/reflinks/' + refid + '/settlements/' + afseid + '/rewards'
+        '/affiliate/v2/settlements/' + afseid + '/rewards'
     ).then(function(data) {
         let series = new Array();
         let serieMaxCount = 0;

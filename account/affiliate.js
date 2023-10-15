@@ -72,8 +72,8 @@ function renderReflink(data) {
                 </div>
             </div>
             <div class="col-3 d-none d-lg-block my-auto">
-                <button type="button" class="btn btn-primary btn-sm" onClick="editReflink(${data.refid})">Rename</a>
-                <button type="button" class="btn btn-primary btn-sm" onClick="removeReflink(${data.refid})">Remove</a>
+                <button type="button" class="btn btn-primary btn-sm" onClick="event.stopPropagation(); editReflink(${data.refid})">Rename</a>
+                <button type="button" class="btn btn-primary btn-sm" onClick="event.stopPropagation(); removeReflink(${data.refid})">Remove</a>
             </div>
         </div>
     `;    

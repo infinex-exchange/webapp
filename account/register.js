@@ -94,3 +94,7 @@ $(document).ready(function() {
     $('#reg-form-step2-wrapper').hide();
     $(document).trigger('renderingStage');
 });
+
+function validateCaptchaResp(captcha) {
+    return captcha.match(/^[a-np-zA-NP-Z1-9]{4}$/);
+}

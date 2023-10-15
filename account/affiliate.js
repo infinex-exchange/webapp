@@ -196,7 +196,7 @@ $(document).on('authChecked', function() {
     );
     window.fvAddEdit.text(
         'description',
-        $('reflink-description'),
+        $('#reflink-description'),
         true,
         validateReflinkDescription
     );
@@ -285,7 +285,7 @@ function renderCharts(div, refid = null) {
         }
     };
     
-    var acqOptions = {
+    let acqOptions = {
         series: [],
         chart: {
             height: 200,
@@ -489,4 +489,8 @@ function showRewards(refid, afseid) {
             colors: colors
         });
     });
+}
+
+function validateReflinkDescription(desc) {
+    return desc.match(/^[a-zA-Z0-9 ]{1,255}$/);
 }

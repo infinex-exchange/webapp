@@ -129,3 +129,7 @@ $(document).on('authChecked', function() {
         $('#api-keys-data')
     );
 });
+
+function validateApiKeyDescription(desc) {
+    return desc.match(/^[a-zA-Z0-9 ]{1,255}$/);
+}

@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
         <?php include(__DIR__.'/../inc/head.php'); ?>
-        <script src="/account/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
         <title>API keys | Infinex</title>
     </head>
     <body>

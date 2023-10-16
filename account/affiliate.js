@@ -102,16 +102,7 @@ function addReflink() {
             '/affiliate/v2/reflinks',
             data
         ).then(function(resp) {
-            window.reflinksScr.append({
-                refid: resp.refid,
-                description: data.description,
-                members: {
-                    1: 0,
-                    2: 0,
-                    3: 0,
-                    4: 0
-                }
-            });
+            window.reflinksScr.append(resp);
         });
         
         return true;
@@ -132,17 +123,8 @@ function editReflink(refid) {
             'PATCH',
             '/affiliate/v2/reflinks/' + refid,
             data
-        ).then(function() {
-            window.reflinksScr.replace(refid, {
-                refid: refid,
-                description: data.description,
-                members: {
-                    1: old.data('members-1'),
-                    2: old.data('members-2'),
-                    3: old.data('members-3'),
-                    4: old.data('members-4')
-                }
-            });
+        ).then(function(resp) {
+            window.reflinksScr.replace(refid, resp);
         });
         
         return true;

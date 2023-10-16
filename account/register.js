@@ -72,7 +72,7 @@ $(document).ready(function() {
                 'POST',
                 '/account/v2/signup',
                 data
-            ).then(function(data) {
+            ).then(function() {
                 window.location.replace('/account/verify?email=' + encodeURI(data.email));
             });
             

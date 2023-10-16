@@ -47,11 +47,7 @@ function addApiKey() {
             '/account/v2/api-keys',
             data
         ).then(function(resp) {
-            window.apiKeysScr.append({
-                keyid: resp.keyid,
-                apiKey: resp.apiKey,
-                description: data.description
-            });
+            window.apiKeysScr.append(resp);
         });
         
         return true;
@@ -73,12 +69,8 @@ function editApiKey(keyid) {
             'PATCH',
             '/account/v2/api-keys/' + keyid,
             data
-        ).then(function() {
-            window.apiKeysScr.replace(keyid, {
-                keyid: keyid,
-                apiKey: oldApiKey,
-                description: data.description
-            });
+        ).then(function(resp) {
+            window.apiKeysScr.replace(keyid, resp);
         });
         
         return true;

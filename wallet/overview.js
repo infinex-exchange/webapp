@@ -71,5 +71,5 @@ $(document).on('authChecked', function() {
         window.balancesScr.reset('/wallet/v2/balances' + (hideZero ? '?nonZero' : ''));
     });
         
-    initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true, 10);
+    initTxHistory();
 });

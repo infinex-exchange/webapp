@@ -60,9 +60,8 @@ $(document).on('authChecked', function() {
                 $('#transfer-step2').hide();
                 selectCoin.reset();
                 
-                // TODO legacy code under this line
-                window.latestTransferXid = data.xid;
-                updateTxHistory();
+                window.scrTransactions.prepend(resp);
+                showTransaction(window.scrTransactions.get(resp.xid));
             });
             
             return true;
@@ -101,20 +100,5 @@ $(document).on('authChecked', function() {
         );
     }
     
-    // TODO: legacy code
-
-    var txHistoryData = {
-        api_key: window.apiKey,
-        type: ['TRANSFER_IN', 'TRANSFER_OUT']
-    };
-    initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true);
-});
-
-$(document).on('newWalletTransaction', function() {
-    if(typeof(window.latestTransferXid) === 'undefied')
-        return;
-    
-    var newItem = $('.tx-history-item[data-xid="' + window.latestTransferXid + '"]');
-    if(newItem.length)
-        mobileTxDetails(newItem);
+    initTxHistory(['TRANSFER_IN', 'TRANSFER_OUT']);
 });

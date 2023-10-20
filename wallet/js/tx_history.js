@@ -48,6 +48,8 @@ function renderTransaction(data, forceSmall) {
         }
     }
     
+    let amount = prettyBalance(data.amount, data.asset.defaultPrec);
+    
     return `
         <div data-id="${data.xid}" class="row hoverable tx-history-item px-1 py-2" onClick="showTransaction(this)">
             <div class="my-auto d-none ${optLgBlock}" style="width: 20%">
@@ -61,7 +63,7 @@ function renderTransaction(data, forceSmall) {
                 ${data.asset.name}
             </div>
             <div class="text-end my-auto d-none ${optLgBlock}" style="width: 20%">
-                ${data.amount} ${data.asset.symbol}
+                ${amount} ${data.asset.symbol}
             </div>
             <div class="text-end my-auto d-none ${optLgBlock}" style="width: 20%">
                 <i class="${txStatusIconDict[data.status]}"></i>
@@ -78,7 +80,7 @@ function renderTransaction(data, forceSmall) {
             </div>
             <div style="width: 50%" class="my-auto ${optLgNone}">
                 <h6 class="secondary">${txTypeDict[data.type]}</h6>
-                <span>${data.amount} ${data.asset.symbol}</span>
+                <span>${amount} ${data.asset.symbol}</span>
             </div>
             <div style="width: calc(50% - 60px)" class="my-auto text-end ${optLgNone}">
                 ${smallConfHtml}
@@ -157,8 +159,9 @@ function showTransaction(item, update = false) {
         else {
             $('#mtd-memo-wrapper').hide();
         }
-    
-        $('#mtd-amount').html(data.amount + ' ' + data.asset.symbol);
+        
+        let amount = darkBalance(data.amount, data.asset.defaultPrec);
+        $('#mtd-amount').html(amount + ' ' + data.asset.symbol);
         $('#mtd-fee').html(data.fee ? (data.fee + ' ' + data.asset.symbol) : '-');
         
         $('#mtd-create-time').html(new Date(data.createTime * 1000).toLocaleString());

@@ -73,7 +73,7 @@ function renderTransaction(data, forceSmall) {
             <div class="text-end my-auto d-none ${optLgBlock}" style="width: 20%">
                 ${amount} ${data.asset.symbol}
             </div>
-            <div class="text-end my-auto d-none ${optLgBlock}" style="width: 20%">
+            <div class="text-end my-auto d-none ${optLgBlock}" style="width: 10%">
                 <i class="${txStatusIconDict[data.status]}"></i>
                 ${txStatusDict[data.status]}
                 ${bigConfHtml}

@@ -26,8 +26,8 @@ function renderAddress(data) {
                 ${memoInner}
             </div>
             <div class="my-auto text-end d-none d-lg-block" style="width: 20%">
-                <button type="button" class="btn btn-primary btn-sm" style="width: 70px" onClick="editAddress(${adbkid})">Rename</a>
-                <button type="button" class="btn btn-primary btn-sm" style="width: 70px" onClick="deleteAddress(${adbkid})">Remove</a>
+                <button type="button" class="btn btn-primary btn-sm" style="width: 70px" onClick="editAddress(${data.adbkid})">Rename</a>
+                <button type="button" class="btn btn-primary btn-sm" style="width: 70px" onClick="deleteAddress(${data.adbkid})">Remove</a>
             </div>
             
             <div class="m-auto d-lg-none" style="width: 60px">

@@ -35,7 +35,7 @@ function yesNoPrompt(message, callback, title = null) {
 }
 
 function showPopups(queue) {
-    const popup = queue.pop();
+    const popup = queue.shift();
     if(!popup) return;
     
     msgBox(

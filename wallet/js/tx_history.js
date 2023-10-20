@@ -206,12 +206,11 @@ function initTxHistory(
         url,
         'transactions',
         function(data) { // render
-            renderTransaction(data, forceSmall);
+            return renderTransaction(data, forceSmall);
         },
         container,
         false,
         function(elem) { // afterAdd
-            console.log(elem.data());
             if(elem.data('xid') == window.observeXid)
                 showTransaction(elem, true);
         },

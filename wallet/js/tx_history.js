@@ -34,7 +34,7 @@ window.observeXid = null;
 
 function renderTransaction(data, forceSmall) { 
     let optLgNone = forceSmall ? '' : 'd-lg-none';
-    let optLgBlock = forceSmall ? 'd-lg-block' : '';
+    let optLgBlock = forceSmall ? '' : 'd-lg-block';
     
     let createTime = new Date(data.createTime * 1000).toLocaleString();
     

@@ -46,7 +46,12 @@ function showPopups(queue) {
             if(!seenPopupId || popup.popupid > seenPopupId)
                 localStorage.setItem('seenPopupId', popup.popupid);
             
-            showPopups(queue);
+            setTimeout(
+                function() {
+                    showPopups(queue);
+                },
+                100
+            );
         }
     );
 }

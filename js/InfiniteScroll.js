@@ -128,7 +128,9 @@ class InfiniteScroll {
     append(data) {
         this.container.append(this.render(data));
         let elem = this.container.children().last();
+        console.log(elem);
         elem.data(data);
+        console.log(elem.data());
         if(this.afterAdd)
             this.afterAdd(elem);
     }

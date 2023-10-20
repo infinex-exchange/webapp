@@ -18,10 +18,10 @@ function renderAddress(data) {
                 <img width="16" height="16" src="${data.network.iconUrl}">
                 ${data.network.name}
             </div>
-            <div class="my-auto wrap d-none d-lg-block" style="width: 20%">
+            <div class="my-auto wrap d-none d-lg-block" style="width: 25%">
 	            <span class="name">${data.name}</span>
             </div>
-            <div class="my-auto wrap d-none d-lg-block" style="width: 35%">
+            <div class="my-auto wrap d-none d-lg-block" style="width: 40%">
 	            ${data.address}
                 ${memoInner}
             </div>

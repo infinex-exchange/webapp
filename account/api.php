@@ -86,6 +86,7 @@
                     <div class="modal-footer">
                         <button id="makd-rename-btn" type="button" class="btn btn-primary">Rename</a>
                         <button id="makd-remove-btn" type="button" class="btn btn-primary">Remove</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>

@@ -119,6 +119,7 @@
                         <a href="#_" id="mad-withdraw" class="btn btn-primary">Withdraw</a>
                         <a href="#_" id="mad-transfer" class="btn btn-primary">Transfer</a>
                         <a href="#_" id="mad-trade" class="btn btn-primary">Trade</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>

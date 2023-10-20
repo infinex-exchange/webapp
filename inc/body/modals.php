@@ -24,8 +24,8 @@
             <div class="modal-body">
             </div>
             <div class="modal-footer">
-                <button type="button" class="modal-close yes btn btn-primary" data-bs-dismiss="modal">Yes</button>
                 <button type="button" class="modal-close btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="modal-close yes btn btn-primary" data-bs-dismiss="modal">Yes</button>
             </div>
         </div>
     </div>

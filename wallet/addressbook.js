@@ -48,7 +48,7 @@ function removeAddress(adbkid) {
         function() {
             api(
                 'DELETE',
-                '/wallet/v2/io/addressbook/' + adbkid
+                '/wallet/v2/addressbook/' + adbkid
             ).then(function() {
                 window.scrAdbk.remove(adbkid);
             });
@@ -65,7 +65,7 @@ function editAddress(adbkid) {
         
         api(
             'PATCH',
-            '/wallet/v2/io/addressbook/' + adbkid,
+            '/wallet/v2/addressbook/' + adbkid,
             data
         ).then(function(resp) {
             window.scrAdbk.replace(adbkid, resp);
@@ -122,7 +122,7 @@ $(document).on('authChecked', function() {
     );
     
     window.apiKeysScr = new InfiniteScrollOffsetPg(
-        '/wallet/v2/io/addressbook',
+        '/wallet/v2/addressbook',
         'addresses',
         renderAddress,
         $('#adbk-data')

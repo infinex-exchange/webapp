@@ -217,8 +217,10 @@ function initTxHistory(
         preloader,
         null,
         function() { // onFirstPageLoaded
-            if(limit)
+            if(limit) {
                 window.scrTransactions.freeze();
+                console.log('freezed');
+            }
             
             setInterval(
                 function() {

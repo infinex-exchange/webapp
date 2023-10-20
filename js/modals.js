@@ -50,7 +50,7 @@ function showPopups(queue) {
                 function() {
                     showPopups(queue);
                 },
-                1000
+                500
             );
         }
     );

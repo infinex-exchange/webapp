@@ -227,9 +227,8 @@ $(document).on('authChecked', function() {
                 $('#withdraw-step3, #withdraw-step2').hide();
                 selectCoin.reset();
                 
-                // TODO legacy code under this line
-                window.latestWithdrawalXid = data.xid;
-                updateTxHistory();
+                window.scrTransactions.prepend(resp);
+                showTransaction(window.scrTransactions.get(resp.xid));
             });
             
             return true;
@@ -287,18 +286,5 @@ $(document).on('authChecked', function() {
         toggleSaveAs(true, this.checked);
     });
 
-    var txHistoryData = {
-        api_key: window.apiKey,
-        type: 'WITHDRAWAL'
-    };
-    initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true, 10);
-});
-
-$(document).on('newWalletTransaction', function() {
-    if(typeof(window.latestWithdrawalXid) === 'undefied')
-        return;
-    
-    let newItem = $('.tx-history-item[data-xid="' + window.latestWithdrawalXid + '"]');
-    if(newItem.length)
-        mobileTxDetails(newItem);
+    initTxHistory('WITHDRAWAL');
 });

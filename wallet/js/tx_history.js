@@ -171,7 +171,16 @@ function showTransaction(item, update = false) {
     }
 }
 
-function initTxHistory(container, preloader = null, type = null, forceSmall = false, limit = null) {
+function initTxHistory(
+    type = null,
+    container = null,
+    preloader = null,
+    forceSmall = true,
+    limit = 10
+) {
+    if(container === null)
+        container = $('#recent-tx-data');
+    
     let url = '/wallet/v2/io/transactions';
     let ampersand = false;
     
@@ -227,6 +236,8 @@ function updateTxHistory(url) {
         for(const transaction of data.transactions) {
             if(window.scrTransactions.get(transaction.xid))
                 window.scrTransactions.replace(transaction.xid, transaction);
+            else
+                window.scrTransactions.prepend(transaction);
         }
     });
 }

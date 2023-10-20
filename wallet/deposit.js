@@ -109,9 +109,5 @@ $(document).on('authChecked', function() {
         );
     }
     
-    var txHistoryData = {
-        api_key: window.apiKey,
-        type: 'DEPOSIT'
-    };
-    initTxHistory($('#recent-tx-data'), $('#recent-tx-preloader'), txHistoryData, true, true, 10);
+    initTxHistory('DEPOSIT');
 });

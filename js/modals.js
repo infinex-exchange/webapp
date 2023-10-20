@@ -34,29 +34,33 @@ function yesNoPrompt(message, callback, title = null) {
     modal.modal('show');
 }
 
-// TODO Legacy code
-$(document).on('renderingComplete', function() {
-    $.ajax({
-        url: config.apiUrl + '/info/banner',
-        type: 'POST',
-        data: JSON.stringify({}),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(data.success && data.active) {
-            var bannerId = localStorage.getItem('bannerId');
-                
-            if(bannerId === null || bannerId != data.bannerid) {
-                localStorage.setItem("bannerId", data.bannerid);
-                
-                var modal = $('#modal');
-                modal.find('.modal-title').html(data.title);
-                modal.find('.modal-body').html(data.body);
-                modal.find('.modal-close').unbind('click');
-                modal.modal('show');
-            }
+function showPopups(queue) {
+    const popup = queue.pop();
+    if(!popup) return;
+    
+    msgBox(
+        popup.body,
+        popup.title,
+        function() {
+            let seenPopupId = localStorage.getItem('seenPopupId');
+            if(!seenPopupId || popup.popupid > seenPopupId)
+                localStorage.setItem('seenPopupId', popup.popupid);
+            
+            showPopups(queue);
         }
+    );
+}
+
+$(document).on('renderingComplete', function() {
+    let url = '/info/v2/popup';
+    let seenPopupId = localStorage.getItem('seenPopupId');
+    if(seenPopupId)
+        url += '?localId=' + seenPopupId;
+    
+    api(
+        'GET',
+        url
+    ).then(function(resp) {
+        showPopups(resp.popups);
     });
 });

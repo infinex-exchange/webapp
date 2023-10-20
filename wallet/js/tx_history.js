@@ -50,6 +50,11 @@ function renderTransaction(data, forceSmall) {
     
     let amount = prettyBalance(data.amount, data.asset.defaultPrec);
     
+    let bigNetworkHtml = data.network ? `
+        <img width="16" height="16" src="${data.network.iconUrl}">
+        ${data.network.name}
+    ` : '-';
+    
     return `
         <div data-id="${data.xid}" class="row hoverable tx-history-item px-1 py-2" onClick="showTransaction(this)">
             <div class="my-auto d-none ${optLgBlock}" style="width: 20%">
@@ -58,9 +63,12 @@ function renderTransaction(data, forceSmall) {
             <div class=" my-auto d-none ${optLgBlock}" style="width: 20%">
                 ${txTypeDict[data.type]}
             </div>
-            <div class="my-auto d-none ${optLgBlock}" style="width: 20%">
+            <div class="my-auto d-none ${optLgBlock}" style="width: 10%">
                 <img width="16" height="16" src="${data.asset.iconUrl}">
                 ${data.asset.name}
+            </div>
+            <div class="my-auto d-none ${optLgBlock}" style="width: 10%">
+                ${bigNetworkHtml}
             </div>
             <div class="text-end my-auto d-none ${optLgBlock}" style="width: 20%">
                 ${amount} ${data.asset.symbol}

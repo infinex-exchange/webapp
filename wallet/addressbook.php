@@ -2,9 +2,6 @@
 <html lang="en">
     <head>
         <?php include(__DIR__.'/../inc/head.php'); ?>
-        <!-- TODO legacy code -->
-        <script src="/js/ajax_scroll.js?<?php echo filemtime(__DIR__.'/../js/ajax_scroll.js'); ?>"></script>
-        <script src="/wallet/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
         <title>Address book | Infinex</title>
     </head>
     <body>
@@ -59,22 +56,6 @@
                     <div class="modal-body">
                         <div class="row py-2">
                             <div class="col-6">
-                                <h5>Asset:</h5>
-                            </div>
-                            <div class="col-6 text-end">
-                                <span id="madbk-asset"></span>
-                            </div>
-                        </div>
-                        <div class="row py-2">
-                            <div class="col-6">
-                                <h5>Network:</h5>
-                            </div>
-                            <div class="col-6 text-end">
-                                <span id="madbk-network"></span>
-                            </div>
-                        </div>
-                        <div class="row py-2">
-                            <div class="col-6">
                                 <h5>Name:</h5>
                             </div>
                             <div class="col-6 text-end">
@@ -97,11 +78,20 @@
                                 <span id="madbk-memo" class="wrap"></span>
                             </div>
                         </div>
+                        <div class="row py-2">
+                            <div class="col-6">
+                                <h5>Network:</h5>
+                            </div>
+                            <div class="col-6 text-end">
+                                <span id="madbk-network"></span>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="modal-footer">
                         <button id="madbk-rename-btn" type="button" class="btn btn-primary">Rename</a>
                         <button id="madbk-remove-btn" type="button" class="btn btn-primary">Remove</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -119,7 +109,6 @@
                     <div class="form-group">
                         <label for="adbk-name">Name:</label>
                         <input type="text" class="form-control" id="adbk-name">
-                        <small id="help-adbk-name" class="form-text" style="display: none">Invalid name</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -134,7 +123,6 @@
         <script src="/wallet/addressbook.js?<?php echo filemtime(__DIR__.'/addressbook.js'); ?>"></script>
         
         <?php
-        include(__DIR__.'/../inc/2fa.php');
         include(__DIR__.'/../inc/footer.php');
         include(__DIR__.'/../inc/vanilla_mobile_nav.php');
         ?>

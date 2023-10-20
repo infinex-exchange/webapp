@@ -60,7 +60,7 @@ function renderTransaction(data, forceSmall) {
             <div class="my-auto d-none ${optLgBlock}" style="width: 20%">
                 ${createTime}
             </div>
-            <div class=" my-auto d-none ${optLgBlock}" style="width: 20%">
+            <div class=" my-auto d-none ${optLgBlock}" style="width: 15%">
                 ${txTypeDict[data.type]}
             </div>
             <div class="my-auto d-none ${optLgBlock}" style="width: 15%">
@@ -73,7 +73,7 @@ function renderTransaction(data, forceSmall) {
             <div class="text-end my-auto d-none ${optLgBlock}" style="width: 15%">
                 ${amount} ${data.asset.symbol}
             </div>
-            <div class="text-end my-auto d-none ${optLgBlock}" style="width: 15%">
+            <div class="text-end my-auto d-none ${optLgBlock}" style="width: 20%">
                 <i class="${txStatusIconDict[data.status]}"></i>
                 ${txStatusDict[data.status]}
                 ${bigConfHtml}

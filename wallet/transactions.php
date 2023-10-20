@@ -24,16 +24,16 @@
                 <div style="width: 20%">
                     <h5>Type</h5>
                 </div>
-                <div style="width: 10%">
+                <div style="width: 15%">
                     <h5>Asset</h5>
                 </div>
-                <div style="width: 10%">
+                <div style="width: 15%">
                     <h5>Network</h5>
                 </div>
-                <div class="text-end" style="width: 20%">
+                <div class="text-end" style="width: 15%">
                     <h5>Amount</h5>
                 </div>
-                <div class="text-end" style="width: 10%">
+                <div class="text-end" style="width: 15%">
                     <h5>Status</h5>
                 </div>
             </div>

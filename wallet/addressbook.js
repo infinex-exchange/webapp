@@ -42,7 +42,7 @@ function renderAddress(data) {
     `;
 }
 
-function removeAddress(adbkid) {
+function deleteAddress(adbkid) {
     yesNoPrompt(
         'Are you sure you want to remove this address from addressbook?',
         function() {

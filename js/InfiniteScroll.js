@@ -125,30 +125,39 @@ class InfiniteScroll {
         }
     }
     
-    append(elem) {
-        this.container.append(this.render(elem));
+    append(data) {
+        this.container.append(this.render(data));
+        let elem = this.container.children().last();
+        elem.data(data);
         if(this.afterAdd)
-            this.afterAdd(this.container.children().last(), elem);
+            this.afterAdd(elem);
     }
     
-    prepend(elem) {
-        this.container.prepend(this.render(elem));
+    prepend(data) {
+        this.container.prepend(this.render(data));
+        let elem = this.container.children().first();
+        elem.data(data);
         if(this.afterAdd)
-            this.afterAdd(this.container.children().first(), elem);
+            this.afterAdd(elem);
     }
     
     get(id) {
-        return this.container.find(`[data-id="${id}"]`);
+        let elem = this.container.find(`[data-id="${id}"]`);
+        if(!elem.length)
+            return null;
+        return elem;
     }
     
     remove(id) {
         this.get(id).remove();
     }
     
-    replace(id, elem) {
-        this.get(id).replaceWith(this.render(elem));
+    replace(id, data) {
+        this.get(id).replaceWith(this.render(data));
+        let elem = this.get(id);
+        elem.data(data);
         if(this.afterAdd)
-            this.afterAdd(this.get(id), elem);
+            this.afterAdd(elem);
     }
     
     bindSearch(input) {
@@ -164,5 +173,9 @@ class InfiniteScroll {
                 500
             );
         });
+    }
+    
+    freeze() {
+        this.noMore = true;
     }
 }

@@ -69,8 +69,8 @@ class Select {
             this.render,
             this.div.find('.selector-data'),
             true,
-            function(item, obj) {
-                th.afterAdd(item, obj);
+            function(item) {
+                th.afterAdd(item);
             },
             this.div.find('.selector-data-preloader'),
             null,
@@ -123,10 +123,8 @@ class Select {
             });
     }
     
-    afterAdd(item, obj) {
+    afterAdd(item) {
         let th = this;
-        
-        item.data('data', obj);
         
         item.on('click', function() {
             th.selectItem(item);

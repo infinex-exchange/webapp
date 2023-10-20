@@ -103,10 +103,10 @@
                 </div>
                 <div class="row py-2">
                     <div class="col-6">
-                        <h5 id="mtd-exec-time-title"></h5>
+                        <h5>Confirm time:</h5>
                     </div>
                     <div class="col-6 text-end">
-                        <span id="mtd-exec-time"></span>
+                        <span id="mtd-confirm-time"></span>
                     </div>
                 </div>
                 

@@ -235,10 +235,14 @@ function updateTxHistory(url) {
         'GET',
         url
     ).then(function(data) {
+        let lastKnownXid = null;
+        
         for(const transaction of data.transactions) {
-            if(window.scrTransactions.get(transaction.xid))
+            if(window.scrTransactions.get(transaction.xid)) {
                 window.scrTransactions.replace(transaction.xid, transaction);
-            else
+                lastKnownXid = transaction.xid;
+            }
+            else if(transaction.xid > lastKnownXid)
                 window.scrTransactions.prepend(transaction);
         }
     });

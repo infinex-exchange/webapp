@@ -211,6 +211,7 @@ function initTxHistory(
         container,
         false,
         function(elem) { // afterAdd
+            console.log(elem.data());
             if(elem.data('xid') == window.observeXid)
                 showTransaction(elem, true);
         },

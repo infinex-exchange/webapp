@@ -79,6 +79,8 @@ class InfiniteScroll {
         
         api('GET', url).then(
             function(resp) {
+                th.noMore = th.isNoMoreData(resp);
+                
                 if(th.onPageLoaded)
                     th.onPageLoaded(resp[th.root]);
                 if(!th.firstPageLoaded) {
@@ -89,8 +91,6 @@ class InfiniteScroll {
                 
                 for(const item of resp[th.root])
                     th.append(item);
-                
-                th.noMore = th.isNoMoreData(resp);
             }
         ).finally(
             function() {

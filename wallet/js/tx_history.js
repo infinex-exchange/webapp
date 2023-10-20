@@ -186,6 +186,8 @@ function initTxHistory(
     
     if(type !== null) {
         url += ampersand ? '&' : '?';
+        ampersant = true;
+        
         url += 'type=';
         if(type instanceof Array)
             url += type.join(',');

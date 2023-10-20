@@ -121,7 +121,7 @@ $(document).on('authChecked', function() {
         validateAddressName
     );
     
-    window.apiKeysScr = new InfiniteScrollOffsetPg(
+    window.scrAdbk = new InfiniteScrollOffsetPg(
         '/wallet/v2/addressbook',
         'addresses',
         renderAddress,

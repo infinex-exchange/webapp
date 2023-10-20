@@ -2,8 +2,6 @@
 <html lang="en">
     <head>
         <?php include(__DIR__.'/../inc/head.php'); ?>
-        <!-- TODO legacy code -->
-        <script src="/js/ajax_scroll.js?<?php echo filemtime(__DIR__.'/../js/ajax_scroll.js'); ?>"></script>
         <title>Transactions | Infinex</title>
     </head>
     <body>

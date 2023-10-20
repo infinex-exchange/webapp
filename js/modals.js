@@ -42,9 +42,9 @@ function showPopups(queue) {
         popup.body,
         popup.title,
         function() {
-            let seenPopupId = localStorage.getItem('seenPopupId');
-            if(!seenPopupId || popup.popupid > seenPopupId)
-                localStorage.setItem('seenPopupId', popup.popupid);
+            let cursor = localStorage.getItem('popupCursor');
+            if(!cursor || popup.popupid > cursor)
+                localStorage.setItem('popupCursor', popup.popupid);
             
             setTimeout(
                 function() {
@@ -58,9 +58,9 @@ function showPopups(queue) {
 
 $(document).on('renderingComplete', function() {
     let url = '/info/v2/popup';
-    let seenPopupId = localStorage.getItem('seenPopupId');
-    if(seenPopupId)
-        url += '?localId=' + seenPopupId;
+    let cursor = localStorage.getItem('popupCursor');
+    if(cursor)
+        url += '?cursor=' + popupCursor;
     
     api(
         'GET',

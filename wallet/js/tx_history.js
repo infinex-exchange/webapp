@@ -63,11 +63,11 @@ function renderTransaction(data, forceSmall) {
             <div class=" my-auto d-none ${optLgBlock}" style="width: 20%">
                 ${txTypeDict[data.type]}
             </div>
-            <div class="my-auto d-none ${optLgBlock}" style="width: 10%">
+            <div class="my-auto d-none ${optLgBlock}" style="width: 15%">
                 <img width="16" height="16" src="${data.asset.iconUrl}">
                 ${data.asset.name}
             </div>
-            <div class="my-auto d-none ${optLgBlock}" style="width: 10%">
+            <div class="my-auto d-none ${optLgBlock}" style="width: 15%">
                 ${bigNetworkHtml}
             </div>
             <div class="text-end my-auto d-none ${optLgBlock}" style="width: 15%">

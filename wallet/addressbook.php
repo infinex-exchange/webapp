@@ -18,16 +18,13 @@
             </div>
             
             <div class="row p-2 secondary d-none d-lg-flex scrollable">
-                <div style="width: 10%">
-                    <h5>Asset</h5>
-                </div>
                 <div style="width: 15%">
                     <h5>Network</h5>
                 </div>
-                <div style="width: 20%">
+                <div style="width: 25%">
                     <h5>Name</h5>
                 </div>
-                <div style="width: 35%">
+                <div style="width: 40%">
                     <h5>Address</h5>
                 </div>
                 <div class="text-end" style="width: 20%">

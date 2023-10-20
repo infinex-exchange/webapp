@@ -60,7 +60,6 @@ function addApiKey() {
 function editApiKey(keyid) {
     let old = window.apiKeysScr.get(keyid);
     let oldDescription = old.data('description');
-    let oldApiKey = old.data('api-key');
     
     window.fvAddEdit.onSubmit(function(data) {
         $('#modal-ak-desc-prompt').modal('hide');

@@ -4,3 +4,18 @@
 [submodule "modules/spot"]
 	path = modules/spot
 	url = https://github.com/infinex-exchange/webapp-spot
+[submodule "modules/bridge"]
+	path = modules/bridge
+	url = https://github.com/infinex-exchange/webapp-bridge
+[submodule "modules/mining"]
+	path = modules/mining
+	url = https://github.com/infinex-exchange/webapp-mining
+[submodule "modules/p2p"]
+	path = modules/p2p
+	url = https://github.com/infinex-exchange/webapp-p2p
+[submodule "modules/nft"]
+	path = modules/nft
+	url = https://github.com/infinex-exchange/webapp-nft
+[submodule "modules/gamble"]
+	path = modules/gamble
+	url = https://github.com/infinex-exchange/webapp-gamble

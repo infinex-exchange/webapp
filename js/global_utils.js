@@ -23,8 +23,11 @@ function prettyBalance(amount, prec) {
     if(bn.isZero())
         return '0';
     bn = bn.dp(prec, BigNumber.ROUND_DOWN);
-    if(bn.isZero())
+    if(bn.isZero()) {
+        if(prec == 0)
+            return '< 1';
         return '< 0.' + '0'.repeat(prec-1) + '1';
+    }
     else
         return bn.toString();
 }

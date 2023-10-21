@@ -1,3 +1,6 @@
 [submodule "vendor/charting_library"]
 	path = vendor/charting_library
 	url = ssh://git@github.com/infinex-exchange/charting_library
+[submodule "modules/spot"]
+	path = modules/spot
+	url = https://github.com/infinex-exchange/webapp-spot

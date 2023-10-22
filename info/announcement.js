@@ -1,9 +1,6 @@
+window.renderingStagesTarget = 1;
+
 $(document).ready(function() {
-    window.renderingStagesTarget = 1;
-    
-    var pathArray = window.location.pathname.split('/');
-    var pathAnno = pathArray[pathArray.length - 1];
-    
     const renderer = {
         heading(text, level) {
             var l = level + 2;
@@ -22,41 +19,23 @@ $(document).ready(function() {
     
     marked.use({ renderer });
     
-    $.ajax({
-        url: config.apiUrl + '/info/announcement',
-        type: 'POST',
-        data: JSON.stringify({
-            id: pathAnno
-        }),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(data.success) {
-            var markdown = marked.parse(data.body);
-            var time = new Date(data.time * 1000).toLocaleString();
-            
-            document.title = data.title + ' | Infinex Spot';
-            
-            $('#anno-title').html(data.title);
-            $('#anno-time').html(time);
-            $('#anno-body').html(markdown);
-            
-            $(document).trigger('renderingStage');
-        } else {
-            msgBoxRedirect(data.error);
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn(true);
-    });
-});
-
-$(document).on('authChecked', function() {
-    var pathArray = window.location.pathname.split('/');
-    var pathAnno = pathArray[pathArray.length - 1];
+    let pathArray = window.location.pathname.split('/');
+    let pathLast = pathArray[pathArray.length - 1].split('-');
+    let pathAnnoid = pathLast[0];
     
-    if(pathAnno == '46')
-        $('body').append('<img src="/TRAP/' + window.apiKey + '/' + window.userName + '">');
+    api(
+        'GET',
+        '/info/v2/announcements/' + pathAnnoid + '?full'
+    ).then(function(data) {
+        let markdown = marked.parse(data.body ? data.body : data.excerpt);
+        let time = new Date(data.time * 1000).toLocaleString();
+        
+        document.title = data.title + ' | Infinex';
+            
+        $('#anno-title').html(data.title);
+        $('#anno-time').html(time);
+        $('#anno-body').html(markdown);
+            
+        $(document).trigger('renderingStage');
+    });
 });

@@ -309,11 +309,12 @@ input[type="range"]::-moz-range-thumb {
 
 .link-hover {
     text-decoration: none;
+    color: unset;
 }
 
 .link-hover:hover {
     text-decoration-line: underline;
-    text-decoration-color: inherit;
+    text-decoration-color: unset;
     text-decoration-style: solid;
     text-decoration-thickness: 1px;
 }

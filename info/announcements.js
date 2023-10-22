@@ -21,8 +21,8 @@ function renderAnnouncement(data) {
                 <img src="${featuredImg}" class="img-fluid">
             </div>
             <div class="${rightColConf}">
-                <a href="${readMoreUrl}">
-                    <h3 class="pt-3 primary">${data.title}</h3>
+                <a href="${readMoreUrl}" class="primary">
+                    <h3 class="pt-3">${data.title}</h3>
                 </a>
                 <h6 class="pb-2">${time}</h6>
                 <div class="secondary">${markdown}</div>

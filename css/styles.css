@@ -71,12 +71,10 @@ html body {
 
 .primary {
     color: var(--color-primary);
-    text-decoration-color: var(--color-primary);
 }
 
 .secondary {
     color: var(--color-secondary);
-    text-decoration-color: var(--color-secondary);
 }
 
 /* Headings */
@@ -307,6 +305,14 @@ input[type="range"]::-moz-range-thumb {
 
 .nav-deco .nav-link.active {
     text-decoration: solid underline var(--color-ultra) 3px;
+}
+
+.link-hover {
+    text-decoration: none;
+}
+
+.link-hover:hover {
+    text-decoration: solid underline initial 1px;
 }
 
 /* Master navbar */

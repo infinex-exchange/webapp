@@ -41,6 +41,6 @@ $(document).ready(function() {
         '/info/v2/announcements',
         'announcements',
         renderAnnouncement,
-        $('#announcement-data')
+        $('#announcements-data')
     );
 });

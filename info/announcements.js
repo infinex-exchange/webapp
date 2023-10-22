@@ -6,7 +6,7 @@ function renderAnnouncement(data) {
     let rightColConf = 'col-12';
     let featuredImg = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
     
-    if(!data.featuredImg) {
+    if(data.featuredImg) {
         leftColConf = 'col-4';
         rightColConf = 'col-8';
         featuredImg = data.featuredImg;

@@ -1,3 +1,5 @@
+// TODO: legacy code
+
 $(document).ready(function() {
     window.renderingStagesTarget = 1;
     

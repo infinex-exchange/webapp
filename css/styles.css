@@ -71,12 +71,12 @@ html body {
 
 .primary {
     color: var(--color-primary);
-    text-decoration-color: var(--color-primary);
+    text-decoration-color: var(--color-primary) !important;
 }
 
 .secondary {
     color: var(--color-secondary);
-    text-decoration-color: var(--color-secondary);
+    text-decoration-color: var(--color-secondary) !important;
 }
 
 /* Headings */

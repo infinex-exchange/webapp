@@ -312,7 +312,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .link-hover:hover {
-    text-decoration: solid underline initial 1px;
+    text-decoration: solid underline initial 1px !important;
 }
 
 /* Master navbar */

@@ -129,8 +129,20 @@ $(document).on('authChecked', function() {
     window.fvOther = new FormValidator(
         $('#form-other'),
         function(data) {
-            //
+            api(
+                'POST',
+                '/info/v2/support/other',
+                data
+            ).then(submitConfirmation);
+            
+            return true;
         }
+    );
+    window.fvOther.text(
+        'description',
+        $('#so-description'),
+        true,
+        function() { return true; }
     );
     
     $('#sd-yes').click(function() {

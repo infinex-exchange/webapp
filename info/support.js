@@ -30,7 +30,8 @@ $(document).ready(function() {
     window.fvLogin.text(
         'description',
         $('#sl-description'),
-        true
+        true,
+        function() { return true; }
     );
     
     $('[data-goto]').click(function() {

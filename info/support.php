@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include('../templates/head.php'); ?>
-        <script src="/js/ajax_scroll.js?<?php echo filemtime(__DIR__.'/../js/ajax_scroll.js'); ?>"></script>
+        <?php include(__DIR__.'/../inc/head.php'); ?>
+        <script src="/account/js/validate.js?<?php echo filemtime(__DIR__.'/js/validate.js'); ?>"></script>
+        <script src="/js/Select.js?<?php echo filemtime(__DIR__.'/../js/Select.js'); ?>"></script>
+        <script src="/js/SelectCoin.js?<?php echo filemtime(__DIR__.'/../js/SelectCoin.js'); ?>"></script>
+        <script src="/js/SelectNet.js?<?php echo filemtime(__DIR__.'/../js/SelectNet.js'); ?>"></script>
         <title>Support | Infinex</title>
     </head>
     <body class="body-background">
-    
-        <!-- Preloader -->
-        <?php include('../templates/preloader.html'); ?>
-        
-        <!-- Navbar -->
-        <?php include('../templates/navbar.php'); ?>
+        <?php include(__DIR__.'/../inc/body.php'); ?>
         
         <!-- Root container -->
         <div id="root" class="container-fluid container-1500 p-0 background">
         <div class="row m-0 h-rest">
         
         <!-- Left column -->
-        <?php include('../templates/sidebar_info.php'); ?>
+        <?php include(__DIR__.'/inc/sidebar.php'); ?>
         
         <!-- Main column -->
         <div class="col-12 col-lg-9 p-0 ui-card ui-column">
@@ -46,15 +44,15 @@
                         <button type="button" class="list-group-item list-group-item-action" data-goto="support-withdrawal" data-for="user">
                             I have the issue with my withdrawal
                         </button>
-                        <button type="button" class="list-group-item list-group-item-action" data-goto="support-other" data-for="guest,user">
+                        <button type="button" class="list-group-item list-group-item-action" data-goto="support-other" data-for="user">
                             I have the issue with other services
                         </button>
                     </div>
                 </div>
                 
                 <div id="support-login" class="support-step col-12 p-2 d-none">
+                    <form id="form-login">
                     <div class="row">
-                    
                     
                         <div class="col-12 pb-1">
                             <h5 class="secondary">Please enter your e-mail address:</h5>
@@ -73,14 +71,16 @@
                         
                         
                         <div class="col-12 pt-3">
-                            <button id="sl-submit" type="button" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                         
                         
                     </div>
+                    </form>
                 </div>
                 
                 <div id="support-deposit" class="support-step col-12 p-2 d-none">
+                    <form id="form-deposit">
                     <div class="row">
                     
                     
@@ -88,7 +88,7 @@
                             <h5 class="secondary">Which coin did you deposited?</h5>
                         </div>
                         <div class="col-12 col-lg-6">
-                            <?php include('../templates/select_coin.php'); ?>
+                            <i id="select-coin"></i>
                         </div>
     
     
@@ -96,7 +96,7 @@
                             <h5 class="secondary">Which network did you use?</h5>
                         </div>
                         <div class="col-12 col-lg-6">
-                            <?php include('../templates/select_net.php'); ?>
+                            <i id="select-net"></i>
                         </div>
 
 
@@ -131,11 +131,12 @@
                         
                         
                         <div class="col-12 pt-3">
-                            <button id="sd-submit" type="button" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     
                     
                     </div>
+                    </form>
                 </div>
                 
                 <div id="support-deposit-lt8h" class="support-step col-12 p-2 d-none">
@@ -151,20 +152,9 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="support-experimental" class="support-step col-12 p-2 d-none">
-                    <div class="alert alert-warning d-flex align-items-center my-2" role="alert">
-                        <div class="px-2">
-                            <i class="fa-solid fa-flask fa-2x"></i>
-                        </div>
-                        <div class="px-2">
-                            <h5 class="pb-2">We can't accept your request</h5>
-                            We have classified the coin of your transaction as experimental and we do not provide any support related to it.
-                        </div>
-                    </div>
-                </div>
                 
                 <div id="support-withdrawal" class="support-step col-12 p-2 d-none">
+                    <form id="form-withdrawal">
                     <div class="row">
                     
                     
@@ -186,11 +176,12 @@
                         
                         
                         <div class="col-12 pt-3">
-                            <button id="sw-submit" type="button" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     
                     
                     </div>
+                    </form>
                 </div>
                 
                 
@@ -245,6 +236,7 @@
                 </div>
                 
                 <div id="support-other" class="support-step col-12 p-2 d-none">
+                    <form id="form-other">
                     <div class="row">
                     
                     
@@ -265,11 +257,12 @@
                         
                         
                         <div class="col-12 pt-3">
-                            <button id="so-submit" type="button" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                         
                         
                     </div>
+                    </form>
                 </div>
             </div>
             
@@ -280,12 +273,11 @@
         </div>
         </div>
         
-        <?php include('../templates/modals.php'); ?>
-        
         <script src="/info/support.js?<?php echo filemtime(__DIR__.'/support.js'); ?>"></script>
         
-        <?php include('../templates/footer.html'); ?>
-        <?php include('../templates/vanilla_mobile_nav.php'); ?>
-    
+        <?php
+        include(__DIR__.'/../inc/footer.php');
+        include(__DIR__.'/../inc/vanilla_mobile_nav.php');
+        ?>
     </body>
 </html>

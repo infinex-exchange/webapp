@@ -3,18 +3,41 @@ function gotoStep(step) {
     $('#' + step).removeClass('d-none');
 }
 
-$(document).ready(function() {
-    window.renderingStagesTarget = 1;
-    $(document).trigger('renderingStage');
+function onCoinSelected(symbol) {
+    window.selectNet.reset('/wallet/v2/io/networks?asset=' + symbol);
+}
 
-    window.swXid = null;
-    window.sdYes = false;
+$(document).ready(function() {
+    window.fvLogin = new FormValidator(
+        $('#form-login'),
+        function(data) {
+            api(
+                'POST',
+                '/info/v2/support/login',
+                data
+            );
+            
+            return true;
+        }
+    );
+    window.fvLogin.text(
+        'email',
+        $('#sl-email'),
+        true,
+        validateEmail,
+        'Incorrect e-mail format'
+    );
+    window.fvLogin.text(
+        'description',
+        $('#sl-description'),
+        true
+    );
     
     $('[data-goto]').click(function() {
-        var datafor = $(this).data('for');
+        let datafor = $(this).data('for');
         if(typeof(datafor) !== 'undefined') {
             if(window.loggedIn && !datafor.includes('user')) {
-                msgBox('This option cannot be used as a logged in user');
+                msgBox('This topic cannot be used as logged in user');
                 return;
             }
             if(!window.loggedIn && !datafor.includes('guest')) {
@@ -25,88 +48,60 @@ $(document).ready(function() {
         
         gotoStep($(this).data('goto'));
     });
-    
-    $('#select-coin').on('change', function() {
-        if($('#select-coin').data('experimental') == 'true') {
-            gotoStep('support-experimental');
-            return;
-        }
+});
 
-        initSelectNet($('#select-coin').val());
-    });
+$(document).on('authChecked', function() {
+    if(!window.loggedIn)
+        return;
+    
+    window.selectCoin = new SelectCoin(
+        $('#select-coin'),
+        '/wallet/v2/assets',
+        onCoinSelected
+    );
+    
+    window.selectNet = new SelectNet(
+        $('#select-net'),
+        null,
+        null,
+        false,
+        true
+    );
+    
+    window.fvDeposit = new FormValidator(
+        $('#form-deposit'),
+        function(data) {
+            //
+        }
+    );
+    
+    window.fvWithdrawal = new FormValidator(
+        $('#form-withdrawal'),
+        function(data) {
+            //
+        }
+    );
+    
+    window.fvOther = new FormValidator(
+        $('#form-other'),
+        function(data) {
+            //
+        }
+    );
+});
+
+/*$(document).ready(function() {
+    window.renderingStagesTarget = 1;
+    $(document).trigger('renderingStage');
+
+    window.swXid = null;
+    window.sdYes = false;
+    
 
     $('#sd-yes').click(function() {
         window.sdYes = true;
         $('.sd-ynprompt').addClass('d-none');
         $('.sd-yes-answer').removeClass('d-none');
-    });
-
-    $('#sl-submit').click(function() {
-        var email = $('#sl-email').val();
-        var description = $('#sl-description').val();
-
-        if(email == '' || description == '') {
-            supportFormError();
-            return;
-        }
-
-        supportAjax({
-            topic: 'login',
-            email: email,
-            description: description
-        });
-    });
-    
-    $('#sd-submit').click(function() {
-        var assetid = $('#select-coin').val();
-        var netid = $('#select-net').data('network');
-        var txid = $('#sd-txid').val();
-        var description = $('#sd-description').val();
-
-        if(assetid == '' || netid == '' || !window.sdYes || txid == '' || description == '') {
-            supportFormError();
-            return;
-        }
-
-        supportAjax({
-            topic: 'deposit',
-            assetid: assetid,
-            netid: netid,
-            txid: txid,
-            description: description
-        });
-    });
-    
-    $('#sw-submit').click(function() {
-        var description = $('#sw-description').val();
-
-        if(window.swXid === null || description == '') {
-            supportFormError();
-            return;
-        }
-
-        supportAjax({
-            topic: 'withdrawal',
-            xid: swXid,
-            description: description
-        });
-    });
-
-    $('#so-submit').click(function() {
-        var email = $('#so-email').val();
-        var description = $('#so-description').val();
-
-        if((!window.loggedIn && email == '') || description == '') {
-            supportFormError();
-            return;
-        }
-
-        var data = new Object();
-        data.topic = 'other';
-        data.description = description;
-        if(!window.loggedIn) data.email = email;
-
-        supportAjax(data);
     });
 });
 
@@ -232,35 +227,4 @@ function selectWithdrawal(item) {
     .fail(function (jqXHR, textStatus, errorThrown) {
         msgBoxNoConn();
     });
-}
-
-function supportAjax(data) {
-    if(window.loggedIn)
-        data = Object.assign(data, {
-            api_key: window.apiKey
-        });
-
-    $.ajax({
-        url: config.apiUrl + '/info/support',
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(data.success) {
-            msgBoxRedirect('Your request was successfully submited. Please wait for a reply.');
-        }
-        else {
-            msgBox(data.error);
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn();
-    });
-}
-
-function supportFormError() {
-    msgBox('Please fill in the form correctly');
-}
+}*/

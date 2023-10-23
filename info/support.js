@@ -3,6 +3,14 @@ function gotoStep(step) {
     $('#' + step).removeClass('d-none');
 }
 
+function submitConfirmation() {
+    msgBox(
+        'Your request has been accepted. We will try to solve your issue soon. Please wait for a reply.',
+        'Success',
+        '/'
+    );
+}
+
 function onCoinSelected(symbol) {
     window.selectNet.reset('/wallet/v2/io/networks?asset=' + symbol);
 }
@@ -15,7 +23,7 @@ $(document).ready(function() {
                 'POST',
                 '/info/v2/support/login',
                 data
-            );
+            ).then(submitConfirmation);
             
             return true;
         }

@@ -1,3 +1,5 @@
+window.sdYes = false;
+
 function gotoStep(step) {
     $('.support-step').addClass('d-none');
     $('#' + step).removeClass('d-none');
@@ -80,8 +82,41 @@ $(document).on('authChecked', function() {
     window.fvDeposit = new FormValidator(
         $('#form-deposit'),
         function(data) {
-            //
+            if(!window.sdYes)
+                return false;
+            
+            api(
+                'POST',
+                '/info/v2/support/deposit',
+                data
+            ).then(submitConfirmation);
+            
+            return true;
         }
+    );
+    window.fvWithdrawal.select(
+        'asset',
+        window.selectCoin,
+        true,
+        function() { return true; }
+    );
+    window.fvWithdrawal.select(
+        'network',
+        window.selectNet,
+        true,
+        function() { return true; }
+    );
+    window.fvDeposit.text(
+        'txid',
+        $('#sd-txid'),
+        true,
+        function() { return true; }
+    );
+    window.fvDeposit.text(
+        'description',
+        $('#sd-description'),
+        true,
+        function() { return true; }
     );
     
     window.fvWithdrawal = new FormValidator(
@@ -97,22 +132,15 @@ $(document).on('authChecked', function() {
             //
         }
     );
-});
-
-/*$(document).ready(function() {
-    window.renderingStagesTarget = 1;
-    $(document).trigger('renderingStage');
-
-    window.swXid = null;
-    window.sdYes = false;
     
-
     $('#sd-yes').click(function() {
         window.sdYes = true;
         $('.sd-ynprompt').addClass('d-none');
         $('.sd-yes-answer').removeClass('d-none');
     });
 });
+
+/*
 
 $(document).on('authChecked', function() {
     if(!window.loggedIn)

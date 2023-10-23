@@ -94,13 +94,13 @@ $(document).on('authChecked', function() {
             return true;
         }
     );
-    window.fvWithdrawal.select(
+    window.fvDeposit.select(
         'asset',
         window.selectCoin,
         true,
         function() { return true; }
     );
-    window.fvWithdrawal.select(
+    window.fvDeposit.select(
         'network',
         window.selectNet,
         true,

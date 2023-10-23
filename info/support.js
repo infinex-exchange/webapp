@@ -177,7 +177,19 @@ $(document).on('authChecked', function() {
     window.fvWithdrawal = new FormValidator(
         $('#form-withdrawal'),
         function(data) {
-            //
+            if(window.wdXid === null)
+                return false;
+            
+            api(
+                'POST',
+                '/info/v2/support/withdrawal',
+                {
+                    ...data,
+                    xid: window.wdXid
+                }
+            ).then(submitConfirmation);
+            
+            return true;
         }
     );
     

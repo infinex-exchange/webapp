@@ -146,7 +146,7 @@
                         </div>
                         <div class="px-2">
                             <h5 class="pb-2">We can't accept your request right now</h5>
-                            Most deposit issues are temporary only and will resolve automatically after a few minutes or hours.<br>
+                            Most deposit issues are temporary and will resolve automatically after a few minutes or hours.<br>
                             Probably our technicians are already working on fixing this issue.<br>
                             You can submit a support request only if a full 8 hours have passed since the deposit was made.
                         </div>
@@ -159,7 +159,7 @@
                     
                     
                         <div class="col-12 pb-1">
-                            <h5 class="secondary">Please select the transaction you are having an issue with:</h5>
+                            <h5 class="secondary">Please select the transaction you have the issue with:</h5>
                         </div>
                         <div class="col-12 ui-card-light">
                             <div class="row m-0" id="sw-list">
@@ -192,7 +192,7 @@
                         </div>
                         <div class="px-2">
                             <h5 class="pb-2">We can't accept your request right now</h5>
-                            Most withdrawal issues are temporary only and will resolve automatically after a few minutes or hours.<br>
+                            Most withdrawal issues are temporary and will resolve automatically after a few minutes or hours.<br>
                             Probably our technicians are already working on fixing this issue.<br>
                             You can submit a support request only if a full 8 hours have passed since the withdrawal was ordered.
                         </div>
@@ -219,17 +219,15 @@
                         </div>
                         <div class="px-2">
                             <h5 class="pb-2">We can't accept your request right now</h5>
-                            This withdrawal is still pending. No funds have been permanently debited from your Infinex account.<br>
+                            This withdrawal is pending. No funds have been permanently debited from your Infinex account.<br>
                             You can cancel this withdrawal at any time.<br>
                             <br>
-                            1. Keep in mind that withdrawals of some coins may not be available for technical reasons.
-                            You can always withdraw your funds using a different asset.<br>
-                            2. If the selected coin is available on multiple networks, try using a different network.
-                            Some networks are much more likely to be selected for withdrawals than others, and as a result,
-                            the exchange wallet may not have enough balance to complete all withdrawals.<br>
-                            3. If you are withdrawing a non-native asset that cannot be used to pay the blockchain fee directly
-                            (e.g. USDT withdrawal via the ERC-20 network requires some ETH additionally), the withdrawal will
-                            not be made until the liquidity and trading volume of native asset (e.g. ETH/USDT) is sufficient.
+                            1. Keep in mind that withdrawals of certain coins may be not available for technical reasons.
+                            You can always convert your funds to another coin and order a withdrawal.<br>
+                            2. If the selected coin is available on multiple networks, try using a different network.<br>
+                            3. If you are trying to withdraw the non-native token that cannot be used to pay the blockchain fee directly
+                            (e.g. USDT withdrawal via ERC-20 network requires some ETH additionally), the withdrawal will
+                            not be made if the liquidity and trading volume of native asset (e.g. ETH/USDT) is insufficient.
                             You can provide some liquidity on blockchain native asset pairs to help solve this issue.
                         </div>
                     </div>

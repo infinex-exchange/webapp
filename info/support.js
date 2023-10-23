@@ -185,7 +185,7 @@ $(document).on('authChecked', function() {
                 '/info/v2/support/withdrawal',
                 {
                     ...data,
-                    xid: window.wdXid
+                    xid: window.swXid
                 }
             ).then(submitConfirmation);
             

@@ -177,7 +177,7 @@ $(document).on('authChecked', function() {
     window.fvWithdrawal = new FormValidator(
         $('#form-withdrawal'),
         function(data) {
-            if(window.wdXid === null)
+            if(window.swXid === null)
                 return false;
             
             api(

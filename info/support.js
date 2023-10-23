@@ -192,6 +192,12 @@ $(document).on('authChecked', function() {
             return true;
         }
     );
+    window.fvWithdrawal.text(
+        'description',
+        $('#sw-description'),
+        true,
+        function() { return true; }
+    );
     
     window.fvOther = new FormValidator(
         $('#form-other'),

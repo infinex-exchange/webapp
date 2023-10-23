@@ -201,10 +201,17 @@ $(document).on('authChecked', function() {
     );
     
     window.scrWithdrawals = new InfiniteScrollOffsetPg(
-        '/wallet/v2/io/transactions?type=WITHDRAWAL',
+        '/wallet/v2/io/transactions?type=WITHDRAWAL&limit=24',
         'transactions',
         renderWithdrawal,
-        $('#sw-list')
+        $('#sw-list'),
+        false,
+        null,
+        null,
+        null,
+        function() {
+            window.scrWithdrawals.freeze();
+        }
     );
     
     $('#sd-yes').click(function() {

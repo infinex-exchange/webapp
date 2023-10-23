@@ -201,7 +201,7 @@ $(document).on('authChecked', function() {
     );
     
     window.scrWithdrawals = new InfiniteScrollOffsetPg(
-        '/wallet/v2/io/transactions?type=WITHDRAWAL&limit=24',
+        '/wallet/v2/io/transactions?type=WITHDRAWAL&limit=18',
         'transactions',
         renderWithdrawal,
         $('#sw-list'),
@@ -209,7 +209,7 @@ $(document).on('authChecked', function() {
         null,
         null,
         null,
-        function() {
+        function() { // on first page loaded
             window.scrWithdrawals.freeze();
         }
     );

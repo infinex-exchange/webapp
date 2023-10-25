@@ -17,13 +17,13 @@ function renderWdFee(asset) {
                     ${network.name}
                 </div>
                 <div class="col text-end d-none d-xl-block">
-                    ${network.deposits.minAmount} ${asset.symbol}
+                    ${network.deposit.minAmount} ${asset.symbol}
                 </div>
                 <div class="col text-end d-none d-xl-block">
-                    ${network.withdrawals.minAmount} ${asset.symbol}
+                    ${network.withdrawal.minAmount} ${asset.symbol}
                 </div>
                 <div class="col text-end d-none d-xl-block">
-                    ${network.withdrawals.feeMin} ${asset.symbol}
+                    ${network.withdrawal.feeMin} ${asset.symbol}
                 </div>
             </div>
         `;

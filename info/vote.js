@@ -167,7 +167,7 @@ function validateName(name) {
     return name.match(/^[a-zA-Z0-9 \-\.]{1,64}$/);
 }
 
-function validateWebsite(name) {
+function validateWebsite(website) {
     if(website.length > 255) return false;
     return website.match(/^(https?:\/\/)?([a-z0-9\-]+\.)+[a-z]{2,20}(\/[a-z0-9\-\.]+)*\/?$/);
 }

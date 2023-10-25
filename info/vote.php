@@ -27,7 +27,7 @@
                         Submit project proposal
                     </a>
                     <div class="guest-only small border border-primary rounded p-2 text-center">
-                        <a class="link-ultra" href="#_" onClick="gotoLogin()">Log In</a> or <a class="link-ultra" href="/account/register">Register</a> to vote
+                        <a class="link-ultra" href="#_" onClick="gotoLogin()">Log In</a> to submit proposal
                     </div>
                 </div>
                 <div class="col-12 order-2 pb-2 pb-lg-0 order-lg-3">

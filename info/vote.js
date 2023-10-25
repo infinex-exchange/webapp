@@ -108,6 +108,70 @@ $(document).ready(function() {
     );
 });
 
+$(document).on('authChecked', function() {
+    if(!window.loggedIn)
+        return;
+    
+    window.fvSubmit = new FormValidator(
+        $('#form-submit'),
+        function(data) {
+            api(
+                'POST',
+                '/vote/v2/projects',
+                data
+            ).then(function() {
+                msgBox(
+                    'Your proposal has been submitted and should appear in the next voting if will pass verification.',
+                    'Success'
+                );
+            });
+            
+            return true;
+        }
+    );
+    window.fvSubmit.text(
+        'symbol',
+        $('#msp-symbol'),
+        true,
+        validateSymbol
+    );
+    window.fvSubmit.text(
+        'name',
+        $('#msp-name'),
+        true,
+        validateName
+    );
+    window.fvSubmit.text(
+        'website',
+        $('#msp-website'),
+        true,
+        validateWebsite
+    );
+    
+    $('.submit-project').click(function() {
+        api(
+            'GET',
+            '/vote/v2/account/submit'
+        ).then(function(data) {
+            window.fvSubmit.reset();
+            $('#modal-submit-project').modal('show');
+        });
+    });
+});
+
+function validateSymbol(symbol) {
+    return symbol.match(/^[A-Z0-9]{1,32}$/);
+}
+
+function validateName(name) {
+    return name.match(/^[a-zA-Z0-9 \-\.]{1,64}$/);
+}
+
+function validateWebsite(name) {
+    if(website.length > 255) return false;
+    return website.match(/^(https?:\/\/)?([a-z0-9\-]+\.)+[a-z]{2,20}(\/[a-z0-9\-\.]+)*\/?$/);
+}
+
 /*
 
 function voteShowModal(projectid) {
@@ -135,37 +199,6 @@ function voteShowModal(projectid) {
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
         msgBoxNoConn(false); 
-    });
-}
-
-function reloadCurrentVoting() {
-    $.ajax({
-        url: config.apiUrl + '/info/voting/current',
-        type: 'POST',
-        data: JSON.stringify({
-        }),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(data.success) {
-            if(data.voting_open) {
-                $('#current-voting-data').html(renderVoting(data, true));
-                $('#no-voting').addClass('d-none');
-            }
-            
-            else
-                $('#no-voting').removeClass('d-none');
-            
-            $(document).trigger('renderingStage'); 
-        }
-        else {
-            msgBoxRedirect(data.error);
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn(true); 
     });
 }
 
@@ -295,57 +328,6 @@ $(document).ready(function() {
         });
     });
     
-    window.votingHistoryAS = new AjaxScroll(
-        $('#previous-votings-data'),
-        $('#previous-votings-data-preloader'),
-        {},
-        function() {
-            this.data.offset = this.offset;
-            var thisAS = this;
     
-            $.ajax({
-                url: config.apiUrl + '/info/voting/history',
-                type: 'POST',
-                data: JSON.stringify(thisAS.data),
-                contentType: "application/json",
-                dataType: "json",
-            })
-            .retry(config.retry)
-            .done(function (data) {
-                if(data.success) {
-                    $.each(data.votings, function(k, voting) {
-                        thisAS.append(renderVoting(voting, false));
-                    });
-                    
-                    thisAS.done();
-                    
-                    if(thisAS.offset == 0)
-                        $(document).trigger('renderingStage');
-                       
-                    if(data.votings.length != 50)
-                        thisAS.noMoreData();
-                        
-                    if(thisAS.offset == 0 && data.votings.length == 0)
-                        $('#no-history').removeClass('d-none');
-                }
-                else {
-                    msgBoxRedirect(data.error);
-                    thisAS.done();
-                    thisAS.noMoreData();
-                }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                msgBoxNoConn(true);
-                thisAS.done();
-                thisAS.noMoreData(); 
-            });
-        },
-        true,
-        true
-    );        
 });
-
-$(document).on('authChecked', function() {
-    reloadCurrentVoting();
-    setTimeout(reloadCurrentVoting, 10000);
-});*/
+;*/

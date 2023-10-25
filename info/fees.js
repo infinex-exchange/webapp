@@ -9,20 +9,32 @@ function renderWdFee(asset) {
     for(const network of asset.networks) {
         rows += `
             <div class="row p-2 hoverable">
-                <div class="col my-auto">
+                <div class="col d-none d-xl-block my-auto">
                     ${assetStr}
                 </div>
-                <div class="col my-auto">
+                <div class="col-6 d-xl-none">
+                    Network:
+                </div>
+                <div class="col-6 col-xl my-auto">
                     <img width="16" height="16" src="${network.iconUrl}">
                     ${network.name}
                 </div>
-                <div class="col text-end d-none d-xl-block">
+                <div class="col-6 d-xl-none">
+                    Min deposit:
+                </div>
+                <div class="col-6 col-xl text-end">
                     ${network.deposit.minAmount} ${asset.symbol}
                 </div>
-                <div class="col text-end d-none d-xl-block">
+                <div class="col-6 d-xl-none">
+                    Min withdrawal:
+                </div>
+                <div class="col-6 col-xl text-end">
                     ${network.withdrawal.minAmount} ${asset.symbol}
                 </div>
-                <div class="col text-end d-none d-xl-block">
+                <div class="col-6 d-xl-none">
+                    Withdrawal fee:
+                </div>
+                <div class="col-6 col-xl text-end">
                     ${network.withdrawal.feeMin} ${asset.symbol}
                 </div>
             </div>

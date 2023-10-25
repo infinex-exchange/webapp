@@ -3,7 +3,7 @@ window.renderingStagesTarget = 1;
 function renderVoting(data) {
     let header = data.current ? '' : `
         <div class="col-12">
-            <h4>Voting #${data.votingid} - ${dateString}</h4>
+            <h4>Voting #${data.votingid} - ${data.month}/${data.year}</h4>
         </div>
     `;
     
@@ -71,7 +71,7 @@ function renderVoting(data) {
     }
     
     return `
-        <div class="row p-2">
+        <div data-id="${data.votingid}" class="row p-2">
             ${header}
             ${projects}
         </div>

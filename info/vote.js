@@ -189,6 +189,12 @@ $(document).on('authChecked', function() {
             $('#modal-submit-project').modal('show');
         });
     });
+    
+    $('#mv-range').on('input', function() {
+        let val = $(this).val();
+        $('#mv-val').html(val);
+        $('#mv-submit').prop('disabled', val < 1);
+    });
 });
 
 function validateSymbol(symbol) {
@@ -203,135 +209,3 @@ function validateWebsite(website) {
     if(website.length > 255) return false;
     return website.match(/^(https?:\/\/)?([a-z0-9\-]+\.)+[a-z]{2,20}(\/[a-z0-9\-\.]+)*\/?$/);
 }
-
-/*
-
-$(document).ready(function() {
-    window.renderingStagesTarget = 2;
-    
-    $('.submit-project').click(function() {
-        $.ajax({
-            url: config.apiUrl + '/info/voting/submit/check',
-            type: 'POST',
-            data: JSON.stringify({
-                api_key: window.apiKey
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                $('#msp-symbol, #msp-name, #msp-website').val('');
-                $('.msp-help').hide();
-                $('#modal-submit-project').modal('show');
-            }
-            else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false); 
-        });
-    });
-    
-    $('#msp-submit').click(function() {
-        var symbol = $('#msp-symbol').val();
-        var name = $('#msp-name').val();
-        var website = $('#msp-website').val();
-        
-        if(!validateAssetSymbol(symbol) ||
-           !validateVotingName(name) ||
-           !validateVotingWebsite(website)
-        ) {
-            msgBox('Fill the form correctly');
-            return;
-        }
-        
-        $.ajax({
-            url: config.apiUrl + '/info/voting/submit',
-            type: 'POST',
-            data: JSON.stringify({
-                api_key: window.apiKey,
-                project_symbol: symbol,
-                project_name: name,
-                project_website: website
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                $('#modal-submit-project').modal('hide');
-                msgBox('The proposal has been sent and will appear in the next vote after being verified.');
-            }
-            else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false); 
-        });
-    });
-    
-	$('#msp-symbol').on('input', function() {
-        if(validateAssetSymbol($(this).val()))
-            $('#msp-help-symbol').hide();
-        else
-            $('#msp-help-symbol').show();
-    });
-    
-    $('#msp-name').on('input', function() {
-        if(validateVotingName($(this).val()))
-            $('#msp-help-name').hide();
-        else
-            $('#msp-help-name').show();
-    });
-    
-    $('#msp-website').on('input', function() {
-        if(validateVotingWebsite($(this).val()))
-            $('#msp-help-website').hide();
-        else
-            $('#msp-help-website').show();
-    });
-    
-    $('#mv-range').on('input', function() {
-        var val = $(this).val();
-        $('#mv-val').html(val);
-        $('#mv-submit').prop('disabled', val < 1);
-    });
-    
-    $('#mv-submit').click(function() {
-        var projectid = $(this).data('projectid');
-        var votesCount = parseInt($('#mv-range').val());
-        
-        $.ajax({
-            url: config.apiUrl + '/info/voting/current/vote',
-            type: 'POST',
-            data: JSON.stringify({
-                api_key: window.apiKey,
-                projectid: projectid,
-                votes_count: votesCount
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        })
-        .retry(config.retry)
-        .done(function (data) {
-            if(data.success) {
-                reloadCurrentVoting();
-                $('#modal-vote').modal('hide');
-            }
-            else {
-                msgBox(data.error);
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            msgBoxNoConn(false); 
-        });
-    });
-    
-    
-});
-;*/

@@ -120,6 +120,7 @@ $(document).on('authChecked', function() {
                 '/vote/v2/projects',
                 data
             ).then(function() {
+                $('#modal-submit-project').modal('hide');
                 msgBox(
                     'Your proposal has been submitted and should appear in the next voting if will pass verification.',
                     'Success'

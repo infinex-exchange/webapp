@@ -71,7 +71,7 @@ function renderVoting(data) {
     }
     
     return `
-        <div data-id="${data.votingid}" class="row ui-card-light p-2 my-2">
+        <div data-id="${data.votingid}" class="row ui-card-light p-2 mb-3">
             ${header}
             ${projects}
         </div>

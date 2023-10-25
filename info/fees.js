@@ -45,6 +45,9 @@ function renderWdFee(asset) {
     
     return `
         <div data-id="${asset.symbol}" class="row">
+        <div class="col-12 d-xl-none p-2 strong">
+            ${assetStr}
+        </div>
         <div class="col-12">
             ${rows}
         </div>

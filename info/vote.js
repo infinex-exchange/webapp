@@ -68,7 +68,7 @@ function renderVoting(data) {
                 </div>
             </div>
         `;
-    });
+    }
     
     return `
         <div class="row p-2">

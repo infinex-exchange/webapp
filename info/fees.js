@@ -5,12 +5,13 @@ function renderWdFee(asset) {
         <img width="16" height="16" src="${asset.iconUrl}">
         ${asset.name}
     `;
+    let tmpAssetStr = assetStr;
         
     for(const network of asset.networks) {
         rows += `
             <div class="row p-2 hoverable">
                 <div class="col d-none d-xl-block my-auto">
-                    ${assetStr}
+                    ${tmpAssetStr}
                 </div>
                 <div class="col-4 d-xl-none secondary">
                     Network:
@@ -40,7 +41,7 @@ function renderWdFee(asset) {
             </div>
         `;
         
-        assetStr = '';
+        tmpAssetStr = '';
     }
     
     return `

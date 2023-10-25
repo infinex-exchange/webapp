@@ -15,7 +15,7 @@ function renderWdFee(asset) {
                 <div class="col-4 d-xl-none secondary">
                     Network:
                 </div>
-                <div class="col-8 col-xl my-auto">
+                <div class="col-8 col-xl my-auto text-end text-xl-start">
                     <img width="16" height="16" src="${network.iconUrl}">
                     ${network.name}
                 </div>

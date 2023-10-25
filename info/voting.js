@@ -1,61 +1,46 @@
-function renderVoting(data, canVote) {
-    var header = '';
+window.renderingStagesTarget = 1;
+
+function renderVoting(data) {
+    let header = data.current ? '' : `
+        <div class="col-12">
+            <h4>Voting #${data.votingid} - ${dateString}</h4>
+        </div>
+    `;
     
-    var month = new Date(data.month * 1000);
-    var dateString = (month.getMonth()+1) + '/' + month.getFullYear(); 
+    let projects = '';
+    let totalVotes = 0;
     
-    if(typeof(data.votingid) !== 'undefined' && typeof(data.month) !== 'undefined')
-        header = `
-            <div class="col-12">
-                <h4>Voting #${data.votingid} - ${dateString}</h4>
-            </div>
-        `;
+    for(proj of data.projects)
+        totalVotes += proj.votes;
     
-    var projects = '';
-    var projHover = '';
-    if(canVote) projHover = 'hoverable';
+    for(proj of data.projects) {
+        let progressVal = Math.floor(proj.votes / totalVotes * 100); 
     
-    var maxVotes = 0;
-    
-    $.each(data.projects, function(k, proj) {
-        maxVotes += proj.votes;
-    });
-    
-    var winner = false;
-    
-    $.each(data.projects, function(k, proj) {    
-        var progressVal = Math.floor(proj.votes / maxVotes * 100); 
-    
-        var voteButton = '';
-        
-        if(canVote && window.loggedIn) {
-            voteButton = `
-                <a href="#_" class="btn btn-sm btn-primary w-100" onClick="voteShowModal(${proj.projectid})">
-                    <i class="fa-solid fa-check-to-slot"></i>
-                    Vote
-                </a>
-            `;
+        let voteButton = '';
+        if(data.current) {
+            if(window.loggedIn)
+                voteButton = `
+                    <a href="#_" class="btn btn-sm btn-primary w-100" onClick="voteShowModal(${proj.projectid})">
+                      <i class="fa-solid fa-check-to-slot"></i>
+                      Vote
+                    </a>
+                `;
+            else
+                voteButton = `
+                    <div class="small border border-primary rounded p-2 text-center w-100">
+                        <a class="link-ultra" href="#_" onClick="gotoLogin()">Log In</a> to vote
+                    </div>
+                `;
         }
-        
-        else if(canVote) {
-            voteButton = `
-                <div class="small border border-primary rounded p-2 text-center w-100">
-                    <a class="link-ultra" href="#_" onClick="gotoLogin()">Log In</a> or <a class="link-ultra" href="/account/register">Register</a> to vote
-                </div>
-            `;
-        }
-        
-        else if(!winner) {
+        else if(data.winner)
             voteButton = `
                 <strong class="secondary">
                     WINNER!
                 </strong>
             `;
-            winner = true;
-        }
         
         projects += `
-            <div class="col-12 ${projHover}">
+            <div class="col-12 hoverable">
                 <div class="row">
                     <div class="col-9 col-lg-11 my-auto py-3">
                     <div class="row">
@@ -85,16 +70,38 @@ function renderVoting(data, canVote) {
         `;
     });
     
-    var mainHover = 'hoverable';
-    if(canVote) mainHover = '';
-    
     return `
-        <div class="row p-2 ${mainHover}">
+        <div class="row p-2">
             ${header}
             ${projects}
         </div>
     `;
 }
+
+$(document).ready(function() {
+    apiRaw(
+        'GET',
+        '/vote/v2/votings/current'
+    ).then(
+        function(data) {
+            $('#current-voting-data').html(
+                renderVoting(data)
+            );
+            
+            $(document).trigger('renderingStage');
+        },
+        function(error) {
+            if(error.code == 'NOT_FOUND') {
+                $('#no-voting').removeClass('d-none');
+                $(document).trigger('renderingStage');
+            }
+            else
+                msgBox(error.msg, null, '/');
+        }
+    );
+});
+
+/*
 
 function voteShowModal(projectid) {
     $.ajax({
@@ -334,4 +341,4 @@ $(document).ready(function() {
 $(document).on('authChecked', function() {
     reloadCurrentVoting();
     setTimeout(reloadCurrentVoting, 10000);
-});
+});*/

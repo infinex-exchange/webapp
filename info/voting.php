@@ -1,25 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include('../templates/head.php'); ?>
-        <script src="/js/validate.js?<?php echo filemtime(__DIR__.'/../js/validate.js'); ?>"></script>
-        <script src="/js/ajax_scroll.js?<?php echo filemtime(__DIR__.'/../js/ajax_scroll.js'); ?>"></script>
+        <?php include(__DIR__.'/../inc/head.php'); ?>
         <title>Vote for listing | Infinex</title>
     </head>
     <body class="body-background">
-    
-        <!-- Preloader -->
-        <?php include('../templates/preloader.html'); ?>
-        
-        <!-- Navbar -->
-        <?php include('../templates/navbar.php'); ?>
+        <?php include(__DIR__.'/../inc/body.php'); ?>
         
         <!-- Root container -->
         <div id="root" class="container-fluid container-1500 p-0 background">
         <div class="row m-0 h-rest">
         
         <!-- Left column -->
-        <?php include('../templates/sidebar_info.php'); ?>
+        <?php include(__DIR__.'/inc/sidebar.php'); ?>
         
         <!-- Main column -->
         <div class="col-12 col-lg-9 p-0 ui-card ui-column">
@@ -98,38 +91,35 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     
+                    <form id="form-submit">
                     <div class="modal-body">
-                    
                         <div class="row">
                             <div class="col-12">
                                 <h5>Token symbol:</h5>
                             </div>
                             <div class="col-12 pt-1">
                                 <input id="msp-symbol" type="text" class="form-control">
-                                <small id="msp-help-symbol" class="msp-help form-text" style="display: none">Only uppercase letters and digits</small>
                             </div>
                             <div class="col-12 pt-2">
                                 <h5>Token full name:</h5>
                             </div>
                             <div class="col-12 pt-1">
                                 <input id="msp-name" type="text" class="form-control">
-                                <small id="msp-help-name" class="msp-help form-text" style="display: none">Max 64 characters</small>
                             </div>
                             <div class="col-12 pt-2">
                                 <h5>Project website:</h5>
                             </div>
                             <div class="col-12 pt-1">
                                 <input id="msp-website" type="text" class="form-control">
-                                <small id="msp-help-website" class="msp-help form-text" style="display: none">Incorrect URL format</small>
                             </div>
                         </div>
-                        
                     </div>
                     
                     <div class="modal-footer">
                         <button type="button" class="modal-close btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <a href="#_" id="msp-submit" class="btn btn-primary">Submit</a>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -142,8 +132,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     
+                    <form id="form-vote">
                     <div class="modal-body">
-                    
                         <div class="row">
                             <div class="col-12">
                                 <h5>Number of votes:</h5>
@@ -157,22 +147,23 @@
                                 <span class="secondary" id="mv-max"></span>
                             </div>
                         </div>
-                        
                     </div>
                     
                     <div class="modal-footer">
                         <button type="button" class="modal-close btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" id="mv-submit" class="btn btn-primary">Vote</button>
+                        <button type="submit" class="btn btn-primary">Vote</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
         
         <script src="/info/voting.js?<?php echo filemtime(__DIR__.'/voting.js'); ?>"></script>
         
-        <?php include('../templates/modals.php'); ?>
-        <?php include('../templates/footer.html'); ?>
-        <?php include('../templates/vanilla_mobile_nav.php'); ?>
+        <?php
+        include(__DIR__.'/../inc/footer.php');
+        include(__DIR__.'/../inc/vanilla_mobile_nav.php');
+        ?>
     
     </body>
 </html>

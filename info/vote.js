@@ -78,6 +78,37 @@ function renderVoting(data) {
     `;
 }
 
+function voteShowModal(projectid) {
+    api(
+        'GET',
+        '/vote/v2/account/votes'
+    ).then(function(data) {
+        $('#mv-range').val('0').attr('max', data.votes);
+        
+        $('#mv-val').html(0);
+        $('#mv-max').html(data.votes);
+        
+        $('#mv-submit').prop('disabled', true);
+        $('#form-vote').unbind('submit').on('submit', function() {
+            api(
+                'PATCH',
+                '/vote/v2/votings/current',
+                {
+                    projectid: projectid,
+                    votes: parseInt($('#mv-range').val())
+                }
+            ).then(function(data) {
+                $('#current-voting-data').html(
+                    renderVoting(data)
+                );
+                $('#modal-vote').modal('hide');
+            });
+        });
+        
+        $('#modal-vote').modal('show');
+    });
+}
+
 $(document).ready(function() {
     apiRaw(
         'GET',
@@ -174,34 +205,6 @@ function validateWebsite(website) {
 }
 
 /*
-
-function voteShowModal(projectid) {
-    $.ajax({
-        url: config.apiUrl + '/info/voting/current/avbl_votes',
-        type: 'POST',
-        data: JSON.stringify({
-            api_key: window.apiKey
-        }),
-        contentType: "application/json",
-        dataType: "json",
-    })
-    .retry(config.retry)
-    .done(function (data) {
-        if(data.success) {
-            $('#mv-range').val('0').attr('max', data.avbl_votes);
-            $('#mv-val').html(0);
-            $('#mv-max').html(data.avbl_votes);
-            $('#mv-submit').data('projectid', projectid).prop('disabled', true);
-            $('#modal-vote').modal('show');
-        }
-        else {
-            msgBox(data.error);
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        msgBoxNoConn(false); 
-    });
-}
 
 $(document).ready(function() {
     window.renderingStagesTarget = 2;

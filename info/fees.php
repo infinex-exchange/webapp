@@ -64,7 +64,7 @@
             <div class="row p-2 ui-card-light">
             <div class="col-12">
             
-                <div class="row p-2 secondary d-none d-xl-flex">
+                <div class="row p-2 secondary d-none d-lg-flex">
                     <div class="col">
                         <h5>Asset</h5>
                     </div>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 
-                <div id="withdrawal-fees-data">
+                <div id="withdrawal-fees-data" class="small">
                 </div>
             
             </div>

@@ -42,14 +42,14 @@
                 </div>
             </div>
             
-            <div class="row p-2 pt-3">
+            <div class="row pt-3">
                 <h3>Current voting</h3>
             </div>
             
             <div class="row p-2">
             <div class="col-12">
                 
-                <div id="no-voting" class="d-none text-center ui-card-light p-2">
+                <div id="no-voting" class="d-none text-center ui-card-light p-2 my-2">
                     <h4 class="secondary">There is no active voting at the moment</h4>
                 </div>
                 
@@ -59,14 +59,14 @@
             </div>
             </div>
             
-            <div class="row p-2 pt-3">
+            <div class="row pt-3">
                 <h3>Previous votings</h3>
             </div>
             
             <div class="row p-2">
             <div class="col-12">
             
-	            <div id="no-history" class="d-none text-center ui-card-light p-2">
+	            <div id="no-history" class="d-none text-center ui-card-light p-2 my-2">
                     <h4 class="secondary">No voting has taken place yet</h4>
                 </div>
             

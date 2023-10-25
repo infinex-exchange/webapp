@@ -16,13 +16,13 @@ function renderWdFee(asset) {
                     <img width="16" height="16" src="${network.iconUrl}">
                     ${network.name}
                 </div>
-                <div class="col text-end d-none d-lg-block">
+                <div class="col text-end d-none d-xl-block">
                     ${network.deposits.minAmount} ${asset.symbol}
                 </div>
-                <div class="col text-end d-none d-lg-block">
+                <div class="col text-end d-none d-xl-block">
                     ${network.withdrawals.minAmount} ${asset.symbol}
                 </div>
-                <div class="col text-end d-none d-lg-block">
+                <div class="col text-end d-none d-xl-block">
                     ${network.withdrawals.feeMin} ${asset.symbol}
                 </div>
             </div>

@@ -32,7 +32,7 @@ function renderVoting(data) {
                     </div>
                 `;
         }
-        else if(data.winner)
+        else if(proj.winner)
             voteButton = `
                 <strong class="secondary">
                     WINNER!

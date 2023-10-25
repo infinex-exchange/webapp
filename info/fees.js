@@ -12,29 +12,29 @@ function renderWdFee(asset) {
                 <div class="col d-none d-xl-block my-auto">
                     ${assetStr}
                 </div>
-                <div class="col-6 d-xl-none">
+                <div class="col-4 d-xl-none secondary">
                     Network:
                 </div>
-                <div class="col-6 col-xl my-auto">
+                <div class="col-8 col-xl my-auto">
                     <img width="16" height="16" src="${network.iconUrl}">
                     ${network.name}
                 </div>
-                <div class="col-6 d-xl-none">
+                <div class="col-4 d-xl-none secondary">
                     Min deposit:
                 </div>
-                <div class="col-6 col-xl text-end">
+                <div class="col-8 col-xl text-end">
                     ${network.deposit.minAmount} ${asset.symbol}
                 </div>
-                <div class="col-6 d-xl-none">
+                <div class="col-4 d-xl-none secondary">
                     Min withdrawal:
                 </div>
-                <div class="col-6 col-xl text-end">
+                <div class="col-8 col-xl text-end">
                     ${network.withdrawal.minAmount} ${asset.symbol}
                 </div>
-                <div class="col-6 d-xl-none">
+                <div class="col-4 d-xl-none secondary">
                     Withdrawal fee:
                 </div>
-                <div class="col-6 col-xl text-end">
+                <div class="col-8 col-xl text-end">
                     ${network.withdrawal.feeMin} ${asset.symbol}
                 </div>
             </div>

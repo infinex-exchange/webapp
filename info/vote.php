@@ -49,7 +49,7 @@
             <div class="row">
             <div class="col-12">
                 
-                <div id="no-voting" class="d-none text-center ui-card-light p-2 my-2">
+                <div id="no-voting" class="d-none text-center ui-card-light p-2 mb-3">
                     <h4 class="secondary">There is no active voting at the moment</h4>
                 </div>
                 
@@ -66,7 +66,7 @@
             <div class="row">
             <div class="col-12">
             
-	            <div id="no-history" class="d-none text-center ui-card-light p-2 my-2">
+	            <div id="no-history" class="d-none text-center ui-card-light p-2 mb-3">
                     <h4 class="secondary">No voting has taken place yet</h4>
                 </div>
             

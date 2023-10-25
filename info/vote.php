@@ -46,7 +46,7 @@
                 <h3>Current voting</h3>
             </div>
             
-            <div class="row p-2">
+            <div class="row">
             <div class="col-12">
                 
                 <div id="no-voting" class="d-none text-center ui-card-light p-2 my-2">
@@ -63,7 +63,7 @@
                 <h3>Previous votings</h3>
             </div>
             
-            <div class="row p-2">
+            <div class="row">
             <div class="col-12">
             
 	            <div id="no-history" class="d-none text-center ui-card-light p-2 my-2">

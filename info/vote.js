@@ -89,7 +89,9 @@ function voteShowModal(projectid) {
         $('#mv-max').html(data.votes);
         
         $('#mv-submit').prop('disabled', true);
-        $('#form-vote').unbind('submit').on('submit', function() {
+        $('#form-vote').unbind('submit').on('submit', function(e) {
+            e.preventDefault();
+            
             api(
                 'PATCH',
                 '/vote/v2/votings/current',

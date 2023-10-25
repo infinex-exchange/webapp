@@ -64,7 +64,7 @@
             <div class="row p-2 ui-card-light">
             <div class="col-12">
             
-                <div class="row p-2 secondary d-none d-lg-block">
+                <div class="row p-2 secondary d-none d-lg-flex">
                     <div class="col">
                         <h5>Asset</h5>
                     </div>

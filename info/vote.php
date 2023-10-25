@@ -151,7 +151,7 @@
                     
                     <div class="modal-footer">
                         <button type="button" class="modal-close btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Vote</button>
+                        <button id="mv-submit" type="submit" class="btn btn-primary">Vote</button>
                     </div>
                     </form>
                 </div>

@@ -39,7 +39,7 @@ RewriteRule ^info/fees/?$ /info/fees.php [L]
 RewriteRule ^info/trading-rules/?$ /info/trading_rules.php [L]
 RewriteRule ^info/listing/?$ /info/listing.php [L]
 RewriteRule ^info/announcements/([^/]+)/?$ /info/announcement.php [L]
-RewriteRule ^info/voting/?$ /info/voting.php [L]
+RewriteRule ^info/vote/?$ /info/vote.php [L]
 RewriteRule ^info/rules/?$ /info/rules.php [L]
 RewriteRule ^info/support/?$ /info/support.php [L]
 

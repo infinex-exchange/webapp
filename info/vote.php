@@ -158,7 +158,7 @@
             </div>
         </div>
         
-        <script src="/info/voting.js?<?php echo filemtime(__DIR__.'/voting.js'); ?>"></script>
+        <script src="/info/vote.js?<?php echo filemtime(__DIR__.'/vote.js'); ?>"></script>
         
         <?php
         include(__DIR__.'/../inc/footer.php');

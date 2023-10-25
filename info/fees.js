@@ -32,7 +32,7 @@ function renderWdFee(asset) {
     }
     
     return `
-        <div data-id="${data.symbol}" class="row">
+        <div data-id="${asset.symbol}" class="row">
         <div class="col-12">
             ${rows}
         </div>

@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 
-                <div id="withdrawal-fees-data" class="small">
+                <div id="withdrawal-fees-data">
                 </div>
             
             </div>

@@ -99,6 +99,13 @@ $(document).ready(function() {
                 msgBox(error.msg, null, '/');
         }
     );
+    
+    window.scrHistory = new InfiniteScrollOffsetPg(
+        '/vote/v2/votings?history',
+        'votings',
+        renderVoting,
+        $('#previous-votings-data')
+    );
 });
 
 /*

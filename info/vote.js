@@ -101,7 +101,7 @@ $(document).ready(function() {
     );
     
     window.scrHistory = new InfiniteScrollOffsetPg(
-        '/vote/v2/votings?history',
+        '/vote/v2/votings?archive',
         'votings',
         renderVoting,
         $('#previous-votings-data')

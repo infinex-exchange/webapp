@@ -1,34 +1,32 @@
-function renderWdFee(data) {
+function renderWdFee(asset) {
     let rows = '';
     
-    for(const asset of data.fees) {
-        let assetStr = `
-            <img width="16" height="16" src="${asset.iconUrl}">
-            ${asset.name}
-        `;
+    let assetStr = `
+        <img width="16" height="16" src="${asset.iconUrl}">
+        ${asset.name}
+    `;
         
-        for(const network of asset.networks) {
-            rows += `
-                <div class="row p-2 hoverable">
-                    <div class="col my-auto">
-                        ${assetStr}
-                    </div>
-                    <div class="col my-auto">
-                        <img width="16" height="16" src="${network.iconUrl}">
-                        ${network.name}
-                    </div>
-                    <div class="col text-end">
-                        ${network.deposits.minAmount} ${asset.symbol}
-                    </div>
-                    <div class="col text-end">
-                        ${network.withdrawals.minAmount} ${asset.symbol}
-                    </div>
-                    <div class="col text-end">
-                        ${network.withdrawals.feeMin} ${asset.symbol}
-                    </div>
+    for(const network of asset.networks) {
+        rows += `
+            <div class="row p-2 hoverable">
+                <div class="col my-auto">
+                    ${assetStr}
                 </div>
-            `;
-        }
+                <div class="col my-auto">
+                    <img width="16" height="16" src="${network.iconUrl}">
+                    ${network.name}
+                </div>
+                <div class="col text-end">
+                    ${network.deposits.minAmount} ${asset.symbol}
+                </div>
+                <div class="col text-end">
+                    ${network.withdrawals.minAmount} ${asset.symbol}
+                </div>
+                <div class="col text-end">
+                    ${network.withdrawals.feeMin} ${asset.symbol}
+                </div>
+            </div>
+        `;
         
         assetStr = '';
     }

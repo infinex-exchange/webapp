@@ -69,3 +69,13 @@ $(document).on('renderingComplete', function() {
         showPopups(resp.popups);
     });
 });
+
+// TODO: legacy code for compatibility, remove after making all submodules V2
+
+function msgBoxNoConn(redirect = false) {
+    msgBox('No connection', null, redirect ? '/' : null);
+}
+
+function msgBoxRedirect(message, to = '/') {
+    msgBox(message, null, to);
+}

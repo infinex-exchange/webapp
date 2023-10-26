@@ -1,4 +1,4 @@
-<nav class="navbar navbar-master navbar-dark shadow-sm navbar-expand-lg">
+<nav class="navbar navbar-master navbar-dark shadow-sm navbar-expand-lg" id="main-navbar">
     <div class="container-fluid container-1500">
         <a class="navbar-brand" href="/">
             <img src="/img/logo.svg" alt="Infinex" width="140" class="d-inline-block align-text-top">

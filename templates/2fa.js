@@ -1,3 +1,5 @@
+// TODO: legacy code for compatibility, remove entire /templates directory !
+
 $(document).ready(function() {
     $('#2fa-code').on('input', function() {
         if(validate2FA($(this).val())) {

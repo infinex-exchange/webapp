@@ -1,3 +1,5 @@
+// TODO: legacy code for compatibility, remove entire /templates directory !
+
 $(document).ready(function() {
     $('#select-adbk').on('click', function(event) {
         $('.selector-dropdown').not('#select-adbk-dropdown').hide();

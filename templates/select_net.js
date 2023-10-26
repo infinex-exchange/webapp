@@ -1,3 +1,5 @@
+// TODO: legacy code for compatibility, remove entire /templates directory !
+
 $(document).ready(function() {
     $('#select-net').on('click', function(event) {
         $('.selector-dropdown').not('#select-net-dropdown').hide();

@@ -159,9 +159,13 @@ function showTransaction(item, update = false) {
         $('#mtd-network').html(data.network ? data.network.name : '-');
         
         $('#mtd-address').html(data.address);
+        $('#mtd-memo').html(data.memo ? data.memo : '-');
         if(data.network && data.network.memoName) {
-            $('#mtd-memo').html(data.memo ? data.memo : '-');
             $('#mtd-memo-name').html(data.network.memoName + ':');
+            $('#mtd-memo-wrapper').show();
+        }
+        else if(data.type.startsWith('TRANSFER_')) {
+            $('#mtd-memo-name').html('Message:');
             $('#mtd-memo-wrapper').show();
         }
         else {

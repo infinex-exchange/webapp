@@ -54,7 +54,7 @@ $(document).on('authChecked', function() {
             
             api2fa(
                 'POST',
-                '/wallet/v2/transactions',
+                '/wallet/v2/io/transactions',
                 data
             ).then(function(resp) {
                 $('#transfer-step2').hide();

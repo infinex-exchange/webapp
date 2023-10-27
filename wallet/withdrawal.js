@@ -32,7 +32,7 @@ function onNetSelected(symbol) {
     
     api(
         'GET',
-        '/wallet/v2/io/withdrawal/' + symbol + '/' + window.selectCoin.key
+        '/wallet/v2/io/withdrawal/' + symbol + '/info/' + window.selectCoin.key
     ).then(function(data) {
         // Memo name
         if(data.memoName) {
@@ -112,11 +112,8 @@ function onAdbkSelected(key, val, data) {
 
 function validateAddress(address) {
     return api(
-        'POST',
-        '/wallet/v2/io/withdrawal/' + window.selectNet.key,
-        {
-            address: address
-        }
+        'GET',
+        '/wallet/v2/io/withdrawal/' + window.selectNet.key + '/validation?address=' + address
     ).then(function(data) {
         if(data.internal) {
             window.paFee.setRange(0, 0);
@@ -134,10 +131,7 @@ function validateAddress(address) {
 function validateMemo(memo) {
     return api(
         'POST',
-        '/wallet/v2/io/withdrawal/' + window.selectNet.key,
-        {
-            memo: memo
-        }
+        '/wallet/v2/io/withdrawal/' + window.selectNet.key + '/validation?memo=' + memo
     ).then(function(data) {
         return data.validMemo;
     });

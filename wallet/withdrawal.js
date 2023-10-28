@@ -1,9 +1,3 @@
-function getFeePrec(feeMin, feeMax) {
-    let feeMinDec = new BigNumber(feeMin);
-    let feeMaxDec = new BigNumber(feeMax);
-    return Math.max(feeMinDec.dp(), feeMaxDec.dp());
-}
-
 function onCoinSelected(symbol) {
     $('#withdraw-step2, #withdraw-step3').hide();
     
@@ -75,9 +69,8 @@ function onNetSelected(symbol) {
         $('#withdraw-amount-min').html(data.minAmount);
         
         // Setup fee input
-        let feePrec = getFeePrec(data.feeMin, data.feeMax);
-        window.inpFee.setPrec(feePrec);
-        window.paFee.setPrec(feePrec);
+        window.inpFee.setPrec(data.feePrec);
+        window.paFee.setPrec(data.feePrec);
         window.paFee.setRange(data.feeMin, data.feeMax);
         
         // Store fees to revert from internal transfer 0, 0

@@ -82,10 +82,10 @@ class InfiniteScroll {
                 th.noMore = th.isNoMoreData(resp);
                 
                 if(th.onPageLoaded)
-                    th.onPageLoaded(resp[th.root]);
+                    th.onPageLoaded(resp[th.root], resp);
                 if(!th.firstPageLoaded) {
                     if(th.onFirstPageLoaded)
-                        th.onFirstPageLoaded(resp[th.root]);
+                        th.onFirstPageLoaded(resp[th.root], resp);
                     th.firstPageLoaded = true;
                 }
                 

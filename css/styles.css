@@ -496,6 +496,21 @@ input[type="range"]::-moz-range-thumb {
     z-index: 900;
 }
 
+.navbar-mobile .nav-separ {
+    display: none !important;
+}
+
+/* Module navbar */
+
+.navbar-module {
+    background-color: var(--color-input) !important;
+    z-index: 999 !important;
+}
+
+.navbar-module br {
+    display: none !important;
+}
+
 /* Dropdown menu */
 
 .dropdown-menu {
@@ -514,10 +529,13 @@ input[type="range"]::-moz-range-thumb {
 
 /* Jumbotron */
 
+.jumbotron {
+    background-size: cover;
+    background-position: center;
+}
+
 .jumbotron-index {
 	background-image: url("/img/index_jumbotron.jpg");
-	background-size: cover;
-    background-position: center;
 }
 
 /* Trading colors */

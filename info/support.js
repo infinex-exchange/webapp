@@ -150,13 +150,13 @@ $(document).on('authChecked', function() {
         }
     );
     window.fvDeposit.select(
-        'asset',
+        'assetid',
         window.selectCoin,
         true,
         function() { return true; }
     );
     window.fvDeposit.select(
-        'network',
+        'netid',
         window.selectNet,
         true,
         function() { return true; }
